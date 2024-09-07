@@ -6,33 +6,54 @@ public class PlayerController : MonoBehaviour
 
     public enum PlayerState
     {
-        WAIT, TUTORIAL, IRONMAN
+        WAIT, TUTORIAL, NORMAL, IRONMAN
     }
 
-    public PlayerState state;
+    public PlayerState currentState;
 
+    [Header("Movement")]
     public float mouseSensitivity;
     public float moveSpeed;
     public float jumpForce;
     public float gravity;
     public float fallMultiplier;
 
-    private CharacterController Controller;
-    private Camera PlayerCamera;
-
     private float verticalRotation = 0f;
     private Vector3 velocity;
     private bool isGrounded;
+
+    [Header("Launching")]
+    public float launchForce;
+
+    [Header("Shooting")]
+    public GameObject rightProjectilePrefab;
+    public Transform rightFirePoint;
+    public float rightShootForce;
+    public float rightFireRate;
+
+    public GameObject leftProjectilePrefab;
+    public Transform leftFirePoint;
+    public float leftShootForce;
+    public float leftFireRate;
+
+    public float maxShotDistance;
+    private float rightNextFireTime = 0f;
+    private float leftNextFireTime = 0f;
+
+    [Header("References")]
+    private CharacterController Controller;
+    private Camera PlayerCamera;
 
     #endregion
 
     private void Start()
     {
-        Controller = GetComponent<CharacterController>();
-        PlayerCamera = GetComponentInChildren<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
 
-        state = PlayerState.IRONMAN;
+        Controller = GetComponent<CharacterController>();
+        PlayerCamera = GetComponentInChildren<Camera>();
+
+        currentState = PlayerState.NORMAL;
     }
 
     private void Update()
@@ -42,17 +63,17 @@ public class PlayerController : MonoBehaviour
 
     private void CheckPlayerState()
     {
-        switch (state)
+        switch (currentState)
         {
             case PlayerState.WAIT:
                 break;
             case PlayerState.TUTORIAL:
                 //Tutorial();
                 break;
-            case PlayerState.IRONMAN:
+            case PlayerState.NORMAL:
                 Movement();
                 //Launch();
-                //Shoot();
+                Shoot();
                 break;
         }
     }
@@ -96,6 +117,56 @@ public class PlayerController : MonoBehaviour
         }
 
         Controller.Move(velocity * Time.deltaTime);
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            Vector3 aimPoint = GetAimPoint();
+
+            if (Time.time >= rightNextFireTime)
+            {
+                Vector3 rightShootDirection = (aimPoint - rightFirePoint.position).normalized;
+
+                GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
+                Rigidbody rightProjectileRb = rightProjectile.GetComponent<Rigidbody>();
+                rightProjectileRb.AddForce(rightFirePoint.forward * rightShootForce, ForceMode.Impulse);
+
+                Destroy(rightProjectile, 3f);
+
+                rightNextFireTime = Time.time + 1f / rightFireRate;
+            }
+
+            if (Time.time >= leftNextFireTime)
+            {
+                Vector3 leftShootDirection = (aimPoint - leftFirePoint.position).normalized;
+
+                GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
+                Rigidbody leftProjectileRb = leftProjectile.GetComponent<Rigidbody>();
+                leftProjectileRb.AddForce(leftFirePoint.forward * leftShootForce, ForceMode.Impulse);
+
+                Destroy(leftProjectile, 3f);
+
+                leftNextFireTime = Time.time + 1f / leftFireRate;
+            }
+        }
+    }
+
+    private Vector3 GetAimPoint()
+    {
+        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Center of the screen
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, maxShotDistance))
+        {
+            return hit.point;
+        }
+        else
+        {
+            // If we didn't hit anything, use a point maxShootDistance units away from the camera
+            return ray.GetPoint(maxShotDistance);
+        }
     }
 }
 
