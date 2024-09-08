@@ -1,44 +1,43 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    public enum PlayerState
-    {
-        WAIT, TUTORIAL, NORMAL, IRONMAN
-    }
-
+    public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN }
     public PlayerState currentState;
 
     [Header("Movement")]
     public float mouseSensitivity;
-    public float moveSpeed;
+    public float currentMoveSpeed;
+    public float walkSpeed;
+    public float sprintSpeed;
     public float jumpForce;
-    public float gravity;
     public float fallMultiplier;
 
     private float verticalRotation = 0f;
-    private Vector3 velocity;
     private bool isGrounded;
+    private Vector3 velocity;
 
     [Header("Launching")]
     public float launchForce;
 
-    [Header("Shooting")]
+    [Header("Right Weapon")]
     public GameObject rightProjectilePrefab;
     public Transform rightFirePoint;
     public float rightShootForce;
     public float rightFireRate;
+    private float rightNextFireTime = 0f;
 
+    [Header("Left Weapon")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
     public float leftShootForce;
     public float leftFireRate;
-
-    public float maxShotDistance;
-    private float rightNextFireTime = 0f;
     private float leftNextFireTime = 0f;
+
+    public float aimDistance;
 
     [Header("References")]
     private CharacterController Controller;
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
 
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
@@ -73,43 +72,45 @@ public class PlayerController : MonoBehaviour
             case PlayerState.NORMAL:
                 Movement();
                 //Launch();
-                Shoot();
+                NormalShooting();
                 break;
         }
     }
 
+    #region Movement
     private void Movement()
     {
-        //Ground check
         isGrounded = Controller.isGrounded;
 
-        //Look
+        #region Looking
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
+        verticalRotation = Mathf.Clamp(verticalRotation - mouseY, -90f, 90f);
         transform.Rotate(Vector3.up * mouseX);
         PlayerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        #endregion
 
-        //Move
+        #region Moving
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        Controller.Move(move * moveSpeed * Time.deltaTime);
+        currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed; //Sprint
 
-        //Jump
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        Controller.Move(move * currentMoveSpeed * Time.deltaTime);
+        #endregion
+
+        #region Jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
         }
 
         if (!isGrounded)
         {
             float currentGravity = velocity.y <= 0 ? fallMultiplier : 1f;
-            velocity.y += gravity * currentGravity * Time.deltaTime;
+            velocity.y += Physics.gravity.y * currentGravity * Time.deltaTime;
         }
         else if (velocity.y < 0)
         {
@@ -117,56 +118,62 @@ public class PlayerController : MonoBehaviour
         }
 
         Controller.Move(velocity * Time.deltaTime);
+        #endregion
     }
+    #endregion
 
-    private void Shoot()
+    #region Shooting
+    private void NormalShooting()
     {
         if (Input.GetButton("Fire1"))
         {
             Vector3 aimPoint = GetAimPoint();
+            RightWeaponShooting(aimPoint);
+            LeftWeaponShooting(aimPoint);
+        }
+    }
 
-            if (Time.time >= rightNextFireTime)
-            {
-                Vector3 rightShootDirection = (aimPoint - rightFirePoint.position).normalized;
+    private void IronmanShooting()
+    {
+        if (Input.GetButton("Fire1"))
+        {
+            Vector3 aimPoint = GetAimPoint();
+            RightWeaponShooting(aimPoint);
+        }
+    }
 
-                GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
-                Rigidbody rightProjectileRb = rightProjectile.GetComponent<Rigidbody>();
-                rightProjectileRb.AddForce(rightFirePoint.forward * rightShootForce, ForceMode.Impulse);
+    private void RightWeaponShooting(Vector3 aimPoint)
+    {
+        if (Time.time >= rightNextFireTime)
+        {
+            Vector3 rightShotDirection = (aimPoint - rightFirePoint.position).normalized;
 
-                Destroy(rightProjectile, 3f);
+            GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
+            rightProjectile.GetComponent<Rigidbody>().AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
 
-                rightNextFireTime = Time.time + 1f / rightFireRate;
-            }
+            Destroy(rightProjectile, 2f);
+            rightNextFireTime = Time.time + 1f / rightFireRate;
+        }
+    }
 
-            if (Time.time >= leftNextFireTime)
-            {
-                Vector3 leftShootDirection = (aimPoint - leftFirePoint.position).normalized;
+    private void LeftWeaponShooting(Vector3 aimPoint)
+    {
+        if (Time.time >= leftNextFireTime)
+        {
+            Vector3 leftShotDirection = (aimPoint - leftFirePoint.position).normalized;
 
-                GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
-                Rigidbody leftProjectileRb = leftProjectile.GetComponent<Rigidbody>();
-                leftProjectileRb.AddForce(leftFirePoint.forward * leftShootForce, ForceMode.Impulse);
+            GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
+            leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
 
-                Destroy(leftProjectile, 3f);
-
-                leftNextFireTime = Time.time + 1f / leftFireRate;
-            }
+            Destroy(leftProjectile, 2f);
+            leftNextFireTime = Time.time + 1f / leftFireRate;
         }
     }
 
     private Vector3 GetAimPoint()
     {
-        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Center of the screen
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, maxShotDistance))
-        {
-            return hit.point;
-        }
-        else
-        {
-            // If we didn't hit anything, use a point maxShootDistance units away from the camera
-            return ray.GetPoint(maxShotDistance);
-        }
+        return PlayerCamera.transform.position + PlayerCamera.transform.forward * aimDistance;
     }
+    #endregion
 }
 
