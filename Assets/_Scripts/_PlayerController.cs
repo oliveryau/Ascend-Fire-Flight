@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Launching")]
     public float launchForce;
+    public float floatStrength;
+
+    private bool canLaunch;
+    private bool isFloating;
 
     [Header("Right Weapon")]
     public GameObject rightProjectilePrefab;
@@ -71,7 +75,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerState.NORMAL:
                 Movement();
-                //Launch();
+                Launching();
                 NormalShooting();
                 break;
         }
@@ -82,29 +86,29 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = Controller.isGrounded;
 
-        #region Looking
+        //Looking
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         verticalRotation = Mathf.Clamp(verticalRotation - mouseY, -90f, 90f);
         transform.Rotate(Vector3.up * mouseX);
         PlayerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        #endregion
 
-        #region Moving
+        //Moving
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed; //Sprint
+        currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         Controller.Move(move * currentMoveSpeed * Time.deltaTime);
-        #endregion
 
-        #region Jumping
+        //Jumping
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
+            isFloating = false;
+            canLaunch = true;
         }
 
         if (!isGrounded)
@@ -115,10 +119,41 @@ public class PlayerController : MonoBehaviour
         else if (velocity.y < 0)
         {
             velocity.y = -2f;
+            canLaunch = true;
         }
 
         Controller.Move(velocity * Time.deltaTime);
-        #endregion
+    }
+    #endregion
+
+    #region Launching
+    private void Launching()
+    {
+        if (Input.GetKeyDown(KeyCode.V) && canLaunch)
+        {
+            Fly();
+        }
+        else if (Input.GetKey(KeyCode.V) && !isGrounded)
+        {
+            Float();
+        }
+        else
+        {
+            isFloating = false;
+        }
+    }
+
+    private void Fly()
+    {
+        velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
+        canLaunch = false;
+        isFloating = false;
+    }
+
+    private void Float()
+    {
+        isFloating = true;
+        velocity.y = Mathf.Max(velocity.y, -floatStrength);
     }
     #endregion
 
