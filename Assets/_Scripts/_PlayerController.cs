@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     [Header("Launching")]
     public float launchForce;
     public float floatStrength;
+    public float launchCooldown;
 
     private bool canLaunch;
     private bool isFloating;
+    private float launchCooldownTimer;
 
     [Header("Right Weapon")]
     public GameObject rightProjectilePrefab;
@@ -78,7 +80,18 @@ public class PlayerController : MonoBehaviour
                 Launching();
                 NormalShooting();
                 break;
+            case PlayerState.IRONMAN:
+                Movement();
+                LaunchingCooldown();
+                IronmanShooting();
+                break;
         }
+    }
+
+    private void ChangePlayerState(PlayerState newState)
+    {
+        currentState = newState;
+        Debug.Log(currentState.ToString());
     }
 
     #region Movement
@@ -103,7 +116,7 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         Controller.Move(move * currentMoveSpeed * Time.deltaTime);
 
-        //Jumping
+        //Jumping and Falling
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
@@ -123,6 +136,9 @@ public class PlayerController : MonoBehaviour
         }
 
         Controller.Move(velocity * Time.deltaTime);
+
+        if (isGrounded && currentState == PlayerState.IRONMAN && launchCooldownTimer <= 0)
+            ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
 
@@ -145,15 +161,26 @@ public class PlayerController : MonoBehaviour
 
     private void Fly()
     {
+        ChangePlayerState(PlayerState.IRONMAN);
+
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
         canLaunch = false;
         isFloating = false;
+        launchCooldownTimer = launchCooldown;
     }
 
     private void Float()
     {
         isFloating = true;
         velocity.y = Mathf.Max(velocity.y, -floatStrength);
+    }
+
+    private void LaunchingCooldown()
+    {
+        if (launchCooldownTimer > 0)
+        {
+            launchCooldownTimer -= Time.deltaTime;
+        }
     }
     #endregion
 
