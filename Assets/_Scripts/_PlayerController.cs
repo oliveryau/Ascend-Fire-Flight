@@ -22,12 +22,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Launching")]
     public float launchForce;
+    public float launchMeter;
+    public float minimumLaunchAmount;
     public float floatStrength;
-    public float launchCooldown;
 
     private bool canLaunch;
+    [SerializeField] private float currentLaunchMeter;
     private bool isFloating;
-    private float launchCooldownTimer;
+    private float launchCooldown;
 
     [Header("Right Weapon")]
     public GameObject rightProjectilePrefab;
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour
         PlayerCamera = GetComponentInChildren<Camera>();
 
         currentState = PlayerState.NORMAL;
+
+        currentLaunchMeter = launchMeter;
     }
 
     private void Update()
@@ -78,10 +82,12 @@ public class PlayerController : MonoBehaviour
             case PlayerState.NORMAL:
                 Movement();
                 Launching();
+                LaunchingCooldown();
                 NormalShooting();
                 break;
             case PlayerState.IRONMAN:
                 Movement();
+                Levitating();
                 LaunchingCooldown();
                 IronmanShooting();
                 break;
@@ -91,7 +97,6 @@ public class PlayerController : MonoBehaviour
     private void ChangePlayerState(PlayerState newState)
     {
         currentState = newState;
-        Debug.Log(currentState.ToString());
     }
 
     #region Movement
@@ -121,7 +126,6 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
             isFloating = false;
-            canLaunch = true;
         }
 
         if (!isGrounded)
@@ -132,12 +136,11 @@ public class PlayerController : MonoBehaviour
         else if (velocity.y < 0)
         {
             velocity.y = -2f;
-            canLaunch = true;
         }
 
         Controller.Move(velocity * Time.deltaTime);
 
-        if (isGrounded && currentState == PlayerState.IRONMAN && launchCooldownTimer <= 0)
+        if (isGrounded && currentState == PlayerState.IRONMAN && launchCooldown <= 0 && !isFloating)
             ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
@@ -145,11 +148,21 @@ public class PlayerController : MonoBehaviour
     #region Launching
     private void Launching()
     {
-        if (Input.GetKeyDown(KeyCode.V) && canLaunch)
+        if (currentLaunchMeter >= minimumLaunchAmount) canLaunch = true;
+
+        if (Input.GetKeyDown(KeyCode.V) && canLaunch && isGrounded)
         {
             Fly();
         }
-        else if (Input.GetKey(KeyCode.V) && !isGrounded)
+        else
+        {
+            isFloating = false;
+        }
+    }
+
+    private void Levitating()
+    {
+        if (Input.GetKey(KeyCode.V) && !isGrounded)
         {
             Float();
         }
@@ -164,23 +177,33 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.IRONMAN);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
+        currentLaunchMeter -= minimumLaunchAmount;
         canLaunch = false;
         isFloating = false;
-        launchCooldownTimer = launchCooldown;
+        launchCooldown = 1f;
     }
 
     private void Float()
     {
-        isFloating = true;
-        velocity.y = Mathf.Max(velocity.y, -floatStrength);
+        if (currentLaunchMeter > 0 && velocity.y < 0)
+        {
+            Debug.Log("A");
+            currentLaunchMeter -= Time.deltaTime;
+            isFloating = true;
+            velocity.y = Mathf.Max(velocity.y, -floatStrength);
+        }
+        else
+        {
+            Debug.Log("B");
+            isFloating = false;
+        }
     }
 
     private void LaunchingCooldown()
     {
-        if (launchCooldownTimer > 0)
-        {
-            launchCooldownTimer -= Time.deltaTime;
-        }
+        if (currentLaunchMeter < launchMeter && isGrounded) currentLaunchMeter += Time.deltaTime;
+
+        if (launchCooldown > 0) launchCooldown -= Time.deltaTime;
     }
     #endregion
 

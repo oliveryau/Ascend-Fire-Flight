@@ -870,8 +870,10 @@ MonoBehaviour:
   jumpForce: 1.25
   fallMultiplier: 1.75
   launchForce: 8
-  floatStrength: 4
-  launchCooldown: 1
+  launchMeter: 10
+  minimumLaunchAmount: 3
+  floatStrength: 1
+  currentLaunchMeter: 0
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   rightFirePoint: {fileID: 2103584621}
   rightShootForce: 100
