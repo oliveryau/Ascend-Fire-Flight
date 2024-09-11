@@ -874,14 +874,14 @@ MonoBehaviour:
   minimumLaunchAmount: 3
   floatStrength: 1
   currentLaunchMeter: 0
-  rightProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
+  rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 2103584621}
   rightShootForce: 100
   rightFireRate: 10
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 1087652807}
-  leftShootForce: 100
-  leftFireRate: 3
+  leftShootForce: 50
+  leftFireRate: 2
   aimDistance: 100
 --- !u!143 &1472938591
 CharacterController:
