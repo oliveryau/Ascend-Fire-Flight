@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN }
     public PlayerState currentState;
 
-    [Header("Movement")]
+    [Header("Movement Variables")]
     public float mouseSensitivity;
     public float currentMoveSpeed;
     public float walkSpeed;
@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private Vector3 velocity;
 
-    [Header("Launching")]
+    [Header("Launching Variables")]
     public float launchForce;
     public float launchMeter;
     public float minimumLaunchAmount;
@@ -31,21 +31,36 @@ public class PlayerController : MonoBehaviour
     private bool isFloating;
     private float launchCooldown;
 
-    [Header("Right Weapon")]
+    [Header("Right Weapon Variables")]
+
     public GameObject rightProjectilePrefab;
     public Transform rightFirePoint;
     public float rightShootForce;
     public float rightFireRate;
-    private float rightNextFireTime = 0f;
+    public int maxAmmo;
 
-    [Header("Left Weapon")]
+    private float rightNextFireTime = 0f;
+    [SerializeField] private int currentAmmo;
+    private bool isReloading;
+
+    public Animator RightWeaponAnimator;
+
+    [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
     public float leftShootForce;
     public float leftFireRate;
+
+    public float grenadeExplosionRadius;
+    public float grenadeExplosionForce;
+
     private float leftNextFireTime = 0f;
 
+    //public Animator LeftWeaponAnimator;
+
+    [Header("Shared Weapon Variables")]
     public float aimDistance;
+    public LayerMask aimCollisionMask = Physics.DefaultRaycastLayers;
 
     [Header("References")]
     private CharacterController Controller;
@@ -55,7 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
 
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
@@ -63,6 +78,7 @@ public class PlayerController : MonoBehaviour
         currentState = PlayerState.NORMAL;
 
         currentLaunchMeter = launchMeter;
+        currentAmmo = maxAmmo;
     }
 
     private void Update()
@@ -84,12 +100,14 @@ public class PlayerController : MonoBehaviour
                 Launching();
                 LaunchingCooldown();
                 NormalShooting();
+                RightWeaponReload();
                 break;
             case PlayerState.IRONMAN:
                 Movement();
                 Levitating();
                 LaunchingCooldown();
                 IronmanShooting();
+                RightWeaponReload();
                 break;
         }
     }
@@ -229,16 +247,40 @@ public class PlayerController : MonoBehaviour
 
     private void RightWeaponShooting(Vector3 aimPoint)
     {
-        if (Time.time >= rightNextFireTime)
+        if (Time.time >= rightNextFireTime && !isReloading && currentAmmo > 0)
         {
             Vector3 rightShotDirection = (aimPoint - rightFirePoint.position).normalized;
 
             GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
             rightProjectile.GetComponent<Rigidbody>().AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
+            RightWeaponAnimator.SetTrigger("Shoot");
 
-            Destroy(rightProjectile, 2f);
+            currentAmmo--;
+            //Destroy(rightProjectile, 2f);
             rightNextFireTime = Time.time + 1f / rightFireRate;
         }
+        else if (currentAmmo <= 0)
+        {
+            //RightWeaponAnimator.SetTrigger("Empty");
+        }
+    }
+
+    private void RightWeaponReload()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+    }
+
+    private IEnumerator Reload()
+    {
+        Debug.Log("Reloading");
+        isReloading = true;
+        yield return new WaitForSeconds(1.5f);
+        //RightWeaponAnimator.SetTrigger("Reload");
+        currentAmmo = maxAmmo;
+        isReloading = false;
     }
 
     private void LeftWeaponShooting(Vector3 aimPoint)
@@ -252,12 +294,42 @@ public class PlayerController : MonoBehaviour
 
             Destroy(leftProjectile, 2f);
             leftNextFireTime = Time.time + 1f / leftFireRate;
+
+            LeftWeaponExplosion(leftProjectile);
+        }
+    }
+
+    private void LeftWeaponExplosion(GameObject leftProjectile)
+    {
+        Vector3 explosionPos = leftProjectile.transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, grenadeExplosionRadius);
+
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+
+            if (rb != null)
+                rb.AddExplosionForce(grenadeExplosionForce, explosionPos, grenadeExplosionRadius, 1f);
+
+            //Add damage logic for objects within the explosion radius
+            //Example: hit.GetComponent<Damageable>()?.TakeDamage(calculatedDamage);
         }
     }
 
     private Vector3 GetAimPoint()
     {
-        return PlayerCamera.transform.position + PlayerCamera.transform.forward * aimDistance;
+        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Ray from center of the screen
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, aimDistance, aimCollisionMask))
+        {
+            return hit.point; //Return the point where the ray hits an object
+        }
+        else
+        {
+            //Return a point at maximum aim distance along the ray if nothing is hit
+            return ray.GetPoint(aimDistance);
+        }
     }
     #endregion
 }

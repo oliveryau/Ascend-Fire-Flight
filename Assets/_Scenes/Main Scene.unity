@@ -326,8 +326,9 @@ GameObject:
   - component: {fileID: 776605929}
   - component: {fileID: 776605928}
   - component: {fileID: 776605927}
+  - component: {fileID: 776605930}
   m_Layer: 0
-  m_Name: Right Hand
+  m_Name: Right Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -422,6 +423,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776605925}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &776605930
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776605925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ce71ad3b5ec677340ba6911b92f8a004, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &927812107
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,7 +757,7 @@ GameObject:
   - component: {fileID: 1290765392}
   - component: {fileID: 1290765391}
   m_Layer: 0
-  m_Name: Left Hand
+  m_Name: Left Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -877,12 +900,20 @@ MonoBehaviour:
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 2103584621}
   rightShootForce: 100
-  rightFireRate: 10
+  rightFireRate: 5
+  maxAmmo: 20
+  currentAmmo: 0
+  RightWeaponAnimator: {fileID: 776605930}
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 1087652807}
-  leftShootForce: 50
+  leftShootForce: 10
   leftFireRate: 2
-  aimDistance: 100
+  grenadeExplosionRadius: 5
+  grenadeExplosionForce: 200
+  aimDistance: 200
+  aimCollisionMask:
+    serializedVersion: 2
+    m_Bits: 51
 --- !u!143 &1472938591
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1052,7 +1083,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.19607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1092,7 +1123,7 @@ GameObject:
   - component: {fileID: 1822684343}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
