@@ -43,8 +43,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int currentAmmo;
     private bool isReloading;
 
-    public Animator RightWeaponAnimator;
-
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
@@ -56,13 +54,13 @@ public class PlayerController : MonoBehaviour
 
     private float leftNextFireTime = 0f;
 
-    //public Animator LeftWeaponAnimator;
-
     [Header("Shared Weapon Variables")]
     public float aimDistance;
     public LayerMask aimCollisionMask = Physics.DefaultRaycastLayers;
 
     [Header("References")]
+    public Animator RightWeaponAnimator;
+    public Animator LeftWeaponAnimator;
     private CharacterController Controller;
     private Camera PlayerCamera;
 
@@ -172,10 +170,6 @@ public class PlayerController : MonoBehaviour
         {
             Fly();
         }
-        else
-        {
-            isFloating = false;
-        }
     }
 
     private void Levitating()
@@ -186,35 +180,41 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            isFloating = false;
+            StopFloating();
         }
     }
 
     private void Fly()
     {
         ChangePlayerState(PlayerState.IRONMAN);
+        LeftWeaponAnimator.SetTrigger("Flying");
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
         currentLaunchMeter -= minimumLaunchAmount;
         canLaunch = false;
-        isFloating = false;
         launchCooldown = 1f;
     }
 
     private void Float()
     {
+        LeftWeaponAnimator.SetBool("Floating", true);
         if (currentLaunchMeter > 0 && velocity.y < 0)
         {
-            Debug.Log("A");
+
             currentLaunchMeter -= Time.deltaTime;
             isFloating = true;
             velocity.y = Mathf.Max(velocity.y, -floatStrength);
         }
         else
         {
-            Debug.Log("B");
-            isFloating = false;
+            StopFloating();
         }
+    }
+
+    private void StopFloating()
+    {
+        isFloating = false;
+        LeftWeaponAnimator.SetBool("Floating", false);
     }
 
     private void LaunchingCooldown()
@@ -230,9 +230,8 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
-            Vector3 aimPoint = GetAimPoint();
-            RightWeaponShooting(aimPoint);
-            LeftWeaponShooting(aimPoint);
+            RightWeaponShooting();
+            LeftWeaponShooting();
         }
     }
 
@@ -240,15 +239,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetButton("Fire1"))
         {
-            Vector3 aimPoint = GetAimPoint();
-            RightWeaponShooting(aimPoint);
+            RightWeaponShooting();
         }
     }
 
-    private void RightWeaponShooting(Vector3 aimPoint)
+    private void RightWeaponShooting()
     {
         if (Time.time >= rightNextFireTime && !isReloading && currentAmmo > 0)
         {
+            Vector3 aimPoint = GetAimPoint();
             Vector3 rightShotDirection = (aimPoint - rightFirePoint.position).normalized;
 
             GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
@@ -256,7 +255,6 @@ public class PlayerController : MonoBehaviour
             RightWeaponAnimator.SetTrigger("Shoot");
 
             currentAmmo--;
-            //Destroy(rightProjectile, 2f);
             rightNextFireTime = Time.time + rightFireRate;
         }
         else if (currentAmmo <= 0)
@@ -283,16 +281,17 @@ public class PlayerController : MonoBehaviour
         isReloading = false;
     }
 
-    private void LeftWeaponShooting(Vector3 aimPoint)
+    private void LeftWeaponShooting()
     {
         if (Time.time >= leftNextFireTime)
         {
+            Vector3 aimPoint = GetAimPoint();
             Vector3 leftShotDirection = (aimPoint - leftFirePoint.position).normalized;
 
             GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
             leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
+            LeftWeaponAnimator.SetTrigger("Shoot");
 
-            Destroy(leftProjectile, 2f);
             leftNextFireTime = Time.time + leftFireRate;
 
             LeftWeaponExplosion(leftProjectile);
@@ -318,17 +317,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetAimPoint()
     {
-        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0)); //Ray from center of the screen
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, aimDistance, aimCollisionMask))
-        {
-            return hit.point; //Return the point where the ray hits an object
-        }
-        else
-        {
-            return ray.GetPoint(aimDistance);  //Return a point at maximum aim distance along the ray if nothing is hit
-        }
+        return PlayerCamera.transform.position + PlayerCamera.transform.forward * aimDistance;
     }
     #endregion
 }
