@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour
 
             currentAmmo--;
             //Destroy(rightProjectile, 2f);
-            rightNextFireTime = Time.time + 1f / rightFireRate;
+            rightNextFireTime = Time.time + rightFireRate;
         }
         else if (currentAmmo <= 0)
         {
@@ -293,7 +293,7 @@ public class PlayerController : MonoBehaviour
             leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
 
             Destroy(leftProjectile, 2f);
-            leftNextFireTime = Time.time + 1f / leftFireRate;
+            leftNextFireTime = Time.time + leftFireRate;
 
             LeftWeaponExplosion(leftProjectile);
         }
@@ -327,8 +327,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            //Return a point at maximum aim distance along the ray if nothing is hit
-            return ray.GetPoint(aimDistance);
+            return ray.GetPoint(aimDistance);  //Return a point at maximum aim distance along the ray if nothing is hit
         }
     }
     #endregion

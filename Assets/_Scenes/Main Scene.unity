@@ -900,14 +900,14 @@ MonoBehaviour:
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 2103584621}
   rightShootForce: 100
-  rightFireRate: 5
+  rightFireRate: 0.2
   maxAmmo: 20
   currentAmmo: 0
   RightWeaponAnimator: {fileID: 776605930}
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 1087652807}
   leftShootForce: 10
-  leftFireRate: 2
+  leftFireRate: 1.75
   grenadeExplosionRadius: 5
   grenadeExplosionForce: 200
   aimDistance: 200
