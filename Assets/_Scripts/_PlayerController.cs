@@ -4,9 +4,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-
     public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN, DEAD }
-    public PlayerState currentState;
+    public PlayerState currentPlayerState;
 
     [Header("Health Variables")]
     public float maxHealth;
@@ -65,15 +64,16 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
+    private _GameManager GameManager;
     private CharacterController Controller;
     private Camera PlayerCamera;
-
     #endregion
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
+        GameManager = FindFirstObjectByType<_GameManager>();
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
@@ -92,7 +92,9 @@ public class PlayerController : MonoBehaviour
     #region State Control
     private void CheckPlayerState()
     {
-        switch (currentState)
+        if (GameManager.currentGameState == _GameManager.GameState.PAUSE) return;
+
+        switch (currentPlayerState)
         {
             case PlayerState.WAIT:
                 break;
@@ -121,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChangePlayerState(PlayerState newState)
     {
-        currentState = newState;
+        currentPlayerState = newState;
     }
     #endregion
 
@@ -170,7 +172,7 @@ public class PlayerController : MonoBehaviour
 
         Controller.Move(velocity * Time.deltaTime);
 
-        if (isGrounded && currentState == PlayerState.IRONMAN && launchCooldown <= 0 && !isFloating)
+        if (isGrounded && currentPlayerState == PlayerState.IRONMAN && launchCooldown <= 0 && !isFloating)
             ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
@@ -338,7 +340,7 @@ public class PlayerController : MonoBehaviour
     #region Taking Damage
     public void TakeDamage(float damageTaken)
     {
-        if (currentState == PlayerState.DEAD) return;
+        if (currentPlayerState == PlayerState.DEAD) return;
 
         currentHealth -= damageTaken;
         //Trigger damage effects or animations here

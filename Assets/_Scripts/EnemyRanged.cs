@@ -46,7 +46,6 @@ public class EnemyRanged : EnemyController
 
         GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, bulletFirePoint.rotation);
         bulletProjectile.GetComponent<Rigidbody>().AddForce(shootDirection * shootForce, ForceMode.Impulse);
-        Destroy(bulletProjectile, 5f);
         //Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         Debug.LogError("Ranged enemy attacks player!");

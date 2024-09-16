@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    #region Variables
     public enum EnemyState { WAIT, PATROL, ALERT, ATTACK, DEAD }
     public EnemyState currentEnemyState;
 
@@ -28,7 +29,9 @@ public class EnemyController : MonoBehaviour
     protected PlayerController Player;
     protected NavMeshAgent NavMeshAgent;
     private Animator Animator;
+    #endregion
 
+    #region State Control
     public void InitializeEnemy()
     {
         currentEnemyState = EnemyState.PATROL;
@@ -43,7 +46,6 @@ public class EnemyController : MonoBehaviour
         lastAttackTime = -attackCooldown;
     }
 
-    #region State Control
     public void CheckEnemyState()
     {
         switch (currentEnemyState)
