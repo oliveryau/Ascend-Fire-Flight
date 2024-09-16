@@ -14,28 +14,43 @@ public class EnemyMelee : EnemyController
         CheckEnemyState();
     }
 
+    #region Patrol
     public override void Patrol()
     {
         base.Patrol();
     }
+    #endregion
 
+    #region Alert
     public override void Alert()
     {
         base.Alert();
     }
+    #endregion
 
-    public override void Attack()
+    #region Attack
+    public override void Attacking()
     {
-        base.Attack();
+        base.Attacking();
     }
 
-    public override IEnumerator PerformAttackAnimation()
+    public override IEnumerator PerformAttack()
     {
-        return base.PerformAttackAnimation();
+        isAttacking = true;
+        //Animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.5f); //Delay before hitting player
+        Debug.LogError("Melee enemy attacks player!");
+        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
+        lastAttackTime = Time.time;
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
     }
+    #endregion
 
+    #region Death
     public override void Dead()
     {
         base.Dead();
     }
+    #endregion
 }

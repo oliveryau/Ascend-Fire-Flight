@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
-        currentState = PlayerState.NORMAL;
+        ChangePlayerState(PlayerState.NORMAL);
 
         currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
         CheckPlayerState();
     }
 
+    #region State Control
     private void CheckPlayerState()
     {
         switch (currentState)
@@ -122,6 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         currentState = newState;
     }
+    #endregion
 
     #region Tutorial
 
@@ -343,7 +345,7 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth < 0)
         {
-            currentState = PlayerState.DEAD;
+            ChangePlayerState(PlayerState.DEAD);
         }
         else if (currentHealth < maxHealth * 0.3f)
         {

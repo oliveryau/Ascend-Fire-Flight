@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using static PlayerController;
 
 public class EnemyController : MonoBehaviour
 {
@@ -15,24 +14,24 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy Patrol Points")]
     public Transform[] patrolPoints;
-    private int currentPatrolPointIndex;
+    protected int currentPatrolPointIndex;
 
     [Header("Enemy Attack Variables")]
     public float attackDamage;
     public float attackCooldown;
-    private bool isAttacking;
-    private float lastAttackTime;
+    protected bool isAttacking;
+    protected float lastAttackTime;
 
     [Header("References")]
     public CapsuleCollider DetectionRadius;
     public SphereCollider AttackRadius;
-    private PlayerController Player;
-    private NavMeshAgent NavMeshAgent;
+    protected PlayerController Player;
+    protected NavMeshAgent NavMeshAgent;
     private Animator Animator;
 
     public void InitializeEnemy()
     {
-        currentEnemyState = EnemyState.ALERT;
+        currentEnemyState = EnemyState.PATROL;
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -44,6 +43,7 @@ public class EnemyController : MonoBehaviour
         lastAttackTime = -attackCooldown;
     }
 
+    #region State Control
     public void CheckEnemyState()
     {
         switch (currentEnemyState)
@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour
                 Alert(); //Move towards player
                 break;
             case EnemyState.ATTACK:
-                Attack();
+                Attacking();
                 break;
             case EnemyState.DEAD:
                 Dead();
@@ -65,22 +65,47 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void ChangeEnemyState(EnemyState newState)
+    {
+        currentEnemyState = newState;
+    }
+
+    private void LookAtPlayer()
+    {
+        Vector3 direction = Player.transform.position - transform.position;
+        direction.y = 0; //Make the direction purely horizontal
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); //Edit last value for rotate speed
+        }
+    }
+    #endregion
+
     #region Patrol
     public virtual void Patrol()
     {
-        NavMeshAgent.isStopped = false;
-
-        if (NavMeshAgent.remainingDistance < 0.1f)
+        if (patrolPoints.Length <= 1)
         {
-            currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Length;
-            NavMeshAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
-            transform.LookAt(patrolPoints[currentPatrolPointIndex].position);
+            NavMeshAgent.isStopped = true;
+        }
+        else
+        {
+            NavMeshAgent.isStopped = false;
+
+            if (NavMeshAgent.remainingDistance < 0.1f)
+            {
+                currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Length;
+                NavMeshAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+                transform.LookAt(patrolPoints[currentPatrolPointIndex].position);
+            }
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer <= DetectionRadius.radius)
         {
-            currentEnemyState = EnemyState.ALERT;
+            ChangeEnemyState(EnemyState.ALERT);
         }
     }
     #endregion
@@ -93,11 +118,11 @@ public class EnemyController : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer <= AttackRadius.radius)
         {
-            currentEnemyState = EnemyState.ATTACK; //Attack if within attacking radius
+            ChangeEnemyState(EnemyState.ATTACK); //Attack if within attacking radius
         }
         else if (distanceToPlayer > DetectionRadius.radius)
         {
-            currentEnemyState = EnemyState.PATROL; //Go back to patrolling if player goes out of sight
+            ChangeEnemyState(EnemyState.PATROL); //Go back to patrolling if player goes out of sight
             NavMeshAgent.SetDestination(patrolPoints[0].position);
             currentPatrolPointIndex = 0;
             transform.LookAt(patrolPoints[0].position);
@@ -106,40 +131,35 @@ public class EnemyController : MonoBehaviour
         {
             NavMeshAgent.SetDestination(Player.transform.position); //Chase
             transform.LookAt(Player.transform);
+            LookAtPlayer();
         }
     }
     #endregion
 
     #region Attack
-    public virtual void Attack()
+    public virtual void Attacking()
     {
         NavMeshAgent.isStopped = true;
-        transform.LookAt(Player.transform);
+        LookAtPlayer();
 
         if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         {
             Debug.LogWarning("Enemy attacking player!");
-            StartCoroutine(PerformAttackAnimation());
+            StartCoroutine(PerformAttack());
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer > AttackRadius.radius)
         {
-            currentEnemyState = EnemyState.ALERT;
+            ChangeEnemyState(EnemyState.ALERT);
             lastAttackTime -= attackCooldown;
         }
     }
 
-    public virtual IEnumerator PerformAttackAnimation()
+    public virtual IEnumerator PerformAttack()
     {
-        isAttacking = true;
-        //Animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(0.5f); //Delay before hitting player
-        Debug.LogError("Enemy attacks player!");
-        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
-        lastAttackTime = Time.time;
-        yield return new WaitForSeconds(attackCooldown - 0.5f);
-        isAttacking = false;
+        yield return null;
+        //Child methods
     }
     #endregion
 
@@ -153,7 +173,7 @@ public class EnemyController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            currentEnemyState = EnemyState.DEAD;
+            ChangeEnemyState(EnemyState.DEAD);
         }
         else if (currentHealth < maxHealth * 0.3f)
         {

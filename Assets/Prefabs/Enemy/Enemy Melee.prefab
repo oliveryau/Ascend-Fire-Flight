@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: ae40aa735c3a4354494eb7a4017c25e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -179,8 +179,11 @@ MonoBehaviour:
   - {fileID: 0}
   attackDamage: 1
   attackCooldown: 2
+  isAttacking: 0
+  lastAttackTime: 0
   DetectionRadius: {fileID: 3347475133319869847}
   AttackRadius: {fileID: 2647018394548886740}
+  Player: {fileID: 0}
 --- !u!1 &3430534775647646253
 GameObject:
   m_ObjectHideFlags: 0
