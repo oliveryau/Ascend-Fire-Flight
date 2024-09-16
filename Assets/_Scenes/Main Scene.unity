@@ -1079,7 +1079,7 @@ MonoBehaviour:
   sprintSpeed: 10
   jumpForce: 1.25
   fallMultiplier: 1.75
-  launchForce: 8
+  launchForce: 5
   launchMeter: 5
   minimumLaunchAmount: 2
   floatStrength: 0.5

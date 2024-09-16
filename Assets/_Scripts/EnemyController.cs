@@ -78,7 +78,8 @@ public class EnemyController : MonoBehaviour
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); //Edit last value for rotate speed
+            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 1f); //Edit last value for rotate speed
         }
     }
     #endregion
