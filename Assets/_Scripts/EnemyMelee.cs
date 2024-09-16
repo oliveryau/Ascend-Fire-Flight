@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyMelee : EnemyController
@@ -26,6 +27,11 @@ public class EnemyMelee : EnemyController
     public override void Attack()
     {
         base.Attack();
+    }
+
+    public override IEnumerator PerformAttackAnimation()
+    {
+        return base.PerformAttackAnimation();
     }
 
     public override void Dead()

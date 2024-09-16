@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static PlayerController;
@@ -19,6 +20,7 @@ public class EnemyController : MonoBehaviour
     [Header("Enemy Attack Variables")]
     public float attackDamage;
     public float attackCooldown;
+    private bool isAttacking;
     private float lastAttackTime;
 
     [Header("References")]
@@ -26,6 +28,7 @@ public class EnemyController : MonoBehaviour
     public SphereCollider AttackRadius;
     private PlayerController Player;
     private NavMeshAgent NavMeshAgent;
+    private Animator Animator;
 
     public void InitializeEnemy()
     {
@@ -33,6 +36,7 @@ public class EnemyController : MonoBehaviour
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        Animator = GetComponent<Animator>();
 
         if (patrolPoints.Length > 0) NavMeshAgent.SetDestination(patrolPoints[0].position);
 
@@ -112,21 +116,30 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent.isStopped = true;
         transform.LookAt(Player.transform);
 
-        if (Time.time - lastAttackTime >= attackCooldown)
+        if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         {
-            Debug.Log("Enemy attacking player!");
-            //Perform attack animation
-            //Call a method on the player to deal damage here
-            //Player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
-
-            lastAttackTime = Time.time;
+            Debug.LogWarning("Enemy attacking player!");
+            StartCoroutine(PerformAttackAnimation());
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer > AttackRadius.radius)
         {
             currentEnemyState = EnemyState.ALERT;
+            lastAttackTime -= attackCooldown;
         }
+    }
+
+    public virtual IEnumerator PerformAttackAnimation()
+    {
+        isAttacking = true;
+        //Animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.5f); //Delay before hitting player
+        Debug.LogError("Enemy attacks player!");
+        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
+        lastAttackTime = Time.time;
+        yield return new WaitForSeconds(attackCooldown - 0.5f);
+        isAttacking = false;
     }
     #endregion
 
