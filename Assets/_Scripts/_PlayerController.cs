@@ -5,8 +5,12 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
 
-    public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN }
+    public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN, DEAD }
     public PlayerState currentState;
+
+    [Header("Health Variables")]
+    public float maxHealth;
+    public float currentHealth;
 
     [Header("Movement Variables")]
     public float mouseSensitivity;
@@ -32,9 +36,9 @@ public class PlayerController : MonoBehaviour
     private float launchCooldown;
 
     [Header("Right Weapon Variables")]
-
     public GameObject rightProjectilePrefab;
     public Transform rightFirePoint;
+    public int rightProjectileDamage;
     public float rightShootForce;
     public float rightFireRate;
     public int maxAmmo;
@@ -46,6 +50,7 @@ public class PlayerController : MonoBehaviour
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
+    public int leftProjectileDamage;
     public float leftShootForce;
     public float leftFireRate;
 
@@ -56,7 +61,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Shared Weapon Variables")]
     public float aimDistance;
-    public LayerMask aimCollisionMask = Physics.DefaultRaycastLayers;
 
     [Header("References")]
     public Animator RightWeaponAnimator;
@@ -75,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
         currentState = PlayerState.NORMAL;
 
+        currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
         currentAmmo = maxAmmo;
     }
@@ -107,6 +112,9 @@ public class PlayerController : MonoBehaviour
                 IronmanShooting();
                 RightWeaponReload();
                 break;
+            case PlayerState.DEAD:
+                Dead();
+                break;
         }
     }
 
@@ -114,6 +122,10 @@ public class PlayerController : MonoBehaviour
     {
         currentState = newState;
     }
+
+    #region Tutorial
+
+    #endregion
 
     #region Movement
     private void Movement()
@@ -318,6 +330,32 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetAimPoint()
     {
         return PlayerCamera.transform.position + PlayerCamera.transform.forward * aimDistance;
+    }
+    #endregion
+
+    #region Taking Damage
+    public void TakeDamage(float damageTaken)
+    {
+        if (currentState == PlayerState.DEAD) return;
+
+        currentHealth -= damageTaken;
+        //Trigger damage effects or animations here
+
+        if (currentHealth < 0)
+        {
+            currentState = PlayerState.DEAD;
+        }
+        else if (currentHealth < maxHealth * 0.3f)
+        {
+            //Play low health warning effects
+        }
+    }
+    #endregion
+
+    #region Death
+    private void Dead()
+    {
+        //Death animation, game over screen
     }
     #endregion
 }

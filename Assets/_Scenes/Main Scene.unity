@@ -151,8 +151,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1822684342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &63066324
-SphereCollider:
+--- !u!136 &63066324
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -169,9 +169,11 @@ SphereCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Radius: 6
+  m_Height: 20
+  m_Direction: 1
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!1 &207306035
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +183,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 207306037}
-  - component: {fileID: 207306036}
   - component: {fileID: 207306038}
   m_Layer: 0
   m_Name: NavMesh Surface
@@ -190,38 +191,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &207306036
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 207306035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SerializedVersion: 0
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_GenerateLinks: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: bf1633407ba79444ab34cb2e038ddd67, type: 2}
-  m_BuildHeightMesh: 0
 --- !u!4 &207306037
 Transform:
   m_ObjectHideFlags: 0
@@ -492,13 +461,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776605925}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.017975932, y: 0, z: 0, w: 0.9998385}
-  m_LocalPosition: {x: 0.66, y: 0, z: 0.5}
+  m_LocalRotation: {x: -0.017975932, y: -0, z: -0, w: 0.9998385}
+  m_LocalPosition: {x: 0.66, y: -0.5, z: 0.5}
   m_LocalScale: {x: 0.26, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2103584621}
-  m_Father: {fileID: 1472938595}
+  m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: -2.06, y: 0, z: 0}
 --- !u!65 &776605927
 BoxCollider:
@@ -816,7 +785,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 776605926}
+  - {fileID: 1290765390}
   m_Father: {fileID: 1472938595}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1087652806
@@ -986,13 +957,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290765389}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.017975932, y: 0, z: 0, w: 0.9998385}
-  m_LocalPosition: {x: -0.66, y: 0, z: 0.5}
+  m_LocalRotation: {x: -0.017975932, y: -0, z: -0, w: 0.9998385}
+  m_LocalPosition: {x: -0.66, y: -0.5, z: 0.5}
   m_LocalScale: {x: 0.26, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1087652807}
-  m_Father: {fileID: 1472938595}
+  m_Father: {fileID: 963194228}
   m_LocalEulerAnglesHint: {x: -2.06, y: 0, z: 0}
 --- !u!65 &1290765391
 BoxCollider:
@@ -1123,6 +1094,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  maxHealth: 0
+  currentHealth: 0
   mouseSensitivity: 2
   currentMoveSpeed: 5
   walkSpeed: 5
@@ -1136,20 +1109,19 @@ MonoBehaviour:
   currentLaunchMeter: 0
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 2103584621}
+  rightProjectileDamage: 1
   rightShootForce: 100
   rightFireRate: 0.2
   maxAmmo: 20
   currentAmmo: 0
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 1087652807}
+  leftProjectileDamage: 1
   leftShootForce: 10
   leftFireRate: 2
   grenadeExplosionRadius: 5
   grenadeExplosionForce: 200
   aimDistance: 200
-  aimCollisionMask:
-    serializedVersion: 2
-    m_Bits: 51
   RightWeaponAnimator: {fileID: 776605930}
   LeftWeaponAnimator: {fileID: 1290765394}
 --- !u!143 &1472938591
@@ -1267,8 +1239,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 963194228}
-  - {fileID: 776605926}
-  - {fileID: 1290765390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1502193646
@@ -1411,10 +1381,10 @@ GameObject:
   - component: {fileID: 1822684341}
   - component: {fileID: 1822684340}
   - component: {fileID: 1822684339}
-  - component: {fileID: 1822684343}
   - component: {fileID: 1822684344}
+  - component: {fileID: 1822684345}
   m_Layer: 0
-  m_Name: Enemy 1
+  m_Name: Enemy Melee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1512,28 +1482,6 @@ Transform:
   - {fileID: 1616347809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822684343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822684338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 065bf7d79d43d2140b5ec797d2d51ac9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentEnemyState: 0
-  maxHealth: 0
-  currentHealth: 0
-  patrolPoints:
-  - {fileID: 860559019}
-  - {fileID: 1932125965}
-  attackDamage: 0
-  attackCooldown: 2
-  DetectionRadius: {fileID: 63066324}
-  AttackRadius: {fileID: 1616347810}
 --- !u!195 &1822684344
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1556,6 +1504,29 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1822684345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822684338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706b0fb710bca8d46a849c6945f303e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentEnemyState: 0
+  enemyId: 0
+  maxHealth: 5
+  currentHealth: 0
+  patrolPoints:
+  - {fileID: 860559019}
+  - {fileID: 1932125965}
+  attackDamage: 0
+  attackCooldown: 0
+  DetectionRadius: {fileID: 63066324}
+  AttackRadius: {fileID: 1616347810}
 --- !u!1 &1932125964
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class LeftProjectile : MonoBehaviour
 {
+    public float damage;
+
     private bool hasCollided;
 
     private Rigidbody Rb;
@@ -11,6 +13,7 @@ public class LeftProjectile : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
+        damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
         Destroy(gameObject, 3f);
     }
 
@@ -30,6 +33,7 @@ public class LeftProjectile : MonoBehaviour
         {
             hasCollided = true;
             StopProjectile();
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             //Animator.SetTrigger("Explode");
             Destroy(gameObject, 1f); //After 1 second
         }

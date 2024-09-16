@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class ProjectileRight : MonoBehaviour
 {
+    public float damage;
+
     private void Start()
     {
+        damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
         Destroy(gameObject, 2f);
     }
 
@@ -11,6 +14,7 @@ public class ProjectileRight : MonoBehaviour
     {
         if (target.gameObject.CompareTag("Enemy"))
         {
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             Destroy(gameObject);
         }
     }

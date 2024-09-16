@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
+using static PlayerController;
 
 public class EnemyController : MonoBehaviour
 {
-    public enum EnemyState { WAIT, PATROL, ALERT, ATTACK }
+    public enum EnemyState { WAIT, PATROL, ALERT, ATTACK, DEAD }
     public EnemyState currentEnemyState;
 
     [Header("Enemy Base Variables")]
+    public int enemyId;
     public float maxHealth;
     public float currentHealth;
 
@@ -20,36 +22,32 @@ public class EnemyController : MonoBehaviour
     private float lastAttackTime;
 
     [Header("References")]
-    public SphereCollider DetectionRadius;
+    public CapsuleCollider DetectionRadius;
     public SphereCollider AttackRadius;
     private PlayerController Player;
     private NavMeshAgent NavMeshAgent;
 
-    private void Start()
+    public void InitializeEnemy()
     {
         currentEnemyState = EnemyState.ALERT;
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
 
-        NavMeshAgent.SetDestination(patrolPoints[0].position);
+        if (patrolPoints.Length > 0) NavMeshAgent.SetDestination(patrolPoints[0].position);
 
+        currentHealth = maxHealth;
         lastAttackTime = -attackCooldown;
     }
 
-    private void Update()
-    {
-        CheckEnemyState();
-    }
-
-    private void CheckEnemyState()
+    public void CheckEnemyState()
     {
         switch (currentEnemyState)
         {
             case EnemyState.WAIT:
                 break;
             case EnemyState.PATROL:
-                Patrol();
+                Patrol(); //Patrol/Idle
                 break;
             case EnemyState.ALERT:
                 Alert(); //Move towards player
@@ -57,11 +55,14 @@ public class EnemyController : MonoBehaviour
             case EnemyState.ATTACK:
                 Attack();
                 break;
+            case EnemyState.DEAD:
+                Dead();
+                break;
         }
     }
 
     #region Patrol
-    private void Patrol()
+    public virtual void Patrol()
     {
         NavMeshAgent.isStopped = false;
 
@@ -81,7 +82,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Alert
-    private void Alert()
+    public virtual void Alert()
     {
         NavMeshAgent.isStopped = false;
 
@@ -106,15 +107,15 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Attack
-    private void Attack()
+    public virtual void Attack()
     {
         NavMeshAgent.isStopped = true;
         transform.LookAt(Player.transform);
 
         if (Time.time - lastAttackTime >= attackCooldown)
         {
+            Debug.Log("Enemy attacking player!");
             //Perform attack animation
-            Debug.Log("Enemy attacks player!");
             //Call a method on the player to deal damage here
             //Player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
 
@@ -126,6 +127,32 @@ public class EnemyController : MonoBehaviour
         {
             currentEnemyState = EnemyState.ALERT;
         }
+    }
+    #endregion
+
+    #region Taking Damage
+    public void TakeDamage(float damageTaken)
+    {
+        if (currentEnemyState == EnemyState.DEAD) return;
+
+        currentHealth -= damageTaken;
+        //Trigger damage effects or animations here
+
+        if (currentHealth <= 0)
+        {
+            currentEnemyState = EnemyState.DEAD;
+        }
+        else if (currentHealth < maxHealth * 0.3f)
+        {
+            //Play low health warning effects
+        }
+    }
+    #endregion
+
+    #region Death
+    public virtual void Dead()
+    {
+        gameObject.SetActive(false);
     }
     #endregion
 }
