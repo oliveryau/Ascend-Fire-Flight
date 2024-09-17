@@ -15,6 +15,7 @@ public class ProjectileRight : MonoBehaviour
         if (target.gameObject.CompareTag("Enemy"))
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            //Instantiate(explosionVfx);
             Destroy(gameObject);
         }
     }

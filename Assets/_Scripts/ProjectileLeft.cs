@@ -1,11 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class LeftProjectile : MonoBehaviour
 {
-    public float damage;
+    public GameObject explosionVfx;
+    public float lifeTime;
 
-    private bool hasCollided;
-
+    private bool hasExploded;
+    private Vector3 position;
     private Rigidbody Rb;
     private Animator Animator;
 
@@ -13,29 +15,35 @@ public class LeftProjectile : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
-        Destroy(gameObject, 3f);
+
+        StartCoroutine(Explode());
     }
 
-    private void StopProjectile()
+    private IEnumerator Explode()
     {
-        Rb.velocity = Vector3.zero;
-        Rb.angularVelocity = Vector3.zero;
-        Rb.drag = 500f;
-        Rb.angularDrag = 500f;
+        yield return new WaitForSeconds(lifeTime);
+        if (!hasExploded)
+        {
+            InstantiateExplosion(transform.position);
+            Destroy(gameObject);
+        }
+    }
+
+    private void InstantiateExplosion(Vector3 position)
+    {
+        Instantiate(explosionVfx, position, Quaternion.identity);
+        hasExploded = true;
     }
 
     private void OnCollisionEnter(Collision target)
     {
-        if (hasCollided) return;
-
         if (target.gameObject.CompareTag("Enemy"))
         {
-            hasCollided = true;
-            StopProjectile();
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
-            //Animator.SetTrigger("Explode");
-            Destroy(gameObject, 1f); //After 1 second
+            ContactPoint contact = target.contacts[0];
+            Vector3 position = contact.point;
+
+            InstantiateExplosion(position);
+            Destroy(gameObject);
         }
     }
 }

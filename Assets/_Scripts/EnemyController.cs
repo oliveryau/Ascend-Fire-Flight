@@ -74,13 +74,14 @@ public class EnemyController : MonoBehaviour
 
     private void LookAtPlayer()
     {
-        Vector3 direction = Player.transform.position - transform.position;
-        direction.y = 0; //Make the direction purely horizontal
+        Vector3 targetPosition = new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z); //Ignore player vertical axis
+        Vector3 direction = targetPosition - transform.position;
+        //direction.y = 0; //Make the direction purely horizontal
 
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+            //targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 1f); //Edit last value for rotate speed
         }
     }
