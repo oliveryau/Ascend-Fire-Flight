@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerController : MonoBehaviour
 {
@@ -109,18 +110,18 @@ public class PlayerController : MonoBehaviour
             case PlayerState.WAIT:
                 break;
             case PlayerState.TUTORIAL:
-                //Tutorial();
+                StartCoroutine(Tutorial());
                 break;
             case PlayerState.NORMAL:
                 Movement();
-                Launching();
+                LaunchEnabled();
                 LaunchingCooldown();
                 NormalShooting();
                 RightWeaponReload();
                 break;
             case PlayerState.IRONMAN:
                 Movement();
-                Levitating();
+                LevitateEnabled();
                 LaunchingCooldown();
                 IronmanShooting();
                 RightWeaponReload();
@@ -138,7 +139,29 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Tutorial
-
+    private IEnumerator Tutorial()
+    {
+        Time.timeScale = 0f;
+        Movement();
+        yield return new WaitUntil(() => 
+        Input.GetKeyDown(KeyCode.W) || 
+        Input.GetKeyDown(KeyCode.A) || 
+        Input.GetKeyDown(KeyCode.S) ||
+        Input.GetKeyDown(KeyCode.D));
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 0f;
+        LaunchEnabled();
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V));
+        Time.timeScale = 1f;
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 0f;
+        NormalShooting();
+        yield return new WaitUntil(() => Input.GetButtonDown("Fire1"));
+        Time.timeScale = 1f;
+        //Display message fight enemies
+        ChangePlayerState(PlayerState.NORMAL);
+    }
     #endregion
 
     #region Movement
@@ -188,31 +211,42 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Launching
-    private void Launching()
+    private void LaunchEnabled()
     {
         if (currentLaunchMeter >= minimumLaunchAmount) canLaunch = true;
 
         if (Input.GetKeyDown(KeyCode.V) && canLaunch && isGrounded)
         {
-            Fly();
+            Launching();
         }
     }
 
-    private void Levitating()
+    private void LevitateEnabled()
     {
         if (Input.GetKey(KeyCode.V) && !isGrounded)
         {
-            Float();
+            Levitating();
         }
         else
         {
-            StopFloating();
+            StopLevitating();
         }
     }
 
-    private void Fly()
+    private void Launching()
     {
-        ChangePlayerState(PlayerState.IRONMAN);
+        if (currentPlayerState == PlayerState.TUTORIAL)
+        {
+            LevitateEnabled();
+            LaunchingCooldown();
+            IronmanShooting();
+            RightWeaponReload();
+        }
+        else
+        {
+            ChangePlayerState(PlayerState.IRONMAN);
+        }
+
         LeftWeaponAnimator.SetTrigger("Flying");
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
@@ -221,7 +255,7 @@ public class PlayerController : MonoBehaviour
         launchCooldown = 1f;
     }
 
-    private void Float()
+    private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
         if (currentLaunchMeter > 0 && velocity.y < 0)
@@ -233,11 +267,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            StopFloating();
+            StopLevitating();
         }
     }
 
-    private void StopFloating()
+    private void StopLevitating()
     {
         isFloating = false;
         LeftWeaponAnimator.SetBool("Floating", false);
