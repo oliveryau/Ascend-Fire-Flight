@@ -389,7 +389,7 @@ public class PlayerController : MonoBehaviour
         currentHealth -= damageTaken;
         //Trigger damage effects or animations here
 
-        if (currentHealth < 0)
+        if (currentHealth <= 0)
         {
             ChangePlayerState(PlayerState.DEAD);
         }
