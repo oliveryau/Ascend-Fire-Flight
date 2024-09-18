@@ -61,6 +61,10 @@ public class PlayerController : MonoBehaviour
     [Header("Shared Weapon Variables")]
     public float aimDistance;
 
+    [Header("World/Checkpoint Variables")]
+    public float fallDamage;
+    public Vector3 initialPosition;
+
     [Header("References")]
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
@@ -71,17 +75,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        GameManager = FindFirstObjectByType<_GameManager>();
-        Controller = GetComponent<CharacterController>();
-        PlayerCamera = GetComponentInChildren<Camera>();
-
-        ChangePlayerState(PlayerState.NORMAL);
-
-        currentHealth = maxHealth;
-        currentLaunchMeter = launchMeter;
-        currentAmmo = maxAmmo;
+        Initialize();
     }
 
     private void Update()
@@ -90,6 +84,22 @@ public class PlayerController : MonoBehaviour
     }
 
     #region State Control
+    private void Initialize()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+
+        GameManager = FindFirstObjectByType<_GameManager>();
+        Controller = GetComponent<CharacterController>();
+        PlayerCamera = GetComponentInChildren<Camera>();
+
+        ChangePlayerState(PlayerState.NORMAL);
+
+        initialPosition = transform.position;
+        currentHealth = maxHealth;
+        currentLaunchMeter = launchMeter;
+        currentAmmo = maxAmmo;
+    }
+
     private void CheckPlayerState()
     {
         if (GameManager.currentGameState == _GameManager.GameState.PAUSE) return;
@@ -360,6 +370,18 @@ public class PlayerController : MonoBehaviour
     private void Dead()
     {
         //Death animation, game over screen
+    }
+    #endregion
+
+    #region Collisions
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Respawn"))
+        {
+            //Show blurry ui
+            transform.position = initialPosition;
+            TakeDamage(fallDamage);
+        }
     }
     #endregion
 }
