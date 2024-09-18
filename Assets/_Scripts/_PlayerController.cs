@@ -169,7 +169,14 @@ public class PlayerController : MonoBehaviour
         if (!isGrounded)
         {
             float currentGravity = velocity.y <= 0 ? fallMultiplier : 1f;
-            velocity.y += Physics.gravity.y * currentGravity * Time.deltaTime;
+            if (velocity.y > 0)
+            {
+                velocity.y += Physics.gravity.y * currentGravity * Time.deltaTime * 1.5f;
+            }
+            else
+            {
+                velocity.y += Physics.gravity.y * currentGravity * Time.deltaTime;
+            }
         }
         else if (velocity.y < 0)
         {
