@@ -50,6 +50,7 @@ public class _GameManager : MonoBehaviour
             UiManager.ShowPauseMenu(true);
         }
     }
+
     #endregion
 
     #region Pause

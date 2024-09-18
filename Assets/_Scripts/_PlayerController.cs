@@ -1,3 +1,4 @@
+using Mono.Reflection;
 using System.Collections;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -5,7 +6,7 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    public enum PlayerState { WAIT, TUTORIAL, NORMAL, IRONMAN, DEAD }
+    public enum PlayerState { WAIT, NORMAL, IRONMAN, DEAD }
     public PlayerState currentPlayerState;
 
     [Header("Health Variables")]
@@ -96,6 +97,7 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.NORMAL);
 
         initialPosition = transform.position;
+
         currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
         currentAmmo = maxAmmo;
@@ -108,9 +110,6 @@ public class PlayerController : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.WAIT:
-                break;
-            case PlayerState.TUTORIAL:
-                StartCoroutine(Tutorial());
                 break;
             case PlayerState.NORMAL:
                 Movement();
@@ -135,32 +134,6 @@ public class PlayerController : MonoBehaviour
     private void ChangePlayerState(PlayerState newState)
     {
         currentPlayerState = newState;
-    }
-    #endregion
-
-    #region Tutorial
-    private IEnumerator Tutorial()
-    {
-        Time.timeScale = 0f;
-        Movement();
-        yield return new WaitUntil(() => 
-        Input.GetKeyDown(KeyCode.W) || 
-        Input.GetKeyDown(KeyCode.A) || 
-        Input.GetKeyDown(KeyCode.S) ||
-        Input.GetKeyDown(KeyCode.D));
-        Time.timeScale = 1f;
-        yield return new WaitForSeconds(1f);
-        Time.timeScale = 0f;
-        LaunchEnabled();
-        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V));
-        Time.timeScale = 1f;
-        yield return new WaitForSeconds(1f);
-        Time.timeScale = 0f;
-        NormalShooting();
-        yield return new WaitUntil(() => Input.GetButtonDown("Fire1"));
-        Time.timeScale = 1f;
-        //Display message fight enemies
-        ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
 
@@ -234,18 +207,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Launching()
-    {
-        if (currentPlayerState == PlayerState.TUTORIAL)
-        {
-            LevitateEnabled();
-            LaunchingCooldown();
-            IronmanShooting();
-            RightWeaponReload();
-        }
-        else
-        {
-            ChangePlayerState(PlayerState.IRONMAN);
-        }
+    {        
+        ChangePlayerState(PlayerState.IRONMAN);
+        
 
         LeftWeaponAnimator.SetTrigger("Flying");
 
