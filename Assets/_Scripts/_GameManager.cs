@@ -1,17 +1,21 @@
 using UnityEngine;
 
-public class _GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public enum GameState { PLAY, PAUSE }
     public GameState currentGameState;
 
-    private _UiManager UiManager;
+    private PlayerController Player;
+    private UiManager UiManager;
+    private TutorialManager TutorialManager;
 
     private void Start()
     {
         ChangeGameState(GameState.PLAY);
 
-        UiManager = FindFirstObjectByType<_UiManager>();
+        Player = FindFirstObjectByType<PlayerController>();
+        UiManager = FindFirstObjectByType<UiManager>();
+        TutorialManager = FindFirstObjectByType<TutorialManager>();
     }
 
     private void Update()
@@ -61,6 +65,33 @@ public class _GameManager : MonoBehaviour
             ChangeGameState(GameState.PLAY);
             UiManager.ShowPauseMenu(false);
         }
+    }
+
+    public void ResumeGame()
+    {
+
+    }
+
+    public void RestartGame()
+    {
+        //Go to last checkpoint or restart game
+    }
+
+    public void Settings()
+    {
+
+    }
+
+    public void ResetTutorial()
+    {
+        //Reload scene
+        Player.initialPosition = new Vector3(0, 1, 0); //Back to start position
+        TutorialManager.currentTutorialState = TutorialManager.TutorialState.MOVEMENT;
+    }
+
+    public void ReturnToMainMenu()
+    {
+
     }
     #endregion
 }

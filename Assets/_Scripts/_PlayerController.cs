@@ -1,7 +1,5 @@
-using Mono.Reflection;
 using System.Collections;
 using UnityEngine;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,12 +25,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("Launching Variables")]
     public float launchForce;
-    public float launchMeter;
     public float minimumLaunchAmount;
     public float floatStrength;
+    public float launchMeter;
+    public float currentLaunchMeter;
 
     private bool canLaunch;
-    [SerializeField] private float currentLaunchMeter;
     private bool isFloating;
     private float launchCooldown;
 
@@ -70,7 +68,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
-    private _GameManager GameManager;
+    private GameManager GameManager;
     private CharacterController Controller;
     private Camera PlayerCamera;
     #endregion
@@ -90,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        GameManager = FindFirstObjectByType<_GameManager>();
+        GameManager = FindFirstObjectByType<GameManager>();
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
@@ -105,7 +103,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckPlayerState()
     {
-        if (GameManager.currentGameState == _GameManager.GameState.PAUSE) return;
+        if (GameManager.currentGameState == GameManager.GameState.PAUSE) return;
 
         switch (currentPlayerState)
         {

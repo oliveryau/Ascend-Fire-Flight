@@ -223,6 +223,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 2309039186301365694, guid: 00211d915dc77e74e91a7790145c82b3, type: 3}
+--- !u!4 &7147918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8473382862594044954, guid: 81d809734993a3e4ab55d90d4763cfc3, type: 3}
+  m_PrefabInstance: {fileID: 493923489}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &30243859
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +744,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0d959ac063112844b0fbd9fa6f88f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meterFillTransform: {fileID: 7147918}
+  maxMeterScale: 1
+  fullColor: {r: 0, g: 1, b: 0, a: 1}
+  emptyColor: {r: 1, g: 0, b: 0, a: 1}
   pauseMenu: {fileID: 635481756}
+  tutorialCue: {fileID: 911986203}
 --- !u!1001 &437032504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2281,9 +2291,9 @@ MonoBehaviour:
   jumpForce: 2
   fallMultiplier: 2
   launchForce: 10
-  launchMeter: 5
   minimumLaunchAmount: 2
   floatStrength: 0.75
+  launchMeter: 5
   currentLaunchMeter: 0
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 2103584621}
@@ -2555,7 +2565,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTutorialState: 0
-  tutorialCue: {fileID: 911986203}
   tutorialActive: 0
 --- !u!4 &1548950777 stripped
 Transform:

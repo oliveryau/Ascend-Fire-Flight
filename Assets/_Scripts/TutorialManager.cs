@@ -4,16 +4,18 @@ using TMPro;
 
 public class TutorialManager : MonoBehaviour
 {
-    public enum TutorialState { MOVEMENT, SPRINT, LAUNCH, SHOOT }
+    public enum TutorialState { MOVEMENT, SPRINT, LAUNCH, SHOOT, END }
     public TutorialState currentTutorialState;
 
-    public GameObject tutorialCue;
-
     public bool tutorialActive;
+
+    private GameObject tutorialCue;
 
     private void Start()
     {
         currentTutorialState = TutorialState.MOVEMENT;
+
+        tutorialCue = FindFirstObjectByType<UiManager>().tutorialCue;
         tutorialActive = true;
     }
 
@@ -33,6 +35,9 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.LAUNCH:
             case TutorialState.SHOOT:
                 StartCoroutine(DisplayTutorialCue(currentTutorialState));
+                break;
+            case TutorialState.END:
+                tutorialActive = false;
                 break;
         }
     }
@@ -67,7 +72,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialCue.SetActive(true);
                 yield return new WaitUntil(() => Input.GetButtonDown("Fire1"));
                 tutorialCue.SetActive(false);
-                tutorialActive = false;
+                currentTutorialState = TutorialState.END;
                 break;
         }
     }
