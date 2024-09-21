@@ -5,17 +5,13 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     #region Variables
-    public enum EnemyState { WAIT, PATROL, ALERT, ATTACK, DEAD }
+    public enum EnemyState { WAIT, ALERT, ATTACK, DEAD }
     public EnemyState currentEnemyState;
 
     [Header("Enemy Base Variables")]
     public int enemyId;
     public int maxHealth;
     public int currentHealth;
-
-    [Header("Enemy Patrol Points")]
-    public Transform[] patrolPoints;
-    protected int currentPatrolPointIndex;
 
     [Header("Enemy Attack Variables")]
     public int attackDamage;
@@ -24,7 +20,6 @@ public class EnemyController : MonoBehaviour
     protected float lastAttackTime;
 
     [Header("References")]
-    public CapsuleCollider DetectionRadius;
     public SphereCollider AttackRadius;
     protected PlayerController Player;
     protected NavMeshAgent NavMeshAgent;
@@ -34,13 +29,11 @@ public class EnemyController : MonoBehaviour
     #region State Control
     public void InitializeEnemy()
     {
-        currentEnemyState = EnemyState.PATROL;
+        currentEnemyState = EnemyState.WAIT;
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
-
-        if (patrolPoints.Length > 0) NavMeshAgent.SetDestination(patrolPoints[0].position);
 
         currentHealth = maxHealth;
         lastAttackTime = -attackCooldown;
@@ -51,9 +44,7 @@ public class EnemyController : MonoBehaviour
         switch (currentEnemyState)
         {
             case EnemyState.WAIT:
-                break;
-            case EnemyState.PATROL:
-                Patrol(); //Patrol/Idle
+                Wait();
                 break;
             case EnemyState.ALERT:
                 Alert(); //Move towards player
@@ -90,38 +81,17 @@ public class EnemyController : MonoBehaviour
     }
     #endregion
 
-    #region Patrol
-    public virtual void Patrol()
+    #region Wait
+    public virtual void Wait()
     {
-        if (patrolPoints.Length <= 1)
-        {
-            if (Vector3.Distance(transform.position, patrolPoints[0].position) > 0.1f)
-            {
-                NavMeshAgent.isStopped = false;
-                NavMeshAgent.SetDestination(patrolPoints[0].position); //Move back to patrol point if not there
-            }
-            else
-            {
-                NavMeshAgent.isStopped = true;
-            }
-        }
-        else
-        {
-            NavMeshAgent.isStopped = false;
+        StartCoroutine(Spawning());
+    }
 
-            if (NavMeshAgent.remainingDistance < 0.1f)
-            {
-                currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Length;
-                NavMeshAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
-                transform.LookAt(patrolPoints[currentPatrolPointIndex].position);
-            }
-        }
-
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-        if (distanceToPlayer <= DetectionRadius.radius)
-        {
-            ChangeEnemyState(EnemyState.ALERT);
-        }
+    private IEnumerator Spawning()
+    {
+        //Animator.SetTrigger("Spawning");
+        yield return new WaitForSeconds(1.5f);
+        ChangeEnemyState(EnemyState.ALERT);
     }
     #endregion
 
@@ -134,13 +104,6 @@ public class EnemyController : MonoBehaviour
         if (distanceToPlayer <= AttackRadius.radius)
         {
             ChangeEnemyState(EnemyState.ATTACK); //Attack if within attacking radius
-        }
-        else if (distanceToPlayer > DetectionRadius.radius)
-        {
-            ChangeEnemyState(EnemyState.PATROL); //Go back to patrolling if player goes out of sight
-            NavMeshAgent.SetDestination(patrolPoints[0].position);
-            currentPatrolPointIndex = 0;
-            transform.LookAt(patrolPoints[0].position);
         }
         else
         {
@@ -198,10 +161,17 @@ public class EnemyController : MonoBehaviour
     #region Death
     public virtual void Dead()
     {
-        //ragdoll
-        //disable collider
-        //disappear after 1/2 sec
-        gameObject.SetActive(false);
+        StartCoroutine(DeathAnimation());
+    }
+
+    private IEnumerator DeathAnimation()
+    {
+        NavMeshAgent.isStopped = true;
+
+        //Animator.SetTrigger("Die");
+        GetComponent<CapsuleCollider>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
     #endregion
 }

@@ -34,16 +34,12 @@ public class EnemyMiniboss : EnemyController
         currentAttack = nextAttack;
     }
 
-    #region Patrol
-    public override void Patrol()
+    #region Wait
+    public override void Wait()
     {
-        //Regain health
+        //Regain health if less than current health (may not need)
 
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-        if (distanceToPlayer <= DetectionRadius.radius)
-        {
-            ChangeEnemyState(EnemyState.ALERT);
-        }
+        base.Wait();
     }
     #endregion
 
@@ -181,12 +177,12 @@ public class EnemyMiniboss : EnemyController
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
     }
-    #endregion
 
     private void Ranged()
     {
 
     }
+    #endregion
 
     #region Death
     public override void Dead()

@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1746508162296873449}
   - component: {fileID: 4891510014933008917}
   m_Layer: 0
-  m_Name: Enemy Miniboss
+  m_Name: Miniboss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -336,10 +336,8 @@ MonoBehaviour:
   enemyId: 0
   maxHealth: 100
   currentHealth: 0
-  patrolPoints: []
   attackDamage: 10
   attackCooldown: 2
-  DetectionRadius: {fileID: 2462623418871367739}
   AttackRadius: {fileID: 3502961674627413183}
   currentAttack: 0
   chargeSpeed: 20

@@ -19,10 +19,10 @@ public class EnemyRanged : EnemyController
         CheckEnemyState();
     }
 
-    #region Patrol
-    public override void Patrol()
+    #region Wait
+    public override void Wait()
     {
-        base.Patrol();
+        base.Wait();
     }
     #endregion
 
