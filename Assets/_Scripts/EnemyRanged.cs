@@ -49,7 +49,7 @@ public class EnemyRanged : EnemyController
         //Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         Debug.LogError("Ranged enemy attacks player!");
-        //Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
+        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;

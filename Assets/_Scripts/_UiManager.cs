@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class UiManager : MonoBehaviour
 {
+    [Header("Main UI")]
+    public GameObject pauseMenu;
+    public GameObject tutorialCue;
+
     [Header("Diegetic UI")]
     public Transform meterFillTransform;
     public float maxMeterScale;
     public Color fullColor;
     public Color emptyColor;
-
-    [Header("Main UI")]
-    public GameObject pauseMenu;
-    public GameObject tutorialCue;
 
     private Renderer meterRenderer;
 
@@ -42,17 +42,19 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    #region Diegetic Player UI
     private void UpdateMeterVisual()
     {
         float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
 
-        // Update the scale of the meter fill
+        //Update the scale of the meter fill
         Vector3 currentScale = meterFillTransform.localScale;
         currentScale.x = Mathf.Lerp(0, maxMeterScale, fillPercentage);
         meterFillTransform.localScale = currentScale;
 
-        // Update the color of the meter
+        //Update the color of the meter
         Color lerpedColor = Color.Lerp(emptyColor, fullColor, fillPercentage);
         meterRenderer.material.color = lerpedColor;
     }
+    #endregion
 }

@@ -2,12 +2,23 @@ using UnityEngine;
 
 public class ProjectileRight : MonoBehaviour
 {
-    public float damage;
+    public int damage;
+
+    private PlayerController Player;
 
     private void Start()
     {
-        damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
+        Player = FindFirstObjectByType<PlayerController>();
+        damage = Player.rightProjectileDamage;
+
         Destroy(gameObject, 2f);
+    }
+    
+    private void ChargeHeal()
+    {
+        if (Player.currentHealCharge >= Player.maxHealCharge) return;
+
+        Player.currentHealCharge++;
     }
 
     private void OnCollisionEnter(Collision target)
@@ -15,6 +26,7 @@ public class ProjectileRight : MonoBehaviour
         if (target.gameObject.CompareTag("Enemy"))
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            ChargeHeal();
             //Instantiate(explosionVfx);
             Destroy(gameObject);
         }

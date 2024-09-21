@@ -10,15 +10,15 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy Base Variables")]
     public int enemyId;
-    public float maxHealth;
-    public float currentHealth;
+    public int maxHealth;
+    public int currentHealth;
 
     [Header("Enemy Patrol Points")]
     public Transform[] patrolPoints;
     protected int currentPatrolPointIndex;
 
     [Header("Enemy Attack Variables")]
-    public float attackDamage;
+    public int attackDamage;
     public float attackCooldown;
     protected bool isAttacking;
     protected float lastAttackTime;
@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void ChangeEnemyState(EnemyState newState)
+    public void ChangeEnemyState(EnemyState newState)
     {
         currentEnemyState = newState;
     }
@@ -95,7 +95,15 @@ public class EnemyController : MonoBehaviour
     {
         if (patrolPoints.Length <= 1)
         {
-            NavMeshAgent.isStopped = true;
+            if (Vector3.Distance(transform.position, patrolPoints[0].position) > 0.1f)
+            {
+                NavMeshAgent.isStopped = false;
+                NavMeshAgent.SetDestination(patrolPoints[0].position); //Move back to patrol point if not there
+            }
+            else
+            {
+                NavMeshAgent.isStopped = true;
+            }
         }
         else
         {
@@ -171,7 +179,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Taking Damage
-    public void TakeDamage(float damageTaken)
+    public void TakeDamage(int damageTaken)
     {
         if (currentEnemyState == EnemyState.DEAD) return;
 
@@ -192,6 +200,9 @@ public class EnemyController : MonoBehaviour
     #region Death
     public virtual void Dead()
     {
+        //ragdoll
+        //disable collider
+        //disappear after 1/2 sec
         gameObject.SetActive(false);
     }
     #endregion

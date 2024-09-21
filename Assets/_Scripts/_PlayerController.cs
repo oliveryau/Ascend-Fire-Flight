@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     public PlayerState currentPlayerState;
 
     [Header("Health Variables")]
-    public float maxHealth;
-    public float currentHealth;
+    public int maxHealth;
+    public int currentHealth;
 
     [Header("Movement Variables")]
     public float mouseSensitivity;
@@ -41,10 +41,13 @@ public class PlayerController : MonoBehaviour
     public float rightShootForce;
     public float rightFireRate;
     public int maxAmmo;
+    public int currentAmmo;
+    public int maxHealCharge;
+    public int currentHealCharge;
 
     private float rightNextFireTime = 0f;
-    [SerializeField] private int currentAmmo;
     private bool isReloading;
+    private bool isHealing;
 
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
@@ -62,7 +65,7 @@ public class PlayerController : MonoBehaviour
     public float aimDistance;
 
     [Header("World/Checkpoint Variables")]
-    public float fallDamage;
+    public int fallDamage;
     public Vector3 initialPosition;
 
     [Header("References")]
@@ -79,7 +82,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update()
-    {   
+    {
         CheckPlayerState();
     }
 
@@ -212,9 +215,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Launching()
-    {        
+    {
         ChangePlayerState(PlayerState.IRONMAN);
-        
+
 
         LeftWeaponAnimator.SetTrigger("Flying");
 
@@ -274,7 +277,9 @@ public class PlayerController : MonoBehaviour
 
     private void RightWeaponShooting()
     {
-        if (Time.time >= rightNextFireTime && !isReloading && currentAmmo > 0)
+        if (isReloading || isHealing) return;
+
+        if (Time.time >= rightNextFireTime && currentAmmo > 0)
         {
             Vector3 aimPoint = GetAimPoint();
             Vector3 rightShotDirection = (aimPoint - rightFirePoint.position).normalized;
@@ -294,7 +299,9 @@ public class PlayerController : MonoBehaviour
 
     private void RightWeaponReload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < maxAmmo)
+        if (isReloading || isHealing) return;
+
+        if (Input.GetKeyDown(KeyCode.R) && currentAmmo < maxAmmo)
         {
             StartCoroutine(Reload());
         }
@@ -304,10 +311,33 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Reloading");
         isReloading = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
         //RightWeaponAnimator.SetTrigger("Reload");
         currentAmmo = maxAmmo;
+        yield return new WaitForSeconds(0.5f);
         isReloading = false;
+    }
+
+    private void RightWeaponHeal()
+    {
+        if (isReloading || isHealing) return;
+        
+        if (Input.GetKeyDown(KeyCode.E) && currentHealCharge < maxHealCharge)
+        {
+            StartCoroutine(Heal());
+        }
+    }
+
+    private IEnumerator Heal()
+    {
+        Debug.Log("Healing");
+        isHealing = true;
+        //RightWeaponAnimator.SetTrigger("Healing");
+        yield return new WaitForSeconds(0.5f);
+        currentHealCharge += currentHealth;
+        currentHealCharge = 0;
+        yield return new WaitForSeconds(1f);
+        isHealing = false;
     }
 
     private void LeftWeaponShooting()
@@ -335,12 +365,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider hit in colliders)
         {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
-
-            if (rb != null)
-                rb.AddExplosionForce(grenadeExplosionForce, explosionPos, grenadeExplosionRadius, 1f);
-
-            //Add damage logic for objects within the explosion radius
-            //Example: hit.GetComponent<Damageable>()?.TakeDamage(calculatedDamage);
+            if (rb != null) rb.AddExplosionForce(grenadeExplosionForce, explosionPos, grenadeExplosionRadius, 1f);
         }
     }
 
@@ -351,7 +376,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Taking Damage
-    public void TakeDamage(float damageTaken)
+    public void TakeDamage(int damageTaken)
     {
         if (currentPlayerState == PlayerState.DEAD) return;
 

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyRangedBullet : MonoBehaviour
 {
-    public float damage;
+    public int damage;
 
     private void Start()
     {

@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 5
+  maxHealth: 1
   currentHealth: 0
   patrolPoints:
   - {fileID: 0}

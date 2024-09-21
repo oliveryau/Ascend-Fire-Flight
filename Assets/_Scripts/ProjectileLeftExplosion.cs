@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProjectileLeftExplosion : MonoBehaviour
 {
-    public float damage;
+    public int damage;
     public float explosionRadius;
 
     private void Start()
