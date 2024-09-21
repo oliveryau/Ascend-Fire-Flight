@@ -324,7 +324,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isReloading || isHealing) return;
         
-        if (Input.GetKeyDown(KeyCode.E) && currentHealCharge < maxHealCharge)
+        if (Input.GetKeyDown(KeyCode.E) && currentHealCharge > 0)
         {
             StartCoroutine(Heal());
         }
