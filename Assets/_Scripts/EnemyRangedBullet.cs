@@ -15,6 +15,7 @@ public class EnemyRangedBullet : MonoBehaviour
         if (target.gameObject.CompareTag("Player"))
         {
             target.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+            //on contact point, spawn particle blast
             Destroy(gameObject);
         }
     }
