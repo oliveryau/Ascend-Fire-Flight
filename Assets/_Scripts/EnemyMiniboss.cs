@@ -156,25 +156,37 @@ public class EnemyMiniboss : EnemyController
 
         isCharging = false;
         NavMeshAgent.isStopped = false;
+
+        yield return new WaitForSeconds(1.5f);
     }
 
     private void Melee()
     {
-
+        if (!isAttacking)
+        {
+            StartCoroutine(PerformMeleeAttack());
+        }
     }
 
-    //private IEnumerator PerformMeleeAttack()
-    //{
-    //    isAttacking = true;
-    //    //Animator.SetTrigger("Attack");
-    //    yield return new WaitForSeconds(0.5f); //Delay before hitting player
-    //    Debug.LogError("Melee enemy attacks player!");
-    //    Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
-    //    lastAttackTime = Time.time;
-    //    yield return new WaitForSeconds(attackCooldown);
-    //    isAttacking = false;
-    //}
+    private IEnumerator PerformMeleeAttack()
+    {
+        NavMeshAgent.isStopped = true;
+        isAttacking = true;
+        Debug.LogWarning("Melee Attacking");
+        //Animator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.5f); //Delay before hitting player
+        Debug.LogError("MELEE!");
+        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
+        lastAttackTime = Time.time;
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+    }
     #endregion
+
+    private void Ranged()
+    {
+
+    }
 
     #region Death
     public override void Dead()
