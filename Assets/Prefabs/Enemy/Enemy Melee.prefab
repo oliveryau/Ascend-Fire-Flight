@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6175991054895074693}
   - component: {fileID: 7214807872734923136}
   - component: {fileID: 2376696784937297501}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Melee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7967742942796061941}
   - component: {fileID: 2647018394548886740}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}

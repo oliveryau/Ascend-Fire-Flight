@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3442403306320393731}
   - component: {fileID: 1259712159796233835}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7222533846604619976}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fire Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2344742811502166470}
   - component: {fileID: 4812907700321606392}
   - component: {fileID: 3822707075655703064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Ranged
   m_TagString: Enemy
   m_Icon: {fileID: 0}

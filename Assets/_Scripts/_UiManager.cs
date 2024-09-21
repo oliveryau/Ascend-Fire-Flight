@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
@@ -6,14 +7,20 @@ public class UiManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject tutorialCue;
 
+    [Header("Player UI")]
+    public Image playerHealthFill;
+    public float healthUpdateSpeed;
+
+    private float targetHealthFill;
+
     [Header("Diegetic UI")]
-    public Transform meterFillTransform;
-    public float maxMeterScale;
+    public Transform launchMeterTransform;
     public Color fullColor;
     public Color emptyColor;
 
-    private Renderer meterRenderer;
+    private Renderer launchMeterRenderer;
 
+    [Header("References")]
     private GameManager GameManager;
     private PlayerController Player;
 
@@ -22,12 +29,16 @@ public class UiManager : MonoBehaviour
         GameManager = FindFirstObjectByType<GameManager>();
         Player = FindFirstObjectByType<PlayerController>();
 
-        meterRenderer = meterFillTransform.GetComponent<Renderer>();
+        launchMeterRenderer = launchMeterTransform.GetComponent<Renderer>();
+
+        targetHealthFill = Player.currentHealth / Player.maxHealth;
+        playerHealthFill.fillAmount = targetHealthFill;
     }
 
     private void Update()
     {
-        UpdateMeterVisual();
+        UpdatePlayerHealthBar();
+        UpdateLaunchMeter();
     }
 
     public void ShowPauseMenu(bool activeMode)
@@ -42,19 +53,24 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    #region Diegetic Player UI
-    private void UpdateMeterVisual()
+    private void UpdatePlayerHealthBar()
+    {
+        targetHealthFill = Player.currentHealth / Player.maxHealth;
+        playerHealthFill.fillAmount = Mathf.Lerp(playerHealthFill.fillAmount, targetHealthFill, Time.deltaTime * healthUpdateSpeed);
+
+        Color lerpedColor = Color.Lerp(emptyColor, fullColor, playerHealthFill.fillAmount);
+        playerHealthFill.color = lerpedColor;
+    }
+
+    private void UpdateLaunchMeter()
     {
         float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
 
-        //Update the scale of the meter fill
-        Vector3 currentScale = meterFillTransform.localScale;
-        currentScale.x = Mathf.Lerp(0, maxMeterScale, fillPercentage);
-        meterFillTransform.localScale = currentScale;
+        Vector3 currentScale = launchMeterTransform.localScale;
+        currentScale.x = Mathf.Lerp(0, 1, fillPercentage);
+        launchMeterTransform.localScale = currentScale;
 
-        //Update the color of the meter
         Color lerpedColor = Color.Lerp(emptyColor, fullColor, fillPercentage);
-        meterRenderer.material.color = lerpedColor;
+        launchMeterRenderer.material.color = lerpedColor;
     }
-    #endregion
 }

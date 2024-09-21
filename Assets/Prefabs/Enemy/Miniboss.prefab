@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6547081030949747961}
   - component: {fileID: 2462623418871367739}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Detection Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65,7 +65,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2690917761850030322}
   - component: {fileID: 3502961674627413183}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ranged Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1465634697779772374}
   - component: {fileID: 6899298208076968769}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Melee Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 7667794516041056169}
   - component: {fileID: 1746508162296873449}
   - component: {fileID: 4891510014933008917}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Miniboss
   m_TagString: Enemy
   m_Icon: {fileID: 0}

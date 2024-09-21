@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     public PlayerState currentPlayerState;
 
     [Header("Health Variables")]
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
 
     [Header("Movement Variables")]
     public float mouseSensitivity;
@@ -33,6 +33,11 @@ public class PlayerController : MonoBehaviour
     private bool canLaunch;
     private bool isFloating;
     private float launchCooldown;
+
+    [Header("Landing Variables")]
+    public LayerMask enemyLayer;
+    public float landingCheckDistance;
+    public float landingHorizontalAdjustment;
 
     [Header("Right Weapon Variables")]
     public GameObject rightProjectilePrefab;
@@ -116,6 +121,7 @@ public class PlayerController : MonoBehaviour
                 Movement();
                 LaunchEnabled();
                 LaunchingCooldown();
+                CheckLanding();
                 NormalShooting();
                 RightWeaponReload();
                 RightWeaponHealing();
@@ -124,11 +130,13 @@ public class PlayerController : MonoBehaviour
                 Movement();
                 LevitateEnabled();
                 LaunchingCooldown();
+                CheckLanding();
                 IronmanShooting();
                 RightWeaponReload();
                 RightWeaponHealing();
                 break;
             case PlayerState.DEAD:
+                CheckLanding();
                 Dead();
                 break;
         }
@@ -257,6 +265,24 @@ public class PlayerController : MonoBehaviour
 
         if (launchCooldown > 0) launchCooldown -= Time.deltaTime;
     }
+
+    private void CheckLanding()
+    {
+        if (!isGrounded && velocity.y < 0)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, landingCheckDistance, enemyLayer))
+            {
+                Vector3 adjustmentDirection = Random.insideUnitCircle.normalized; //Enemy detected below, adjust landing position
+                Vector3 newPosition = transform.position + new Vector3(adjustmentDirection.x, 0, adjustmentDirection.y) * landingHorizontalAdjustment;
+
+                if (!Physics.Raycast(newPosition, Vector3.down, landingCheckDistance, enemyLayer)) //Check if the new position is clear
+                {
+                    transform.position = newPosition;
+                }
+            }
+        }
+    }
     #endregion
 
     #region Shooting
@@ -374,7 +400,17 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetAimPoint()
     {
-        return PlayerCamera.transform.position + PlayerCamera.transform.forward * aimDistance;
+        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, aimDistance))
+        {
+            return hit.point;
+        }
+        else
+        {
+            return ray.GetPoint(aimDistance);
+        }
     }
     #endregion
 
@@ -407,6 +443,15 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Collisions
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isGrounded)
+        {
+            Vector3 slideDirection = Vector3.ProjectOnPlane(velocity, hit.normal).normalized; //Slide off the enemy
+            Controller.Move(slideDirection * Time.deltaTime * currentMoveSpeed);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Respawn"))
