@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
                 LaunchingCooldown();
                 NormalShooting();
                 RightWeaponReload();
+                RightWeaponHealing();
                 break;
             case PlayerState.IRONMAN:
                 Movement();
@@ -125,6 +126,7 @@ public class PlayerController : MonoBehaviour
                 LaunchingCooldown();
                 IronmanShooting();
                 RightWeaponReload();
+                RightWeaponHealing();
                 break;
             case PlayerState.DEAD:
                 Dead();
@@ -318,7 +320,7 @@ public class PlayerController : MonoBehaviour
         isReloading = false;
     }
 
-    private void RightWeaponHeal()
+    private void RightWeaponHealing()
     {
         if (isReloading || isHealing) return;
         
@@ -334,7 +336,8 @@ public class PlayerController : MonoBehaviour
         isHealing = true;
         //RightWeaponAnimator.SetTrigger("Healing");
         yield return new WaitForSeconds(0.5f);
-        currentHealCharge += currentHealth;
+        currentHealth += currentHealCharge;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
         currentHealCharge = 0;
         yield return new WaitForSeconds(1f);
         isHealing = false;
@@ -397,7 +400,9 @@ public class PlayerController : MonoBehaviour
     #region Death
     private void Dead()
     {
-        //Death animation, game over screen
+        //Death animation
+        //Wait 1/2 sec
+        //Game over screen
     }
     #endregion
 
