@@ -39,7 +39,6 @@ public class EnemyMelee : EnemyController
         isAttacking = true;
         //Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
-        Debug.LogError("Melee enemy attacks player!");
         Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(attackCooldown);

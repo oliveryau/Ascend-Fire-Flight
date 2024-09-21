@@ -72,7 +72,7 @@ public class EnemyController : MonoBehaviour
         currentEnemyState = newState;
     }
 
-    private void LookAtPlayer()
+    public void LookAtPlayer()
     {
         Vector3 direction = Player.transform.position - transform.position;
         direction.y = 0; // This ensures rotation only around the y-axis
@@ -145,7 +145,6 @@ public class EnemyController : MonoBehaviour
         else
         {
             NavMeshAgent.SetDestination(Player.transform.position); //Chase
-            transform.LookAt(Player.transform);
             LookAtPlayer();
         }
     }
@@ -159,7 +158,6 @@ public class EnemyController : MonoBehaviour
 
         if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         {
-            Debug.LogWarning("Enemy attacking player!");
             StartCoroutine(PerformAttack());
         }
 

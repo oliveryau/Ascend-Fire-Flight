@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public float fallMultiplier;
 
     private float verticalRotation = 0f;
-    private bool isGrounded;
+    [HideInInspector] public bool isGrounded;
     private Vector3 velocity;
 
     [Header("Launching Variables")]
