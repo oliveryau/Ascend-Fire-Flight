@@ -337,10 +337,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        Debug.Log("Reloading");
         isReloading = true;
-        yield return new WaitForSeconds(1f);
-        //RightWeaponAnimator.SetTrigger("Reload");
+        RightWeaponAnimator.SetTrigger("Reload");
+        yield return new WaitForSeconds(0.5f);
         currentAmmo = maxAmmo;
         yield return new WaitForSeconds(0.5f);
         isReloading = false;
@@ -358,10 +357,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Heal()
     {
-        Debug.Log("Healing");
         isHealing = true;
-        //RightWeaponAnimator.SetTrigger("Healing");
-        yield return new WaitForSeconds(0.5f);
+        RightWeaponAnimator.SetTrigger("Healing");
+        yield return new WaitForSeconds(1f);
         currentHealth += currentHealCharge;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
         currentHealCharge = 0;
