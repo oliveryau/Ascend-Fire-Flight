@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class EnemyMiniboss : EnemyController
 {
-    public enum MinibossAttack { CHASE, CHARGE, MELEE, RANGED };
+    [Header("Miniboss Attack State")]
     public MinibossAttack currentAttack;
+    public enum MinibossAttack { CHASE, CHARGE, MELEE, RANGED };
 
-    [Header("Miniboss Charge")]
+    [Header("Miniboss Charge Variables")]
     public int chargeSpeed;
     public float chargeDuration;
     public int chargeDamage;
@@ -14,8 +15,14 @@ public class EnemyMiniboss : EnemyController
     private bool isCharging;
     private Vector3 chargeDirection;
 
+    [Header("Miniboss Ranged Variables")]
+    public GameObject projectile;
+    public Transform projectileFirepoint;
+    public float shootForce;
+
     [Header("Miniboss References")]
     public SphereCollider MeleeAttackRadius;
+    public SphereCollider RangedAttackRadius;
 
     private void Start()
     {
@@ -69,7 +76,7 @@ public class EnemyMiniboss : EnemyController
         {
             ChangeBossAttack(MinibossAttack.MELEE);
         }
-        else if (!Player.isGrounded && distanceToPlayer < AttackRadius.radius)
+        else if (!Player.isGrounded && distanceToPlayer < RangedAttackRadius.radius)
         {
             ChangeBossAttack(MinibossAttack.RANGED);
         }
@@ -101,6 +108,7 @@ public class EnemyMiniboss : EnemyController
                 Melee();
                 break;
             case MinibossAttack.RANGED:
+                Ranged();
                 break;
         }
     }
@@ -169,7 +177,7 @@ public class EnemyMiniboss : EnemyController
         NavMeshAgent.isStopped = true;
         isAttacking = true;
         Debug.LogWarning("Melee Attacking");
-        //Animator.SetTrigger("Attack");
+        //Animator.SetTrigger("Melee");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         Debug.LogError("MELEE!");
         Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
@@ -180,7 +188,28 @@ public class EnemyMiniboss : EnemyController
 
     private void Ranged()
     {
+        if (!isAttacking)
+        {
+            StartCoroutine(PerformRangedAttack());
+        }
+    }
 
+    private IEnumerator PerformRangedAttack()
+    {
+        NavMeshAgent.isStopped = true;
+        isAttacking = true;
+        Debug.LogWarning("Ranged Attacking");
+        Vector3 shootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
+
+        GameObject bulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
+        bulletProjectile.GetComponent<Rigidbody>().AddForce(shootDirection * shootForce, ForceMode.Impulse);
+
+        //Animator.SetTrigger("Ranged");
+        yield return new WaitForSeconds(0.5f); //Delay before hitting player
+        Debug.LogError("RANGED!");
+        lastAttackTime = Time.time;
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
     }
     #endregion
 

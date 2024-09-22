@@ -51,7 +51,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 30
+  m_Radius: 25
   m_Height: 20
   m_Direction: 1
   m_Center: {x: 0, y: 5, z: 0}
@@ -161,6 +161,37 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7533825188774776857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1573391703455451402}
+  m_Layer: 6
+  m_Name: Ranged Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1573391703455451402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7533825188774776857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3878740794487419922}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8528228475631698300
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,14 +222,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8528228475631698300}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15, y: 39, z: 217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6547081030949747961}
-  - {fileID: 2690917761850030322}
   - {fileID: 1465634697779772374}
+  - {fileID: 2690917761850030322}
+  - {fileID: 1573391703455451402}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1952063985163407397
@@ -336,11 +368,15 @@ MonoBehaviour:
   enemyId: 0
   maxHealth: 100
   currentHealth: 0
-  attackDamage: 10
-  attackCooldown: 2
+  attackDamage: 0
+  attackCooldown: 0
   AttackRadius: {fileID: 3502961674627413183}
   currentAttack: 0
   chargeSpeed: 20
   chargeDuration: 1.5
   chargeDamage: 4
+  projectile: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
+  projectileFirepoint: {fileID: 1573391703455451402}
+  shootForce: 50
   MeleeAttackRadius: {fileID: 6899298208076968769}
+  RangedAttackRadius: {fileID: 3502961674627413183}
