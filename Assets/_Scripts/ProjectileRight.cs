@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProjectileRight : MonoBehaviour
 {
     public int damage;
+    public GameObject hitVfx;
 
     private PlayerController Player;
 
@@ -27,7 +28,11 @@ public class ProjectileRight : MonoBehaviour
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             ChargeHeal();
-            //Instantiate(explosionVfx);
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            GameObject vfxInstance = Instantiate(hitVfx, hitPosition, Quaternion.identity);
+
             Destroy(gameObject);
         }
     }

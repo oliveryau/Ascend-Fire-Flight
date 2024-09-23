@@ -148,5 +148,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e941fdfcc3c2cef4a9e8b2d5e60eb58b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionVfx: {fileID: 8909678531381527687, guid: dea3e0b432039dd498758b74853277b3, type: 3}
+  explosionVfx: {fileID: 7537801120345206761, guid: da3010fe30cb6ea4ca6d7fba6e185e62, type: 3}
   lifeTime: 2

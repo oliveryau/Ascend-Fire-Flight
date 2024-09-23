@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
+    private bool hasTakenDamaged;
+
     [Header("Movement Variables")]
     public float mouseSensitivity;
     public float currentMoveSpeed;
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
     private GameManager GameManager;
+    private UiManager UiManager;
     private CharacterController Controller;
     private Camera PlayerCamera;
     #endregion
@@ -97,6 +100,7 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         GameManager = FindFirstObjectByType<GameManager>();
+        UiManager = FindFirstObjectByType<UiManager>();
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
@@ -416,8 +420,11 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damageTaken)
     {
         if (currentPlayerState == PlayerState.DEAD) return;
+        if (hasTakenDamaged) return;
 
+        StartCoroutine(Iframe());
         currentHealth -= damageTaken;
+        UiManager.DisplayDamagedOverlay();
         //Trigger damage effects or animations here
 
         if (currentHealth <= 0)
@@ -428,6 +435,13 @@ public class PlayerController : MonoBehaviour
         {
             //Play low health warning effects
         }
+    }
+
+    private IEnumerator Iframe()
+    {
+        hasTakenDamaged = true;
+        yield return new WaitForSeconds(0.5f);
+        hasTakenDamaged = false;
     }
     #endregion
 
@@ -455,8 +469,11 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Respawn"))
         {
             //Show blurry ui
-            transform.position = initialPosition;
             TakeDamage(fallDamage);
+
+            Controller.enabled = false;
+            transform.position = initialPosition;
+            Controller.enabled = true; //Re-enable the Character Controller
         }
     }
     #endregion

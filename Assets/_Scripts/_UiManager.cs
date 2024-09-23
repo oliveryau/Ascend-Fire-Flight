@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class UiManager : MonoBehaviour
     [Header("Player UI")]
     public Image playerHealthFill;
     public float healthUpdateSpeed;
+    public Image playerDamagedOverlay;
 
     private float targetHealthFill;
 
@@ -72,5 +74,17 @@ public class UiManager : MonoBehaviour
 
         Color lerpedColor = Color.Lerp(emptyColor, fullColor, fillPercentage);
         launchMeterRenderer.material.color = lerpedColor;
+    }
+
+    public void DisplayDamagedOverlay()
+    {
+        StartCoroutine(DamagedOverlay());
+    }
+
+    private IEnumerator DamagedOverlay()
+    {
+        playerDamagedOverlay.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        playerDamagedOverlay.gameObject.SetActive(false);
     }
 }

@@ -84,6 +84,8 @@ public class EnemyController : MonoBehaviour
     #region Wait
     public virtual void Wait()
     {
+        if (currentHealth <= 0) return;
+
         StartCoroutine(Spawning());
     }
 
@@ -98,6 +100,8 @@ public class EnemyController : MonoBehaviour
     #region Alert
     public virtual void Alert()
     {
+        if (currentHealth <= 0) return;
+        
         NavMeshAgent.isStopped = false;
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
@@ -116,6 +120,8 @@ public class EnemyController : MonoBehaviour
     #region Attack
     public virtual void Attacking()
     {
+        if (currentHealth <= 0) return;
+        
         NavMeshAgent.isStopped = true;
         LookAtPlayer();
 

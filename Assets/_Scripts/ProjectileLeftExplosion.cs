@@ -9,7 +9,7 @@ public class ProjectileLeftExplosion : MonoBehaviour
     {
         damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
         ApplyExplosionDamage();
-        Destroy(gameObject, 2f); //Remove when particle can destroy itself
+        Destroy(gameObject, 2f);
     }
 
     private void ApplyExplosionDamage()
