@@ -175,7 +175,7 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent.isStopped = true;
 
         //Animator.SetTrigger("Die");
-        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<SphereCollider>().enabled = false;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

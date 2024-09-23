@@ -44,4 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37677af3d5966804cbd3c8a622551d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Main BGM
+    clip: {fileID: 8300000, guid: 5a66818c76b1d5e41a38e101cb51f6f7, type: 3}
+    volume: 1
+    pitch: 1.32
+    spatialBlend: 1
+    loop: 1
+    AudioSource: {fileID: 0}
