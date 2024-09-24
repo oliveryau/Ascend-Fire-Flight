@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     private bool canLaunch;
     private bool isFloating;
+    private float targetLaunchMeter;
     private float launchCooldown;
 
     [Header("Landing Variables")]
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
     [Header("World/Checkpoint Variables")]
     public int fallDamage;
     public Vector3 initialPosition;
+    public Quaternion initialRotation;
 
     [Header("References")]
     public Animator RightWeaponAnimator;
@@ -107,9 +109,11 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.NORMAL);
 
         initialPosition = transform.position;
+        initialRotation = transform.rotation;
 
         currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
+        targetLaunchMeter = currentLaunchMeter;
         currentAmmo = maxAmmo;
     }
 
@@ -125,6 +129,7 @@ public class PlayerController : MonoBehaviour
                 Movement();
                 LaunchEnabled();
                 LaunchingCooldown();
+                UpdateLaunchMeter();
                 CheckLanding();
                 NormalShooting();
                 RightWeaponReload();
@@ -134,6 +139,7 @@ public class PlayerController : MonoBehaviour
                 Movement();
                 LevitateEnabled();
                 LaunchingCooldown();
+                UpdateLaunchMeter();
                 CheckLanding();
                 IronmanShooting();
                 RightWeaponReload();
@@ -169,7 +175,8 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        if (currentPlayerState != PlayerState.IRONMAN) currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        else currentMoveSpeed = walkSpeed;
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         Controller.Move(move * currentMoveSpeed * Time.deltaTime);
@@ -232,11 +239,10 @@ public class PlayerController : MonoBehaviour
     {
         ChangePlayerState(PlayerState.IRONMAN);
 
-
         LeftWeaponAnimator.SetTrigger("Flying");
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
-        currentLaunchMeter -= minimumLaunchAmount;
+        targetLaunchMeter = currentLaunchMeter - minimumLaunchAmount;
         canLaunch = false;
         launchCooldown = 1f;
     }
@@ -246,8 +252,7 @@ public class PlayerController : MonoBehaviour
         LeftWeaponAnimator.SetBool("Floating", true);
         if (currentLaunchMeter > 0 && velocity.y < 0)
         {
-
-            currentLaunchMeter -= Time.deltaTime;
+            targetLaunchMeter = currentLaunchMeter -= Time.deltaTime;
             isFloating = true;
             velocity.y = Mathf.Max(velocity.y, -floatStrength);
         }
@@ -265,9 +270,14 @@ public class PlayerController : MonoBehaviour
 
     private void LaunchingCooldown()
     {
-        if (currentLaunchMeter < launchMeter && isGrounded) currentLaunchMeter += Time.deltaTime;
+        if (targetLaunchMeter < launchMeter && isGrounded) targetLaunchMeter += Time.deltaTime;
 
         if (launchCooldown > 0) launchCooldown -= Time.deltaTime;
+    }
+
+    private void UpdateLaunchMeter()
+    {
+        currentLaunchMeter = Mathf.Lerp(currentLaunchMeter, targetLaunchMeter, Time.deltaTime * 5f);
     }
 
     private void CheckLanding()
@@ -352,6 +362,7 @@ public class PlayerController : MonoBehaviour
     private void RightWeaponHealing()
     {
         if (isReloading || isHealing) return;
+        if (currentHealth >= maxHealth) return;
         
         if (Input.GetKeyDown(KeyCode.E) && currentHealCharge > 0)
         {
@@ -473,6 +484,7 @@ public class PlayerController : MonoBehaviour
 
             Controller.enabled = false;
             transform.position = initialPosition;
+            transform.rotation = initialRotation;
             Controller.enabled = true; //Re-enable the Character Controller
         }
     }

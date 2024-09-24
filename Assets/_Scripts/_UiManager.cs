@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,17 @@ public class UiManager : MonoBehaviour
     public GameObject tutorialCue;
 
     [Header("Player UI")]
+    public float updateSpeed;
     public Image playerHealthFill;
-    public float healthUpdateSpeed;
-
-    //public Transform launchMeterTransform;
-    public Color fullColor;
-    public Color emptyColor;
 
     private float targetHealthFill;
-    //private Renderer launchMeterRenderer;
+
+    [Header("Diegetic UI")]
+    public Transform playerlaunchMeter;
+    public GameObject[] playerHealCharge;
+    public TextMeshProUGUI playerAmmoCount;
+
+    private Renderer launchMeterRenderer;
 
     [Header("Other UI")]
     public Image playerDamagedOverlay;
@@ -31,16 +34,23 @@ public class UiManager : MonoBehaviour
         GameManager = FindFirstObjectByType<GameManager>();
         Player = FindFirstObjectByType<PlayerController>();
 
-        //launchMeterRenderer = launchMeterTransform.GetComponent<Renderer>();
-
-        targetHealthFill = Player.currentHealth / Player.maxHealth;
-        playerHealthFill.fillAmount = targetHealthFill;
+        InitializeUiValues();
     }
 
     private void Update()
     {
         UpdatePlayerHealthBar();
-        //UpdateLaunchMeter();
+        UpdatePlayerLaunchMeter();
+        UpdatePlayerHealCharge();
+        UpdatePlayerAmmoCount();
+    }
+
+    private void InitializeUiValues()
+    {
+        targetHealthFill = Player.currentHealth / Player.maxHealth;
+        playerHealthFill.fillAmount = targetHealthFill;
+
+        launchMeterRenderer = playerlaunchMeter.GetComponent<Renderer>();
     }
 
     public void ShowPauseMenu(bool activeMode)
@@ -55,27 +65,46 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    private void UpdatePlayerHealthBar()
+    #region Player UI
+    public void UpdatePlayerHealthBar()
     {
         targetHealthFill = Player.currentHealth / Player.maxHealth;
-        playerHealthFill.fillAmount = Mathf.Lerp(playerHealthFill.fillAmount, targetHealthFill, Time.deltaTime * healthUpdateSpeed);
+        playerHealthFill.fillAmount = Mathf.Lerp(playerHealthFill.fillAmount, targetHealthFill, Time.deltaTime * updateSpeed);
 
-        Color lerpedColor = Color.Lerp(emptyColor, fullColor, playerHealthFill.fillAmount);
+        Color lerpedColor = Color.Lerp(Color.red, Color.green, playerHealthFill.fillAmount);
         playerHealthFill.color = lerpedColor;
     }
 
-    //private void UpdateLaunchMeter()
-    //{
-    //    float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
+    public void UpdatePlayerLaunchMeter()
+    {
+        float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
+        Vector3 currentScale = playerlaunchMeter.localScale;
+        Vector3 targetScale = new Vector3(Mathf.Lerp(0, 1, fillPercentage), currentScale.y, currentScale.z);
 
-    //    Vector3 currentScale = launchMeterTransform.localScale;
-    //    currentScale.x = Mathf.Lerp(0, 1, fillPercentage);
-    //    launchMeterTransform.localScale = currentScale;
+        playerlaunchMeter.localScale = Vector3.Lerp(currentScale, targetScale, Time.deltaTime * updateSpeed);
 
-    //    Color lerpedColor = Color.Lerp(emptyColor, fullColor, fillPercentage);
-    //    launchMeterRenderer.material.color = lerpedColor;
-    //}
+        Color lerpedColor = Color.Lerp(Color.gray, Color.cyan, fillPercentage);
+        launchMeterRenderer.material.color = lerpedColor;
+    }
 
+    public void UpdatePlayerHealCharge()
+    {
+        for (int i = 0; i < playerHealCharge.Length; i++)
+        {
+            Renderer healChargeRenderer = playerHealCharge[i].GetComponent<Renderer>();
+
+            if (i < Player.currentHealCharge) healChargeRenderer.material.color = Color.green;
+            else healChargeRenderer.material.color = Color.gray;       
+        }
+    }
+
+    public void UpdatePlayerAmmoCount()
+    {
+        playerAmmoCount.text = Player.currentAmmo.ToString();
+    }
+    #endregion
+
+    #region Player Damaged Overlay
     public void DisplayDamagedOverlay()
     {
         StartCoroutine(DamagedOverlay());
@@ -87,4 +116,5 @@ public class UiManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         playerDamagedOverlay.gameObject.SetActive(false);
     }
+    #endregion
 }
