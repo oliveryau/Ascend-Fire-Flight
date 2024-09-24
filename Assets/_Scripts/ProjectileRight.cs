@@ -31,7 +31,15 @@ public class ProjectileRight : MonoBehaviour
 
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
-            GameObject vfxInstance = Instantiate(hitVfx, hitPosition, Quaternion.identity);
+            Destroy(Instantiate(hitVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Ground"))
+        {
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitVfx, hitPosition, Quaternion.identity), 2f);
 
             Destroy(gameObject);
         }

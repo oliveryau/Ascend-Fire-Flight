@@ -75,7 +75,6 @@ public class PlayerController : MonoBehaviour
     [Header("World/Checkpoint Variables")]
     public int fallDamage;
     public Vector3 initialPosition;
-    public Quaternion initialRotation;
 
     [Header("References")]
     public Animator RightWeaponAnimator;
@@ -109,7 +108,6 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.NORMAL);
 
         initialPosition = transform.position;
-        initialRotation = transform.rotation;
 
         currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
@@ -413,7 +411,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetAimPoint()
     {
-        Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        //Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, aimDistance))
@@ -484,7 +483,6 @@ public class PlayerController : MonoBehaviour
 
             Controller.enabled = false;
             transform.position = initialPosition;
-            transform.rotation = initialRotation;
             Controller.enabled = true; //Re-enable the Character Controller
         }
     }

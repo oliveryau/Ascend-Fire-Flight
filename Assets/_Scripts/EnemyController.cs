@@ -91,7 +91,6 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Spawning()
     {
-        //Animator.SetTrigger("Spawning");
         yield return new WaitForSeconds(1.5f);
         ChangeEnemyState(EnemyState.ALERT);
     }
@@ -174,7 +173,7 @@ public class EnemyController : MonoBehaviour
     {
         NavMeshAgent.isStopped = true;
 
-        //Animator.SetTrigger("Die");
+        Animator.SetTrigger("Death");
         GetComponent<SphereCollider>().enabled = false;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
