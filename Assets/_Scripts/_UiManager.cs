@@ -16,13 +16,14 @@ public class UiManager : MonoBehaviour
     private float targetHealthFill;
 
     [Header("Diegetic UI")]
-    public Transform playerlaunchMeter;
+    public Transform playerLaunchMeter;
     public GameObject[] playerHealCharge;
     public TextMeshProUGUI playerAmmoCount;
 
     private Renderer launchMeterRenderer;
 
     [Header("Other UI")]
+    public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
 
     [Header("References")]
@@ -42,7 +43,6 @@ public class UiManager : MonoBehaviour
         UpdatePlayerHealthBar();
         UpdatePlayerLaunchMeter();
         UpdatePlayerHealCharge();
-        UpdatePlayerAmmoCount();
     }
 
     private void InitializeUiValues()
@@ -50,7 +50,7 @@ public class UiManager : MonoBehaviour
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
 
-        launchMeterRenderer = playerlaunchMeter.GetComponent<Renderer>();
+        launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
     }
 
     public void ShowPauseMenu(bool activeMode)
@@ -78,10 +78,10 @@ public class UiManager : MonoBehaviour
     public void UpdatePlayerLaunchMeter()
     {
         float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
-        Vector3 currentScale = playerlaunchMeter.localScale;
+        Vector3 currentScale = playerLaunchMeter.localScale;
         Vector3 targetScale = new Vector3(Mathf.Lerp(0, 1, fillPercentage), currentScale.y, currentScale.z);
 
-        playerlaunchMeter.localScale = Vector3.Lerp(currentScale, targetScale, Time.deltaTime * updateSpeed);
+        playerLaunchMeter.localScale = Vector3.Lerp(currentScale, targetScale, Time.deltaTime * updateSpeed);
 
         Color lerpedColor = Color.Lerp(Color.gray, Color.cyan, fillPercentage);
         launchMeterRenderer.material.color = lerpedColor;
@@ -100,11 +100,27 @@ public class UiManager : MonoBehaviour
 
     public void UpdatePlayerAmmoCount()
     {
-        playerAmmoCount.text = Player.currentAmmo.ToString();
+        if (Player.currentAmmo <= 0)
+        {
+            playerAmmoCount.color = Color.red;
+            playerAmmoCount.text = "R";
+        }
+        else
+        {
+            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.white;
+            playerAmmoCount.text = Player.currentAmmo.ToString();
+        }
     }
     #endregion
 
-    #region Player Damaged Overlay
+    #region Other UI
+    public IEnumerator DisplayFallingOutOverlay()
+    {
+        playerFallingOutOfBoundsOverlay.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        playerFallingOutOfBoundsOverlay.gameObject.SetActive(false);
+    }
+
     public void DisplayDamagedOverlay()
     {
         StartCoroutine(DamagedOverlay());

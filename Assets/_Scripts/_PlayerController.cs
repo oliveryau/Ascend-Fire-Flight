@@ -329,11 +329,13 @@ public class PlayerController : MonoBehaviour
             RightWeaponAnimator.SetTrigger("Shoot");
 
             currentAmmo--;
+            UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }
         else if (currentAmmo <= 0)
         {
-            //RightWeaponAnimator.SetTrigger("Empty");
+            RightWeaponAnimator.SetTrigger("Empty");
+            //Play error sound
         }
     }
 
@@ -353,6 +355,7 @@ public class PlayerController : MonoBehaviour
         RightWeaponAnimator.SetTrigger("Reload");
         yield return new WaitForSeconds(0.5f);
         currentAmmo = maxAmmo;
+        UiManager.UpdatePlayerAmmoCount();
         yield return new WaitForSeconds(0.5f);
         isReloading = false;
     }
@@ -447,6 +450,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator FallingOut()
+    {
+        StartCoroutine(UiManager.DisplayFallingOutOverlay());
+        yield return new WaitForSeconds(0.5f);
+        Controller.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        TakeDamage(fallDamage);
+        transform.position = initialPosition;
+        Controller.enabled = true;
+    }
+
     private IEnumerator Iframe()
     {
         hasTakenDamaged = true;
@@ -474,16 +488,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider target)
     {
-        if (other.CompareTag("Respawn"))
+        if (target.CompareTag("Respawn"))
         {
-            //Show blurry ui
-            TakeDamage(fallDamage);
-
-            Controller.enabled = false;
-            transform.position = initialPosition;
-            Controller.enabled = true; //Re-enable the Character Controller
+            StartCoroutine(FallingOut());
         }
     }
     #endregion
