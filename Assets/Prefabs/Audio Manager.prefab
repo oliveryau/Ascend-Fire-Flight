@@ -52,3 +52,87 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 1
     AudioSource: {fileID: 0}
+  - name: Right Gunshot
+    clip: {fileID: 8300000, guid: c5239d707e1644f498077b7afd10ef3f, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Reload
+    clip: {fileID: 8300000, guid: 620bb7c51bcc0664eb6ea726489a9036, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Healing
+    clip: {fileID: 8300000, guid: d7b4fcbdd9243494caa554e44126c55c, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Right Hit Enemy 1
+    clip: {fileID: 8300000, guid: 5c2fff2d594aee1459801a0dcee785e5, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Right Hit Enemy 2
+    clip: {fileID: 8300000, guid: 6b5e0a6cf544de041b799f4c6d1a1ac2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Right Hit Ground 1
+    clip: {fileID: 8300000, guid: f965651b25772e140a05b27069172e31, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Right Hit Ground 2
+    clip: {fileID: 8300000, guid: 31da7cfb88f317c47b6aaecacdad69fd, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Left Gunshot
+    clip: {fileID: 8300000, guid: da75b3f65ebdc8741959febf0b3afb80, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Left Explosion 1
+    clip: {fileID: 8300000, guid: 6ca2ccc1697874c4391056d7966811d5, type: 3}
+    volume: 0.645
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Left Explosion 2
+    clip: {fileID: 8300000, guid: 11c96041f43e648469dda653d9f7a65e, type: 3}
+    volume: 0.673
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Launch
+    clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
+    volume: 0.761
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Float
+    clip: {fileID: 0}
+    volume: 0.673
+    pitch: 2
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}

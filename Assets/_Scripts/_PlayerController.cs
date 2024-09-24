@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
 
     [Header("Launching Variables")]
+    public GameObject launchParticle;
     public float launchForce;
     public float minimumLaunchAmount;
     public float floatStrength;
@@ -238,6 +239,8 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.IRONMAN);
 
         LeftWeaponAnimator.SetTrigger("Flying");
+        launchParticle.SetActive(true);
+        AudioManager.Instance.PlayOneShot("Launch", LeftWeaponAnimator.gameObject);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
         targetLaunchMeter = currentLaunchMeter - minimumLaunchAmount;
@@ -248,6 +251,8 @@ public class PlayerController : MonoBehaviour
     private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
+        launchParticle.SetActive(true);
+
         if (currentLaunchMeter > 0 && velocity.y < 0)
         {
             targetLaunchMeter = currentLaunchMeter -= Time.deltaTime;
@@ -264,6 +269,7 @@ public class PlayerController : MonoBehaviour
     {
         isFloating = false;
         LeftWeaponAnimator.SetBool("Floating", false);
+        launchParticle.SetActive(false);
     }
 
     private void LaunchingCooldown()
@@ -327,6 +333,7 @@ public class PlayerController : MonoBehaviour
             GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
             rightProjectile.GetComponent<Rigidbody>().AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
             RightWeaponAnimator.SetTrigger("Shoot");
+            AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
 
             currentAmmo--;
             UiManager.UpdatePlayerAmmoCount();
@@ -353,6 +360,7 @@ public class PlayerController : MonoBehaviour
     {
         isReloading = true;
         RightWeaponAnimator.SetTrigger("Reload");
+        AudioManager.Instance.PlayOneShot("Reload", RightWeaponAnimator.gameObject);
         yield return new WaitForSeconds(0.5f);
         currentAmmo = maxAmmo;
         UiManager.UpdatePlayerAmmoCount();
@@ -375,6 +383,7 @@ public class PlayerController : MonoBehaviour
     {
         isHealing = true;
         RightWeaponAnimator.SetTrigger("Healing");
+        AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
         yield return new WaitForSeconds(1f);
         currentHealth += currentHealCharge;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
@@ -393,6 +402,7 @@ public class PlayerController : MonoBehaviour
             GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
             leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
+            AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
 
             leftNextFireTime = Time.time + leftFireRate;
 

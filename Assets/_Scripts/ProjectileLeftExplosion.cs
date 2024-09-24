@@ -10,6 +10,8 @@ public class ProjectileLeftExplosion : MonoBehaviour
         damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
         ApplyExplosionDamage();
         Destroy(gameObject, 2f);
+        
+        RandomiseAudio();
     }
 
     private void ApplyExplosionDamage()
@@ -23,6 +25,13 @@ public class ProjectileLeftExplosion : MonoBehaviour
                 hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
             }
         }
+    }
+
+    private void RandomiseAudio()
+    {
+        int number = Random.Range(0, 2);
+        if (number == 0) AudioManager.Instance.PlayOneShot("Left Explosion 1", gameObject);
+        else if (number == 1) AudioManager.Instance.PlayOneShot("Left Explosion 2", gameObject);
     }
 
     private void OnDrawGizmosSelected()

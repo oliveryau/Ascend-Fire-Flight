@@ -4899,8 +4899,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8867471918943475846}
+  - component: {fileID: 3911324549685280900}
   m_Layer: 0
-  m_Name: Right Bullet Hit VFX
+  m_Name: Right Hit Ground VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4922,3 +4923,15 @@ Transform:
   - {fileID: 267364834523636066}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3911324549685280900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7537801120345206761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d515d89aeb05e74a912550524653c1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

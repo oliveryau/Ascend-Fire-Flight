@@ -297,4 +297,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
-  hitVfx: {fileID: 7537801120345206761, guid: e080c9e48271da94997f27613e8bc6db, type: 3}
+  hitEnemyVfx: {fileID: 7537801120345206761, guid: e080c9e48271da94997f27613e8bc6db, type: 3}
+  hitGroundVfx: {fileID: 7537801120345206761, guid: 997ba5b0b88f3004a993a6a4d6a2c087, type: 3}

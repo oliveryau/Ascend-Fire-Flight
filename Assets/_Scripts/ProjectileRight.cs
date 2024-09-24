@@ -3,7 +3,8 @@ using UnityEngine;
 public class ProjectileRight : MonoBehaviour
 {
     public int damage;
-    public GameObject hitVfx;
+    public GameObject hitEnemyVfx;
+    public GameObject hitGroundVfx;
 
     private PlayerController Player;
 
@@ -31,7 +32,7 @@ public class ProjectileRight : MonoBehaviour
 
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
-            Destroy(Instantiate(hitVfx, hitPosition, Quaternion.identity), 2f);
+            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
 
             Destroy(gameObject);
         }
@@ -39,7 +40,7 @@ public class ProjectileRight : MonoBehaviour
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
-            Destroy(Instantiate(hitVfx, hitPosition, Quaternion.identity), 2f);
+            Destroy(Instantiate(hitGroundVfx, hitPosition, Quaternion.identity), 2f);
 
             Destroy(gameObject);
         }

@@ -107,7 +107,7 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.white;
+            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.black;
             playerAmmoCount.text = Player.currentAmmo.ToString();
         }
     }
