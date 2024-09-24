@@ -734,7 +734,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.5833333
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e1cfbda42c7104a45b976082ae75d80e, type: 2}
   m_BuildHeightMesh: 0
@@ -1101,7 +1101,7 @@ MonoBehaviour:
   tutorialCue: {fileID: 911986203}
   updateSpeed: 5
   playerHealthFill: {fileID: 1830169673}
-  playerlaunchMeter: {fileID: 8196178074307452406}
+  playerLaunchMeter: {fileID: 0}
   playerHealCharge:
   - {fileID: 7622034946675139861}
   - {fileID: 8522838147023581256}
@@ -1109,6 +1109,7 @@ MonoBehaviour:
   - {fileID: 6626172733633550460}
   - {fileID: 5202751436472972230}
   playerAmmoCount: {fileID: 121115300}
+  playerFallingOutOfBoundsOverlay: {fileID: 0}
   playerDamagedOverlay: {fileID: 846422327}
 --- !u!1001 &425798025
 PrefabInstance:
@@ -1228,7 +1229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f494faaa15b80e4ca75a21b9a4742ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetRotation: {x: 0, y: 0, z: 0, w: 3}
 --- !u!1001 &489456984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1435,6 +1435,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 05359d63b9b1f0445a2a3341c21fc92c, type: 3}
   m_PrefabInstance: {fileID: 575173533}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &579451142
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.000000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.661
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.442
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
+      propertyPath: m_Name
+      value: Left Hand Test
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 852b8e3b9696bc146964f6e7a1d814b9, type: 3}
 --- !u!1 &588505257
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,7 +3946,6 @@ MonoBehaviour:
   aimDistance: 200
   fallDamage: 1
   initialPosition: {x: 0, y: 0, z: 0}
-  initialRotation: {x: 0, y: 0, z: 0, w: 0}
   RightWeaponAnimator: {fileID: 7789598836946484709}
   LeftWeaponAnimator: {fileID: 7925911028097222375}
 --- !u!143 &1253510383
@@ -8171,3 +8227,4 @@ SceneRoots:
   - {fileID: 1253510379}
   - {fileID: 655171129}
   - {fileID: 1733799319}
+  - {fileID: 579451142}
