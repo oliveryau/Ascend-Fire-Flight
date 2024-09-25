@@ -46,11 +46,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - name: Main BGM
-    clip: {fileID: 8300000, guid: 5a66818c76b1d5e41a38e101cb51f6f7, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: af4dfcb6ea3c43145a4e7ba6e852d298, type: 3}
+    volume: 0.487
     pitch: 1.32
-    spatialBlend: 0.95
+    spatialBlend: 0
     loop: 1
+    AudioSource: {fileID: 0}
+  - name: Main Ambience
+    clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
+    volume: 0.267
+    pitch: 1.41
+    spatialBlend: 0
+    loop: 0
     AudioSource: {fileID: 0}
   - name: Right Gunshot
     clip: {fileID: 8300000, guid: c5239d707e1644f498077b7afd10ef3f, type: 3}

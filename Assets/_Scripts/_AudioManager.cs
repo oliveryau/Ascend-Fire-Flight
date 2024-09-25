@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         FadeIn("Main BGM", 1.5f);
+        FadeIn("Main Ambience", 1.5f);
     }
 
     private void IntializeAudioSource()

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,15 @@ public class UiManager : MonoBehaviour
 
     private Renderer launchMeterRenderer;
 
+    [Header("Enemy Indicator UI")]
+    public GameObject enemyIndicatorPrefab;
+    public float detectionRadius;
+    public float indicatorDistance; // Distance from screen center (0-1)
+    public LayerMask enemyLayer;
+    public Transform indicatorParent; // Parent transform for indicators (should be a full-screen UI element)
+
+    private Dictionary<GameObject, GameObject> enemyIndicators = new Dictionary<GameObject, GameObject>();
+
     [Header("Other UI")]
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
@@ -29,11 +39,13 @@ public class UiManager : MonoBehaviour
     [Header("References")]
     private GameManager GameManager;
     private PlayerController Player;
+    private Camera MainCamera;
 
     private void Start()
     {
         GameManager = FindFirstObjectByType<GameManager>();
         Player = FindFirstObjectByType<PlayerController>();
+        MainCamera = Camera.main;
 
         InitializeUiValues();
     }
@@ -43,6 +55,8 @@ public class UiManager : MonoBehaviour
         UpdatePlayerHealthBar();
         UpdatePlayerLaunchMeter();
         UpdatePlayerHealCharge();
+        UpdateEnemyDetection();
+        UpdateIndicatorPositions();
     }
 
     private void InitializeUiValues()
@@ -111,6 +125,139 @@ public class UiManager : MonoBehaviour
             playerAmmoCount.text = Player.currentAmmo.ToString();
         }
     }
+    #endregion
+
+    #region Enemy Indicator UI
+    private void UpdateEnemyDetection()
+    {
+        Collider[] enemiesInRange = Physics.OverlapSphere(Player.transform.position, detectionRadius, enemyLayer);
+
+        // Remove indicators for enemies no longer in range
+        List<GameObject> enemiesToRemove = new List<GameObject>();
+        foreach (var enemy in enemyIndicators.Keys)
+        {
+            //if (enemy.GetComponent<EnemyController>().currentEnemyState == EnemyController.EnemyState.DEAD)
+            if (!System.Array.Exists(enemiesInRange, e => e.gameObject == enemy))
+            {
+                enemiesToRemove.Add(enemy);
+            }
+        }
+
+        foreach (var enemy in enemiesToRemove)
+        {
+            Destroy(enemyIndicators[enemy]);
+            enemyIndicators.Remove(enemy);
+        }
+
+        // Add indicators for new enemies in range
+        foreach (var enemyCollider in enemiesInRange)
+        {
+            if (!enemyIndicators.ContainsKey(enemyCollider.gameObject))
+            {
+                GameObject indicator = Instantiate(enemyIndicatorPrefab, indicatorParent);
+                enemyIndicators.Add(enemyCollider.gameObject, indicator);
+            }
+        }
+    }
+
+    private void UpdateIndicatorPositions()
+    {
+        foreach (var kvp in enemyIndicators)
+        {
+            GameObject enemy = kvp.Key;
+            GameObject indicator = kvp.Value;
+            Vector3 directionToEnemy = enemy.transform.position - MainCamera.transform.position;
+            float distanceToEnemy = directionToEnemy.magnitude;
+
+            // Convert world position to viewport position
+            Vector3 viewportPoint = MainCamera.WorldToViewportPoint(enemy.transform.position);
+
+            // Calculate the angle to the enemy in relation to the camera's forward direction
+            Vector3 enemyScreenPos = MainCamera.WorldToScreenPoint(enemy.transform.position);
+            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            Vector2 directionOnScreen = (enemyScreenPos - screenCenter).normalized;
+
+            // Calculate the position on the screen edge
+            Vector2 indicatorPos = CalculateEdgePosition(directionOnScreen);
+
+            // Set the indicator position
+            indicator.transform.position = indicatorPos;
+
+            //// Determine the rotation based on which edge the indicator is on
+            //float rotation = DetermineEdgeRotation(indicatorPos);
+            //indicator.transform.rotation = Quaternion.Euler(0, 0, rotation);
+
+            // Determine if the enemy is in front of the camera
+            bool isInFront = viewportPoint.z > 0;
+
+            // Check if enemy is within the viewport bounds
+            bool isInViewport = viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
+                                viewportPoint.y >= 0 && viewportPoint.y <= 1 &&
+                                isInFront;
+
+            // Adjust visibility and appearance based on whether the enemy is in viewport
+            if (isInViewport)
+            {
+                // Enemy is in viewport, make the indicator transparent
+                indicator.GetComponent<Image>().color = new Color(255, 255, 255, 0f);
+            }
+            else
+            {
+                // Enemy is out of viewport, make the indicator fully opaque
+                indicator.GetComponent<Image>().color = Color.white;
+            }
+
+            // Optionally, adjust the indicator's size based on distance
+            float scale = Mathf.Lerp(3f, 1f, distanceToEnemy / detectionRadius);
+            indicator.transform.localScale = new Vector3(scale, scale, 1);
+        }
+    }
+
+    private Vector2 CalculateEdgePosition(Vector2 direction)
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        float offset = 10f; // Distance from the screen edge
+
+        float slope = direction.y / direction.x;
+        float edgeX, edgeY;
+
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            // Indicator will be on the left or right edge
+            edgeX = (direction.x > 0) ? screenWidth - offset : offset;
+            edgeY = (screenHeight / 2) + (slope * (edgeX - (screenWidth / 2)));
+            edgeY = Mathf.Clamp(edgeY, offset, screenHeight - offset);
+        }
+        else
+        {
+            // Indicator will be on the top or bottom edge
+            edgeY = (direction.y > 0) ? screenHeight - offset : offset;
+            edgeX = (screenWidth / 2) + ((edgeY - (screenHeight / 2)) / slope);
+            edgeX = Mathf.Clamp(edgeX, offset, screenWidth - offset);
+        }
+
+        return new Vector2(edgeX, edgeY);
+    }
+
+    //private float DetermineEdgeRotation(Vector2 position)
+    //{
+    //    float screenWidth = Screen.width;
+    //    float screenHeight = Screen.height;
+    //    float edgeThreshold = 1f; // Threshold to determine if we're on an edge
+
+    //    if (Mathf.Abs(position.x - screenWidth) <= edgeThreshold)
+    //        return -90f; // Right edge, point left
+    //    else if (position.x <= edgeThreshold)
+    //        return 90f; // Left edge, point right
+    //    else if (Mathf.Abs(position.y - screenHeight) <= edgeThreshold)
+    //        return 180f; // Top edge, point down
+    //    else if (position.y <= edgeThreshold)
+    //        return 0f; // Bottom edge, point up
+
+    //    // If somehow not on an edge, default to pointing up
+    //    return 0f;
+    //}
     #endregion
 
     #region Other UI

@@ -13,14 +13,18 @@ public class EnemyController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
+    protected bool isDead;
+
     [Header("Enemy Attack Variables")]
     public int attackDamage;
     public float attackCooldown;
+
     protected bool isAttacking;
     protected float lastAttackTime;
 
     [Header("References")]
     public SphereCollider AttackRadius;
+    public EnemyTriggerZone TriggerZone;
     protected PlayerController Player;
     protected NavMeshAgent NavMeshAgent;
     private Animator Animator;
@@ -91,6 +95,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Spawning()
     {
+        LookAtPlayer();
         yield return new WaitForSeconds(1.5f);
         ChangeEnemyState(EnemyState.ALERT);
     }
@@ -166,15 +171,22 @@ public class EnemyController : MonoBehaviour
     #region Death
     public virtual void Dead()
     {
+        if (TriggerZone != null && !isDead)
+        {
+            isDead = true;
+            TriggerZone.enemyDead++;
+        }
+
         StartCoroutine(DeathAnimation());
     }
 
     private IEnumerator DeathAnimation()
     {
         NavMeshAgent.isStopped = true;
-
-        Animator.SetTrigger("Death");
+        NavMeshAgent.velocity = Vector3.zero;
+        //Animator.SetTrigger("Death");
         GetComponent<SphereCollider>().enabled = false;
+
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
