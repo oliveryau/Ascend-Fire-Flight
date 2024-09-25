@@ -83,7 +83,7 @@ public class UiManager : MonoBehaviour
 
         playerLaunchMeter.localScale = Vector3.Lerp(currentScale, targetScale, Time.deltaTime * updateSpeed);
 
-        Color lerpedColor = Color.Lerp(Color.gray, Color.cyan, fillPercentage);
+        Color lerpedColor = Color.Lerp(Color.gray, Color.green, fillPercentage);
         launchMeterRenderer.material.color = lerpedColor;
     }
 
@@ -107,7 +107,7 @@ public class UiManager : MonoBehaviour
         }
         else
         {
-            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.black;
+            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.white;
             playerAmmoCount.text = Player.currentAmmo.ToString();
         }
     }
