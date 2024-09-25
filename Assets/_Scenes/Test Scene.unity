@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 4b4ef6704de74e74b9689dce1ad526c7, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 598336ac18980734793f3524d4ecb60c, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -8252,84 +8252,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b4b9acf29098ed84897c1267f7c50e2e, type: 3}
   m_PrefabInstance: {fileID: 1200069585}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1200086625
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2061247186}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 126.50792
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 92.0794
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 92.079384
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -75
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 258
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_Name
-      value: Landscape
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
---- !u!4 &1200086626 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 74917dbd756adcd4f83ac1a10f3b1147, type: 3}
-  m_PrefabInstance: {fileID: 1200086625}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1206285763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10683,7 +10605,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1200086626}
   - {fileID: 640845218}
   - {fileID: 914077512}
   - {fileID: 1111984802}
