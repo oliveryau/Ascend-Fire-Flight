@@ -49,7 +49,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5a66818c76b1d5e41a38e101cb51f6f7, type: 3}
     volume: 1
     pitch: 1.32
-    spatialBlend: 1
+    spatialBlend: 0.95
     loop: 1
     AudioSource: {fileID: 0}
   - name: Right Gunshot
