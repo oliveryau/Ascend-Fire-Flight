@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
 
     [Header("Launching Variables")]
-    public GameObject launchParticle;
+    public ParticleSystem launchParticle;
     public float launchForce;
     public float minimumLaunchAmount;
     public float floatStrength;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool canLaunch;
     private bool isFloating;
     private float targetLaunchMeter;
+    private float initialLaunchMeter;
     private float launchCooldown;
 
     [Header("Landing Variables")]
@@ -112,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
         currentLaunchMeter = launchMeter;
+        initialLaunchMeter = currentLaunchMeter;
         targetLaunchMeter = currentLaunchMeter;
         currentAmmo = maxAmmo;
     }
@@ -239,7 +241,6 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.IRONMAN);
 
         LeftWeaponAnimator.SetTrigger("Flying");
-        launchParticle.SetActive(true);
         AudioManager.Instance.PlayOneShot("Launch", LeftWeaponAnimator.gameObject);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
@@ -251,7 +252,6 @@ public class PlayerController : MonoBehaviour
     private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
-        launchParticle.SetActive(true);
 
         if (currentLaunchMeter > 0 && velocity.y < 0)
         {
@@ -269,7 +269,6 @@ public class PlayerController : MonoBehaviour
     {
         isFloating = false;
         LeftWeaponAnimator.SetBool("Floating", false);
-        launchParticle.SetActive(false);
     }
 
     private void LaunchingCooldown()
@@ -281,7 +280,29 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateLaunchMeter()
     {
+        float previousLaunchMeter = currentLaunchMeter;
         currentLaunchMeter = Mathf.Lerp(currentLaunchMeter, targetLaunchMeter, Time.deltaTime * 5f);
+
+        if (currentLaunchMeter < previousLaunchMeter)
+        {
+            UpdateLaunchParticle(true);
+        }
+        else if (currentLaunchMeter > previousLaunchMeter && currentLaunchMeter < launchMeter)
+        {
+            UpdateLaunchParticle(false);
+        }
+    }
+
+    private void UpdateLaunchParticle(bool isDecreasing)
+    {
+        if (isDecreasing)
+        {
+            if (!launchParticle.isPlaying) launchParticle.Play();
+        }
+        else
+        {
+            if (launchParticle.isPlaying) launchParticle.Stop();
+        }
     }
 
     private void CheckLanding()
