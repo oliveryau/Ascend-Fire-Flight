@@ -3,19 +3,19 @@ using UnityEngine;
 public class EnemyMinibossProjectile : MonoBehaviour
 {
     public int damage;
+    public float lifeTime;
 
     private void Start()
     {
         damage = FindFirstObjectByType<EnemyMiniboss>().attackDamage;
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, lifeTime);
     }
 
-    private void OnCollisionEnter(Collision target)
+    private void OnTriggerEnter(Collider target)
     {
-        if (target.gameObject.CompareTag("Player"))
+        if (target.CompareTag("Player"))
         {
             target.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
-            //on contact point, spawn particle blast
             Destroy(gameObject);
         }
     }

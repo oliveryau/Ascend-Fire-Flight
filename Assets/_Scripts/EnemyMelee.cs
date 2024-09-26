@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class EnemyMelee : EnemyController
 {
+    [Header("Melee Enemy Variables")]
+    public GameObject meleeSlashParticle;
+
     private void Start()
     {
         enemyId = 1;
@@ -39,9 +42,11 @@ public class EnemyMelee : EnemyController
         isAttacking = true;
         //Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
-        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
+        meleeSlashParticle.SetActive(true);
         lastAttackTime = Time.time;
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(0.5f);
+        meleeSlashParticle.SetActive(false);
+        yield return new WaitForSeconds(attackCooldown - 0.5f);
         isAttacking = false;
     }
     #endregion

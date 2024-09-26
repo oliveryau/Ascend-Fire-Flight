@@ -1,15 +1,12 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class EnemyRangedBullet : MonoBehaviour
+public class EnemyMeleeSlash : MonoBehaviour
 {
     public int damage;
-    public float lifeTime;
 
     private void Start()
     {
-        damage = FindFirstObjectByType<EnemyRanged>().attackDamage;
-        Destroy(gameObject, lifeTime);
+        damage = FindFirstObjectByType<EnemyMelee>().attackDamage;
     }
 
     private void OnTriggerEnter(Collider target)
@@ -17,7 +14,6 @@ public class EnemyRangedBullet : MonoBehaviour
         if (target.CompareTag("Player"))
         {
             target.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
-            Destroy(gameObject);
         }
     }
 }

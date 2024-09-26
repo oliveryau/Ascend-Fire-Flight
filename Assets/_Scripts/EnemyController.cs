@@ -13,8 +13,6 @@ public class EnemyController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
-    protected bool isDead;
-
     [Header("Enemy Attack Variables")]
     public int attackDamage;
     public float attackCooldown;
@@ -24,7 +22,6 @@ public class EnemyController : MonoBehaviour
 
     [Header("References")]
     public SphereCollider AttackRadius;
-    public EnemyTriggerZone TriggerZone;
     protected PlayerController Player;
     protected NavMeshAgent NavMeshAgent;
     private Animator Animator;
@@ -171,12 +168,6 @@ public class EnemyController : MonoBehaviour
     #region Death
     public virtual void Dead()
     {
-        if (TriggerZone != null && !isDead)
-        {
-            isDead = true;
-            TriggerZone.enemyDead++;
-        }
-
         StartCoroutine(DeathAnimation());
     }
 

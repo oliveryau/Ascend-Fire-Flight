@@ -158,7 +158,7 @@ GameObject:
   - component: {fileID: 577593910975677516}
   - component: {fileID: 5341407860237895167}
   - component: {fileID: 3885867663379874520}
-  - component: {fileID: 9149022293121065745}
+  - component: {fileID: 4815581638438049088}
   - component: {fileID: 8511618643828575533}
   - component: {fileID: 5862080622358514706}
   m_Layer: 0
@@ -178,7 +178,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.1, y: 0.05, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 596302248383166804}
@@ -191,7 +191,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4493625471514249341}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &3885867663379874520
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4648fddfce123954ea7df8df457eac32, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -236,8 +236,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &9149022293121065745
-BoxCollider:
+--- !u!136 &4815581638438049088
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -254,8 +254,10 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &8511618643828575533
 Rigidbody:
@@ -297,5 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  lifeTime: 2
   hitEnemyVfx: {fileID: 7537801120345206761, guid: e080c9e48271da94997f27613e8bc6db, type: 3}
   hitGroundVfx: {fileID: 7537801120345206761, guid: 997ba5b0b88f3004a993a6a4d6a2c087, type: 3}

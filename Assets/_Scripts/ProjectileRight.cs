@@ -3,6 +3,7 @@ using UnityEngine;
 public class ProjectileRight : MonoBehaviour
 {
     public int damage;
+    public float lifeTime;
     public GameObject hitEnemyVfx;
     public GameObject hitGroundVfx;
 
@@ -13,7 +14,7 @@ public class ProjectileRight : MonoBehaviour
         Player = FindFirstObjectByType<PlayerController>();
         damage = Player.rightProjectileDamage;
 
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, lifeTime);
     }
     
     private void ChargeHeal()

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UiManager : MonoBehaviour
 {
+    #region Variables
     [Header("Main UI")]
     public GameObject pauseMenu;
     public GameObject tutorialCue;
@@ -26,9 +27,9 @@ public class UiManager : MonoBehaviour
     [Header("Enemy Indicator UI")]
     public GameObject enemyIndicatorPrefab;
     public float detectionRadius;
-    public float indicatorDistance; // Distance from screen center (0-1)
+    public float indicatorDistance; //Distance from screen center (0-1)
     public LayerMask enemyLayer;
-    public Transform indicatorParent; // Parent transform for indicators (should be a full-screen UI element)
+    public Transform indicatorParent;
 
     private Dictionary<GameObject, GameObject> enemyIndicators = new Dictionary<GameObject, GameObject>();
 
@@ -40,6 +41,7 @@ public class UiManager : MonoBehaviour
     private GameManager GameManager;
     private PlayerController Player;
     private Camera MainCamera;
+    #endregion
 
     private void Start()
     {
@@ -169,46 +171,45 @@ public class UiManager : MonoBehaviour
             Vector3 directionToEnemy = enemy.transform.position - MainCamera.transform.position;
             float distanceToEnemy = directionToEnemy.magnitude;
 
-            // Convert world position to viewport position
+            //Convert world position to viewport position
             Vector3 viewportPoint = MainCamera.WorldToViewportPoint(enemy.transform.position);
 
-            // Calculate the angle to the enemy in relation to the camera's forward direction
+            //Calculate the angle to the enemy in relation to the camera's forward direction
             Vector3 enemyScreenPos = MainCamera.WorldToScreenPoint(enemy.transform.position);
             Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
             Vector2 directionOnScreen = (enemyScreenPos - screenCenter).normalized;
 
-            // Calculate the position on the screen edge
+            //Calculate the position on the screen edge
             Vector2 indicatorPos = CalculateEdgePosition(directionOnScreen);
 
-            // Set the indicator position
+            //Set the indicator position
             indicator.transform.position = indicatorPos;
 
-            //// Determine the rotation based on which edge the indicator is on
-            //float rotation = DetermineEdgeRotation(indicatorPos);
-            //indicator.transform.rotation = Quaternion.Euler(0, 0, rotation);
+            //Determine the rotation based on which edge the indicator is on
+            float rotation = DetermineEdgeRotation(indicatorPos);
+            indicator.transform.rotation = Quaternion.Euler(0, 0, rotation);
 
-            // Determine if the enemy is in front of the camera
+            //Determine if the enemy is in front of the camera
             bool isInFront = viewportPoint.z > 0;
 
-            // Check if enemy is within the viewport bounds
+            //Check if enemy is within the viewport bounds
             bool isInViewport = viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
                                 viewportPoint.y >= 0 && viewportPoint.y <= 1 &&
                                 isInFront;
 
-            // Adjust visibility and appearance based on whether the enemy is in viewport
             if (isInViewport)
             {
-                // Enemy is in viewport, make the indicator transparent
+                //Enemy is in viewport, make the indicator transparent
                 indicator.GetComponent<Image>().color = new Color(255, 255, 255, 0f);
             }
             else
             {
-                // Enemy is out of viewport, make the indicator fully opaque
+                //Enemy is out of viewport, make the indicator fully opaque
                 indicator.GetComponent<Image>().color = Color.white;
             }
 
-            // Optionally, adjust the indicator's size based on distance
-            float scale = Mathf.Lerp(3f, 1f, distanceToEnemy / detectionRadius);
+            //Adjust the indicator's size based on distance
+            float scale = Mathf.Lerp(2f, 0.5f, distanceToEnemy / detectionRadius);
             indicator.transform.localScale = new Vector3(scale, scale, 1);
         }
     }
@@ -224,14 +225,14 @@ public class UiManager : MonoBehaviour
 
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
         {
-            // Indicator will be on the left or right edge
+            //Indicator will be on the left or right edge
             edgeX = (direction.x > 0) ? screenWidth - offset : offset;
             edgeY = (screenHeight / 2) + (slope * (edgeX - (screenWidth / 2)));
             edgeY = Mathf.Clamp(edgeY, offset, screenHeight - offset);
         }
         else
         {
-            // Indicator will be on the top or bottom edge
+            //Indicator will be on the top or bottom edge
             edgeY = (direction.y > 0) ? screenHeight - offset : offset;
             edgeX = (screenWidth / 2) + ((edgeY - (screenHeight / 2)) / slope);
             edgeX = Mathf.Clamp(edgeX, offset, screenWidth - offset);
@@ -240,24 +241,38 @@ public class UiManager : MonoBehaviour
         return new Vector2(edgeX, edgeY);
     }
 
-    //private float DetermineEdgeRotation(Vector2 position)
-    //{
-    //    float screenWidth = Screen.width;
-    //    float screenHeight = Screen.height;
-    //    float edgeThreshold = 1f; // Threshold to determine if we're on an edge
+    private float DetermineEdgeRotation(Vector2 position)
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        float edgeThreshold = 20f; //Threshold to determine if we're on an edge
 
-    //    if (Mathf.Abs(position.x - screenWidth) <= edgeThreshold)
-    //        return -90f; // Right edge, point left
-    //    else if (position.x <= edgeThreshold)
-    //        return 90f; // Left edge, point right
-    //    else if (Mathf.Abs(position.y - screenHeight) <= edgeThreshold)
-    //        return 180f; // Top edge, point down
-    //    else if (position.y <= edgeThreshold)
-    //        return 0f; // Bottom edge, point up
+        if (Mathf.Abs(position.x - screenWidth) <= edgeThreshold)
+            return -90f; //Right edge, point left
+        else if (position.x <= edgeThreshold)
+            return 90f; //Left edge, point right
+        else if (Mathf.Abs(position.y - screenHeight) <= edgeThreshold)
+            return 180f; //Top edge, point down
+        else if (position.y <= edgeThreshold)
+            return 0f; //Bottom edge, point up
 
-    //    // If somehow not on an edge, default to pointing up
-    //    return 0f;
-    //}
+        // If not on an edge, determine the closest edge
+        float distToRight = screenWidth - position.x;
+        float distToLeft = position.x;
+        float distToTop = screenHeight - position.y;
+        float distToBottom = position.y;
+
+        float minDist = Mathf.Min(distToRight, distToLeft, distToTop, distToBottom);
+
+        if (minDist == distToRight)
+            return -90f; //Closest to right edge, point left
+        else if (minDist == distToLeft)
+            return 90f; //Closest to left edge, point right
+        else if (minDist == distToTop)
+            return 180f; //Closest to top edge, point down
+        else
+            return 0f; //Closest to bottom edge, point up
+    }
     #endregion
 
     #region Other UI

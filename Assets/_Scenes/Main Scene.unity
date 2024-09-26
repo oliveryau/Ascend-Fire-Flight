@@ -6184,7 +6184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56379367544414f8bfa5fac8c337fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyList:
+  EnemyToSpawn:
   - {fileID: 6582443761262489206, guid: 930c0c235230070489eea26e2a0b1264, type: 3}
   - {fileID: 6582443761262489206, guid: 930c0c235230070489eea26e2a0b1264, type: 3}
   - {fileID: 6582443761262489206, guid: 930c0c235230070489eea26e2a0b1264, type: 3}
@@ -6194,10 +6194,10 @@ MonoBehaviour:
   - {fileID: 1050998467}
   - {fileID: 964602854}
   - {fileID: 1922841159}
-  enemySpawned: 0
-  enemyDead: 0
+  CurrentEnemiesAlive: []
+  totalEnemies: 0
+  totalEnemiesDead: 0
   gate: {fileID: 1758326611}
-  endSegment: 0
 --- !u!65 &487237631
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8245,7 +8245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56379367544414f8bfa5fac8c337fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyList:
+  EnemyToSpawn:
   - {fileID: -7379680224748414093, guid: 2abf88ccf08c26c4992e04672303f388, type: 3}
   - {fileID: -7379680224748414093, guid: 2abf88ccf08c26c4992e04672303f388, type: 3}
   - {fileID: -7379680224748414093, guid: 2abf88ccf08c26c4992e04672303f388, type: 3}
@@ -8253,10 +8253,10 @@ MonoBehaviour:
   - {fileID: 860559019}
   - {fileID: 1932125965}
   - {fileID: 1996527672}
-  enemySpawned: 0
-  enemyDead: 0
+  CurrentEnemiesAlive: []
+  totalEnemies: 0
+  totalEnemiesDead: 0
   gate: {fileID: 1440339722}
-  endSegment: 0
 --- !u!1 &927812107
 GameObject:
   m_ObjectHideFlags: 0
@@ -8982,7 +8982,7 @@ MonoBehaviour:
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 1845284247}
   rightProjectileDamage: 1
-  rightShootForce: 100
+  rightShootForce: 200
   rightFireRate: 0.2
   maxAmmo: 20
   currentAmmo: 0
