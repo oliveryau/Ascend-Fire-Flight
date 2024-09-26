@@ -41,5 +41,7 @@ public class Gate : MonoBehaviour
 
         currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
         transform.position = currentPosition;
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.1f) GetComponent<MeshCollider>().enabled = false;
     }
 }

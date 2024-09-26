@@ -124,6 +124,7 @@ public class EnemyController : MonoBehaviour
         if (currentHealth <= 0) return;
         
         NavMeshAgent.isStopped = true;
+        NavMeshAgent.velocity = Vector3.zero;
         LookAtPlayer();
 
         if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)

@@ -67,6 +67,8 @@ public class UiManager : MonoBehaviour
         playerHealthFill.fillAmount = targetHealthFill;
 
         launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
+
+        UpdatePlayerAmmoCount();
     }
 
     public void ShowPauseMenu(bool activeMode)
@@ -116,16 +118,10 @@ public class UiManager : MonoBehaviour
 
     public void UpdatePlayerAmmoCount()
     {
-        if (Player.currentAmmo <= 0)
-        {
-            playerAmmoCount.color = Color.red;
-            playerAmmoCount.text = "R";
-        }
-        else
-        {
-            if (playerAmmoCount.color == Color.red) playerAmmoCount.color = Color.white;
-            playerAmmoCount.text = Player.currentAmmo.ToString();
-        }
+        if (Player.currentAmmo <= 0) playerAmmoCount.color = Color.red;
+        else playerAmmoCount.color = Color.white;
+
+        playerAmmoCount.text = Player.currentAmmo.ToString();
     }
     #endregion
 

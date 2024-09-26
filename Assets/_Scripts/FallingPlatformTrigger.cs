@@ -1,27 +1,21 @@
-using System.Collections;
 using UnityEngine;
 
 public class FallingPlatformTrigger : MonoBehaviour
 {
-    public GameObject fallingPlatform;
-    public float respawnDelay;
+    public FallingPlatform fallingPlatform;
+    public float fallDelay;
 
     private bool isFalling;
     private Vector3 initialPosition;
 
     private void Start()
     {
-        respawnDelay = fallingPlatform.GetComponent<FallingPlatform>().destroyDelay + 2f;
-        initialPosition = fallingPlatform.transform.position;
+        initialPosition = fallingPlatform.gameObject.transform.position;
     }
 
-    private IEnumerator Respawning()
+    public void DestroyTrigger()
     {
-        yield return new WaitForSeconds(respawnDelay);
-        fallingPlatform.transform.position = initialPosition;
-        fallingPlatform.GetComponent<Rigidbody>().isKinematic = true;
-        fallingPlatform.SetActive(true);
-        isFalling = false;
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider target)
@@ -29,8 +23,7 @@ public class FallingPlatformTrigger : MonoBehaviour
         if (target.CompareTag("Player") && !isFalling)
         {
             isFalling = true;
-            StartCoroutine(fallingPlatform.GetComponent<FallingPlatform>().Falling());
-            StartCoroutine(Respawning());
+            StartCoroutine(fallingPlatform.Falling(this, fallDelay));
         }
     }
 }

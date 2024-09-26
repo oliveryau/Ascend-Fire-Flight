@@ -64,11 +64,15 @@ public class EnemyTriggerZone : MonoBehaviour
 
     private void CloseGate()
     {
+        if (gate == null) return;
+
         gate.GetComponent<Gate>().closedGate = true;
     }
 
     private void OpenGate()
     {
+        if (gate == null) return;
+
         gate.GetComponent<Gate>().closedGate = false;
         endSegment = true;
     }
