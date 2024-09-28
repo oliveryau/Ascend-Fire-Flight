@@ -792,7 +792,7 @@ MonoBehaviour:
   AttackRadius: {fileID: 3257976725893434654}
   bulletPrefab: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
   bulletFirePoint: {fileID: 2700866835819456287}
-  shootForce: 100
+  shootForce: 200
   spreadAngle: 1
 --- !u!1 &4960083042370563820
 GameObject:

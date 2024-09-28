@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     private UiManager UiManager;
     private TutorialManager TutorialManager;
 
+    private AudioSource[] allAudioSources;
+    private bool playCheckAudio;
+    private bool pauseCheckAudio;
+
     private void Start()
     {
         ChangeGameState(GameState.PLAY);
@@ -31,10 +35,12 @@ public class GameManager : MonoBehaviour
             case GameState.PLAY:
                 Time.timeScale = 1f;
                 PlayState();
+                UnpauseAllAudio();
                 break;
             case GameState.PAUSE:
                 Time.timeScale = 0f;
                 PauseState();
+                PauseAllAudio();
                 break;
         }
     }
@@ -42,6 +48,38 @@ public class GameManager : MonoBehaviour
     public void ChangeGameState(GameState newState)
     {
         currentGameState = newState;
+    }
+
+    private void PauseAllAudio()
+    {
+        if (!pauseCheckAudio)
+        {
+            allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+
+            foreach (AudioSource audioSource in allAudioSources)
+            {
+                audioSource.Pause();
+            }
+
+            pauseCheckAudio = true;
+            playCheckAudio = false;
+        }
+    }
+
+    private void UnpauseAllAudio()
+    {
+        if (!playCheckAudio)
+        {
+            allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+
+            foreach (AudioSource audioSource in allAudioSources)
+            {
+                audioSource.UnPause();
+            }
+
+            playCheckAudio = true;
+            pauseCheckAudio = false;
+        }
     }
     #endregion
 

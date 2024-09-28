@@ -30,11 +30,6 @@ public class Gate : MonoBehaviour
 
     public void CloseGate()
     {
-        //if (transform.position == targetPosition) return;
-
-        //currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
-        //transform.position = currentPosition;
-
         if (transform.position == targetPosition)
         {
             if (soundPlaying)
@@ -51,7 +46,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
+        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
@@ -65,13 +60,6 @@ public class Gate : MonoBehaviour
 
     public void OpenGate()
     {
-        //if (transform.position == initialPosition) return;
-
-        //currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
-        //transform.position = currentPosition;
-
-        //if (Vector3.Distance(transform.position, targetPosition) < 0.1f) GetComponent<MeshCollider>().enabled = false;
-        
         if (transform.position == initialPosition)
         {
             if (soundPlaying)
@@ -88,7 +76,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
+        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 10f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, initialPosition) < 0.01f)

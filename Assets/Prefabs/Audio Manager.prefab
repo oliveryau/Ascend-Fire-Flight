@@ -195,7 +195,21 @@ MonoBehaviour:
   - name: Gate Move
     clip: {fileID: 8300000, guid: 57e8b0208c94af549ad9ccb6033eb3de, type: 3}
     volume: 1
-    pitch: 1
+    pitch: 3
     spatialBlend: 1
     loop: 1
+    AudioSource: {fileID: 0}
+  - name: Falling Platform Shake
+    clip: {fileID: 8300000, guid: 0e38b202b2d12014986ef5769feb5bdb, type: 3}
+    volume: 1
+    pitch: 3
+    spatialBlend: 1
+    loop: 1
+    AudioSource: {fileID: 0}
+  - name: Falling Platform Break
+    clip: {fileID: 8300000, guid: bf1eb68ffd2eff04a80fd89685560290, type: 3}
+    volume: 1
+    pitch: 3
+    spatialBlend: 1
+    loop: 0
     AudioSource: {fileID: 0}
