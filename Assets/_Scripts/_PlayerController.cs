@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviour
 
     private void RandomiseLandingAudio()
     {
-        int soundIndex = Random.Range(0, 2);
+        int soundIndex = Random.Range(1, 3);
         string soundName = $"Land {soundIndex}"; 
         AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
