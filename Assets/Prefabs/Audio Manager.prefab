@@ -47,14 +47,63 @@ MonoBehaviour:
   sounds:
   - name: Main BGM
     clip: {fileID: 8300000, guid: af4dfcb6ea3c43145a4e7ba6e852d298, type: 3}
-    volume: 0.487
+    volume: 0.272
     pitch: 1.32
     spatialBlend: 0
     loop: 1
     AudioSource: {fileID: 0}
+  - name: Footstep 1
+    clip: {fileID: 8300000, guid: 48b8219fe86112b409b769176293eb69, type: 3}
+    volume: 0.6
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Footstep 2
+    clip: {fileID: 8300000, guid: bb8646034ab2e234db8f08b375330d17, type: 3}
+    volume: 0.6
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Footstep 3
+    clip: {fileID: 8300000, guid: 3dbb89cf13036b742b2e39e69a1c6c75, type: 3}
+    volume: 0.6
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Footstep 4
+    clip: {fileID: 8300000, guid: e1e1c21e8cbdd024f904d307373acddd, type: 3}
+    volume: 0.6
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 1751440ff79a91444acf79905769da88, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Land 1
+    clip: {fileID: 8300000, guid: 10ffd71d4fc9e224c9dad7afd092fe0b, type: 3}
+    volume: 0.3
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Land 2
+    clip: {fileID: 8300000, guid: 839baf9da43329d4399c4c964567a573, type: 3}
+    volume: 0.3
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
   - name: Main Ambience
     clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
-    volume: 0.267
+    volume: 0.272
     pitch: 1.41
     spatialBlend: 0
     loop: 0
@@ -69,14 +118,14 @@ MonoBehaviour:
   - name: Reload
     clip: {fileID: 8300000, guid: 620bb7c51bcc0664eb6ea726489a9036, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Healing
     clip: {fileID: 8300000, guid: d7b4fcbdd9243494caa554e44126c55c, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
@@ -97,49 +146,49 @@ MonoBehaviour:
   - name: Right Hit Ground 1
     clip: {fileID: 8300000, guid: f965651b25772e140a05b27069172e31, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 2
     clip: {fileID: 8300000, guid: 31da7cfb88f317c47b6aaecacdad69fd, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Gunshot
     clip: {fileID: 8300000, guid: da75b3f65ebdc8741959febf0b3afb80, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 1
     clip: {fileID: 8300000, guid: 6ca2ccc1697874c4391056d7966811d5, type: 3}
     volume: 0.645
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 2
     clip: {fileID: 8300000, guid: 11c96041f43e648469dda653d9f7a65e, type: 3}
     volume: 0.673
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Launch
     clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
-    volume: 0.761
-    pitch: 2
+    volume: 0.6
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Float
-    clip: {fileID: 0}
-    volume: 0.673
-    pitch: 2
+    clip: {fileID: 8300000, guid: a9bc32c2e7553b54cae12748b974e018, type: 3}
+    volume: 1
+    pitch: 0.53
     spatialBlend: 1
-    loop: 0
+    loop: 1
     AudioSource: {fileID: 0}

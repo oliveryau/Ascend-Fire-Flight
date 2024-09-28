@@ -20,10 +20,16 @@ public class PlayerController : MonoBehaviour
     public float sprintSpeed;
     public float jumpForce;
     public float fallMultiplier;
+    public float footstepWalkInterval;
+    public float footstepSprintInterval;
 
     private float verticalRotation = 0f;
     [HideInInspector] public bool isGrounded;
     private Vector3 velocity;
+    private Coroutine footstepCoroutine;
+    private bool isWalking;
+    private bool isSprinting;
+    private bool isInAir;
 
     [Header("Launching Variables")]
     public ParticleSystem launchParticle;
@@ -38,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private float targetLaunchMeter;
     private float initialLaunchMeter;
     private float launchCooldown;
+    private bool floatSoundPlaying;
 
     [Header("Landing Variables")]
     public LayerMask enemyLayer;
@@ -182,16 +189,41 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         Controller.Move(move * currentMoveSpeed * Time.deltaTime);
 
+        if (isGrounded && (moveX != 0 || moveZ != 0))
+        {
+            if (!isWalking)
+            {
+                isWalking = true;
+                isSprinting = Input.GetKey(KeyCode.LeftShift);
+                footstepCoroutine = StartCoroutine(PlayFootstepSounds());
+            }
+        }
+        else
+        {
+            if (isWalking)
+            {
+                isWalking = false;
+                isSprinting = false;
+                if (footstepCoroutine != null)
+                {
+                    StopCoroutine(footstepCoroutine);
+                }
+            }
+        }
+
         //Jumping and Falling
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
             isFloating = false;
+            isInAir = true;
+            AudioManager.Instance.PlayOneShot("Jump", gameObject);
         }
 
         if (!isGrounded)
         {
             float currentGravity = velocity.y <= 0 ? fallMultiplier : 1f;
+            isInAir = true;
             if (velocity.y > 0)
             {
                 velocity.y += Physics.gravity.y * currentGravity * Time.deltaTime * 1.5f;
@@ -208,8 +240,42 @@ public class PlayerController : MonoBehaviour
 
         Controller.Move(velocity * Time.deltaTime);
 
+        if (isGrounded && isInAir)
+        {
+            RandomiseLandingAudio();
+            isInAir = false;
+        }
+
         if (isGrounded && currentPlayerState == PlayerState.IRONMAN && launchCooldown <= 0 && !isFloating)
             ChangePlayerState(PlayerState.NORMAL);
+    }
+
+    private IEnumerator PlayFootstepSounds()
+    {
+        while (isWalking)
+        {
+            float interval = isSprinting ? footstepSprintInterval : footstepWalkInterval;
+            float adjustedInterval = interval / (currentMoveSpeed / walkSpeed);
+
+            RandomiseFootstepAudio();
+            yield return new WaitForSeconds(adjustedInterval);
+
+            isSprinting = Input.GetKey(KeyCode.LeftShift);
+        }
+    }
+
+    private void RandomiseFootstepAudio()
+    {
+        int soundIndex = Random.Range(1, 5);
+        string soundName = $"Footstep {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
+    }
+
+    private void RandomiseLandingAudio()
+    {
+        int soundIndex = Random.Range(0, 2);
+        string soundName = $"Land {soundIndex}"; 
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
     #endregion
 
@@ -252,6 +318,11 @@ public class PlayerController : MonoBehaviour
     private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
+        if (!floatSoundPlaying)
+        {
+            floatSoundPlaying = true;
+            AudioManager.Instance.Play("Float", LeftWeaponAnimator.gameObject);
+        }
 
         if (currentLaunchMeter > 0 && velocity.y < 0)
         {
@@ -268,7 +339,9 @@ public class PlayerController : MonoBehaviour
     private void StopLevitating()
     {
         isFloating = false;
+        floatSoundPlaying = false;
         LeftWeaponAnimator.SetBool("Floating", false);
+        AudioManager.Instance.Stop("Float", LeftWeaponAnimator.gameObject);
     }
 
     private void LaunchingCooldown()

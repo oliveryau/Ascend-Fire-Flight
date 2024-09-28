@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
@@ -22,8 +23,8 @@ public class AudioManager : MonoBehaviour
     }
 
     public Sound[] sounds;
-
-    private AudioSource OneShotAudioSource;
+    private Dictionary<GameObject, Dictionary<string, AudioSource>> gameObjectAudioSources = new Dictionary<GameObject, Dictionary<string, AudioSource>>();
+    private AudioSource OneshotAudioSource;
 
     private void Awake()
     {
@@ -57,11 +58,9 @@ public class AudioManager : MonoBehaviour
             s.AudioSource.loop = s.loop;
             s.AudioSource.spatialBlend = s.spatialBlend;
         }
-
-        OneShotAudioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public void Play(string name)
+    public void Play(string name, GameObject target = null)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -69,10 +68,21 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + "not found");
             return;
         }
-        s.AudioSource.Play();
+
+        //AudioSource sourceToUse = replacementAudioSource;
+        //if (target != null) sourceToUse = GetAudioSource(target);
+        //sourceToUse.Play();
+
+        AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : s.AudioSource;
+        sourceToUse.clip = s.clip;
+        sourceToUse.volume = s.volume;
+        sourceToUse.pitch = s.pitch;
+        sourceToUse.loop = s.loop;
+        sourceToUse.spatialBlend = s.spatialBlend;
+        sourceToUse.Play();
     }
 
-    public void Stop(string name)
+    public void Stop(string name, GameObject target = null)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -80,7 +90,13 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.AudioSource.Stop();
+
+        //AudioSource sourceToUse = replacementAudioSource;
+        //if (target != null) sourceToUse = GetAudioSource(target);
+        //sourceToUse.Stop();
+
+        AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : s.AudioSource;
+        sourceToUse.Stop();
     }
 
     public void Pause(string name)
@@ -170,7 +186,7 @@ public class AudioManager : MonoBehaviour
             sound.AudioSource.Stop();
     }
 
-    public bool IsPlaying(string name)
+    public bool IsPlaying(string name, GameObject target = null)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
@@ -178,6 +194,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return false;
         }
+
         return s.AudioSource.isPlaying;
     }
 
@@ -190,17 +207,32 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        AudioSource sourceToUse = OneShotAudioSource;
+        //AudioSource sourceToUse = replacementAudioSource;
+        //if (target != null) sourceToUse = GetAudioSource(target);
 
-        if (target != null)
+        AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : OneshotAudioSource;
+        sourceToUse.PlayOneShot(s.clip, s.volume);
+    }
+
+    private AudioSource GetAudioSource(GameObject target, string soundName)
+    {
+        //AudioSource source = target.GetComponent<AudioSource>();
+        //if (source == null) source = target.AddComponent<AudioSource>();
+
+        //Debug.Log(source.gameObject);
+        //return source;
+
+        if (!gameObjectAudioSources.ContainsKey(target))
         {
-            sourceToUse = target.GetComponent<AudioSource>();
-            if (sourceToUse == null)
-            {
-                sourceToUse = target.AddComponent<AudioSource>();
-            }
+            gameObjectAudioSources[target] = new Dictionary<string, AudioSource>();
         }
 
-        sourceToUse.PlayOneShot(s.clip, s.volume);
+        if (!gameObjectAudioSources[target].ContainsKey(soundName))
+        {
+            AudioSource newSource = target.AddComponent<AudioSource>();
+            gameObjectAudioSources[target][soundName] = newSource;
+        }
+
+        return gameObjectAudioSources[target][soundName];
     }
 }
