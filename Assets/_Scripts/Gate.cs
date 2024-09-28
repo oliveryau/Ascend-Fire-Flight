@@ -8,6 +8,7 @@ public class Gate : MonoBehaviour
     [HideInInspector] public bool closedGate;
 
     private Vector3 currentPosition;
+    private bool soundPlaying;
 
     private void Start()
     {
@@ -29,19 +30,73 @@ public class Gate : MonoBehaviour
 
     public void CloseGate()
     {
-        if (transform.position == targetPosition) return;
-        
+        //if (transform.position == targetPosition) return;
+
+        //currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
+        //transform.position = currentPosition;
+
+        if (transform.position == targetPosition)
+        {
+            if (soundPlaying)
+            {
+                soundPlaying = false;
+                AudioManager.Instance.Stop("Gate Move", gameObject);
+            }
+            return;
+        }
+
+        if (!soundPlaying)
+        {
+            soundPlaying = true;
+            AudioManager.Instance.Play("Gate Move", gameObject);
+        }
+
         currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
         transform.position = currentPosition;
+
+        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
+        {
+            transform.position = targetPosition;
+            soundPlaying = false;
+            AudioManager.Instance.Stop("Gate Move", gameObject);
+            GetComponent<MeshCollider>().enabled = true;
+        }
     }
 
     public void OpenGate()
     {
-        if (transform.position == initialPosition) return;
+        //if (transform.position == initialPosition) return;
+
+        //currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
+        //transform.position = currentPosition;
+
+        //if (Vector3.Distance(transform.position, targetPosition) < 0.1f) GetComponent<MeshCollider>().enabled = false;
+        
+        if (transform.position == initialPosition)
+        {
+            if (soundPlaying)
+            {
+                soundPlaying = false;
+                AudioManager.Instance.Stop("Gate Move", gameObject);
+            }
+            return;
+        }
+
+        if (!soundPlaying)
+        {
+            soundPlaying = true;
+            AudioManager.Instance.Play("Gate Move", gameObject);
+        }
 
         currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
         transform.position = currentPosition;
 
-        if (Vector3.Distance(transform.position, targetPosition) < 0.1f) GetComponent<MeshCollider>().enabled = false;
+        if (Vector3.Distance(transform.position, initialPosition) < 0.01f)
+        {
+            transform.position = initialPosition;
+            soundPlaying = false;
+            AudioManager.Instance.Stop("Gate Move", gameObject);
+            GetComponent<MeshCollider>().enabled = false;
+        }
     }
 }

@@ -129,6 +129,27 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
+  - name: Left Gunshot
+    clip: {fileID: 8300000, guid: da75b3f65ebdc8741959febf0b3afb80, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Launch
+    clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
+    volume: 0.6
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Float
+    clip: {fileID: 8300000, guid: a9bc32c2e7553b54cae12748b974e018, type: 3}
+    volume: 1
+    pitch: 0.53
+    spatialBlend: 1
+    loop: 1
+    AudioSource: {fileID: 0}
   - name: Right Hit Enemy 1
     clip: {fileID: 8300000, guid: 5c2fff2d594aee1459801a0dcee785e5, type: 3}
     volume: 1
@@ -157,13 +178,6 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
-  - name: Left Gunshot
-    clip: {fileID: 8300000, guid: da75b3f65ebdc8741959febf0b3afb80, type: 3}
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    loop: 0
-    AudioSource: {fileID: 0}
   - name: Left Explosion 1
     clip: {fileID: 8300000, guid: 6ca2ccc1697874c4391056d7966811d5, type: 3}
     volume: 0.645
@@ -178,17 +192,10 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
-  - name: Launch
-    clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
-    volume: 0.6
-    pitch: 1
-    spatialBlend: 1
-    loop: 0
-    AudioSource: {fileID: 0}
-  - name: Float
-    clip: {fileID: 8300000, guid: a9bc32c2e7553b54cae12748b974e018, type: 3}
+  - name: Gate Move
+    clip: {fileID: 8300000, guid: 57e8b0208c94af549ad9ccb6033eb3de, type: 3}
     volume: 1
-    pitch: 0.53
+    pitch: 1
     spatialBlend: 1
     loop: 1
     AudioSource: {fileID: 0}
