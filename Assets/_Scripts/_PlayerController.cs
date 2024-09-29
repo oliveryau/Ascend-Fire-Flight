@@ -541,6 +541,7 @@ public class PlayerController : MonoBehaviour
 
         StartCoroutine(Iframe());
         currentHealth -= damageTaken;
+        RandomiseHurtAudio();
         UiManager.DisplayDamagedOverlay();
         //Trigger damage effects or animations here
 
@@ -557,6 +558,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator FallingOut()
     {
         StartCoroutine(UiManager.DisplayFallingOutOverlay());
+        AudioManager.Instance.PlayOneShot("Falling", gameObject);
         yield return new WaitForSeconds(0.5f);
         Controller.enabled = false;
         yield return new WaitForSeconds(0.5f);
@@ -570,6 +572,13 @@ public class PlayerController : MonoBehaviour
         hasTakenDamaged = true;
         yield return new WaitForSeconds(0.5f);
         hasTakenDamaged = false;
+    }
+
+    private void RandomiseHurtAudio()
+    {
+        int soundIndex = Random.Range(1, 3);
+        string soundName = $"Hurt {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
     #endregion
 

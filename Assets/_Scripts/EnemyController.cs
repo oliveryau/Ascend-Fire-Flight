@@ -93,8 +93,16 @@ public class EnemyController : MonoBehaviour
     private IEnumerator Spawning()
     {
         LookAtPlayer();
-        yield return new WaitForSeconds(1.5f);
+        RandomiseSpawnAudio();
+        yield return new WaitForSeconds(1f);
         ChangeEnemyState(EnemyState.ALERT);
+    }
+
+    private void RandomiseSpawnAudio()
+    {
+        int soundIndex = Random.Range(1, 3);
+        string soundName = $"Enemy Spawn {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
     #endregion
 
@@ -122,7 +130,7 @@ public class EnemyController : MonoBehaviour
     public virtual void Attacking()
     {
         if (currentHealth <= 0) return;
-        
+
         NavMeshAgent.isStopped = true;
         NavMeshAgent.velocity = Vector3.zero;
         LookAtPlayer();

@@ -52,6 +52,13 @@ MonoBehaviour:
     spatialBlend: 0
     loop: 1
     AudioSource: {fileID: 0}
+  - name: Main Ambience
+    clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
+    volume: 0.272
+    pitch: 1.41
+    spatialBlend: 0
+    loop: 0
+    AudioSource: {fileID: 0}
   - name: Footstep 1
     clip: {fileID: 8300000, guid: 48b8219fe86112b409b769176293eb69, type: 3}
     volume: 0.6
@@ -101,11 +108,25 @@ MonoBehaviour:
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
-  - name: Main Ambience
-    clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
-    volume: 0.272
-    pitch: 1.41
-    spatialBlend: 0
+  - name: Hurt 1
+    clip: {fileID: 8300000, guid: 67ee9c3a6a663c644adec7dd4292c82e, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Hurt 2
+    clip: {fileID: 8300000, guid: be2f08ecc2566ba4c9ca185915b7082d, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Falling
+    clip: {fileID: 8300000, guid: 87fa3fddfe8ef444b8d5993f3c2d7389, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Gunshot
@@ -210,6 +231,20 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: bf1eb68ffd2eff04a80fd89685560290, type: 3}
     volume: 1
     pitch: 3
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Spawn 1
+    clip: {fileID: 8300000, guid: 32735e2778169984db674a16f41d0930, type: 3}
+    volume: 0.15
+    pitch: 1
+    spatialBlend: 1
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Spawn 2
+    clip: {fileID: 8300000, guid: c0fee020eee27bb4da7d5c253867371f, type: 3}
+    volume: 0.15
+    pitch: 1
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
