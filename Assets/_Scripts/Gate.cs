@@ -13,7 +13,7 @@ public class Gate : MonoBehaviour
     private void Start()
     {
         initialPosition = transform.position;
-        targetPosition = transform.position + new Vector3(0, 25f, 0);
+        targetPosition = transform.position + new Vector3(0, 50f, 0);
     }
 
     private void Update()
@@ -46,7 +46,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 10f);
+        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
@@ -76,7 +76,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 10f);
+        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, initialPosition) < 0.01f)
