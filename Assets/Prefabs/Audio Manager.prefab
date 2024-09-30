@@ -159,7 +159,7 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: Launch
     clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
-    volume: 0.6
+    volume: 0.8
     pitch: 1
     spatialBlend: 1
     loop: 0
