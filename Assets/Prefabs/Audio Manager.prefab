@@ -47,14 +47,14 @@ MonoBehaviour:
   sounds:
   - name: Main BGM
     clip: {fileID: 8300000, guid: af4dfcb6ea3c43145a4e7ba6e852d298, type: 3}
-    volume: 0.272
+    volume: 0.3
     pitch: 1.32
     spatialBlend: 0
     loop: 1
     AudioSource: {fileID: 0}
   - name: Main Ambience
     clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
-    volume: 0.272
+    volume: 0.5
     pitch: 1.41
     spatialBlend: 0
     loop: 0
@@ -89,8 +89,8 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: Jump
     clip: {fileID: 8300000, guid: 1751440ff79a91444acf79905769da88, type: 3}
-    volume: 0.5
-    pitch: 1
+    volume: 1
+    pitch: 3
     spatialBlend: 1
     loop: 0
     AudioSource: {fileID: 0}
