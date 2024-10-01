@@ -7132,6 +7132,9 @@ MonoBehaviour:
   tutorialCue: {fileID: 911986203}
   updateSpeed: 5
   playerHealthFill: {fileID: 1830169673}
+  rightCrosshair: {fileID: 2139782736}
+  leftCrosshair: {fileID: 89375219}
+  expandedRightCrosshairScale: {x: 1.5, y: 1.5, z: 1.5}
   playerLaunchMeter: {fileID: 8196178074307452406}
   playerHealCharge:
   - {fileID: 85221318341408663}
