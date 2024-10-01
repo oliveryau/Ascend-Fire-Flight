@@ -137,17 +137,17 @@ public class UiManager : MonoBehaviour
         for (int i = 0; i < playerHealCharge.Length; i++)
         {
             Renderer healChargeRenderer = playerHealCharge[i].GetComponent<Renderer>();
-            Light healChargeLight = playerHealCharge[i].transform.GetChild(0).GetComponent<Light>();
+            //Light healChargeLight = playerHealCharge[i].transform.GetChild(0).GetComponent<Light>();
 
             if (i < Player.currentHealCharge)
             {
                 healChargeRenderer.material.color = Color.green;
-                healChargeLight.enabled = true;
+                //healChargeLight.enabled = true;
             }
             else
             {
                 healChargeRenderer.material.color = Color.gray;
-                healChargeLight.enabled = false;
+                //healChargeLight.enabled = false;
             }
         }
     }
