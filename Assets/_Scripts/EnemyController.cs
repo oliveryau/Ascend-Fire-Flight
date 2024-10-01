@@ -24,7 +24,7 @@ public class EnemyController : MonoBehaviour
     public SphereCollider AttackRadius;
     protected PlayerController Player;
     protected NavMeshAgent NavMeshAgent;
-    private Animator Animator;
+    protected Animator Animator;
     #endregion
 
     #region State Control
@@ -34,6 +34,7 @@ public class EnemyController : MonoBehaviour
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
+        //NavMeshAgent = transform.Find("NavMeshAgent").GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
 
         currentHealth = maxHealth;
@@ -92,9 +93,10 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Spawning()
     {
-        LookAtPlayer();
         RandomiseSpawnAudio();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
+        LookAtPlayer();
+        yield return new WaitForSeconds(0.5f);
         ChangeEnemyState(EnemyState.ALERT);
     }
 
@@ -116,12 +118,14 @@ public class EnemyController : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
         if (distanceToPlayer <= AttackRadius.radius)
         {
+            Animator.SetBool("Walking", false);
             ChangeEnemyState(EnemyState.ATTACK); //Attack if within attacking radius
         }
         else
         {
             NavMeshAgent.SetDestination(Player.transform.position); //Chase
             LookAtPlayer();
+            Animator.SetBool("Walking", true);
         }
     }
     #endregion
@@ -184,7 +188,7 @@ public class EnemyController : MonoBehaviour
     {
         NavMeshAgent.isStopped = true;
         NavMeshAgent.velocity = Vector3.zero;
-        //Animator.SetTrigger("Death");
+        Animator.SetTrigger("Death");
         GetComponent<SphereCollider>().enabled = false;
 
         yield return new WaitForSeconds(1f);

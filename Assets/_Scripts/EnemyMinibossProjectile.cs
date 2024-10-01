@@ -11,9 +11,9 @@ public class EnemyMinibossProjectile : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    private void OnTriggerEnter(Collider target)
+    private void OnCollisionEnter(Collision target)
     {
-        if (target.CompareTag("Player"))
+        if (target.gameObject.CompareTag("Player"))
         {
             target.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
             Destroy(gameObject);

@@ -40,7 +40,7 @@ public class EnemyMelee : EnemyController
     public override IEnumerator PerformAttack()
     {
         isAttacking = true;
-        //Animator.SetTrigger("Attack");
+        Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         meleeSlashParticle.SetActive(true);
         lastAttackTime = Time.time;

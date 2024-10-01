@@ -46,9 +46,9 @@ public class EnemyRanged : EnemyController
         Vector3 baseShootDirection = (Player.transform.position - bulletFirePoint.position).normalized;
         Vector3 spreadDirection = ApplySpread(baseShootDirection);
 
-        GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, Quaternion.LookRotation(spreadDirection));
+        GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, bulletFirePoint.rotation);
         bulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        //Animator.SetTrigger("Attack");
+        Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(attackCooldown);
