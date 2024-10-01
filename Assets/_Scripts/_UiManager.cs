@@ -34,6 +34,7 @@ public class UiManager : MonoBehaviour
     private Dictionary<GameObject, GameObject> enemyIndicators = new Dictionary<GameObject, GameObject>();
 
     [Header("Other UI")]
+    public GameObject fadePrefab;
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
 
@@ -41,34 +42,59 @@ public class UiManager : MonoBehaviour
     private GameManager GameManager;
     private PlayerController Player;
     private Camera MainCamera;
+    private TutorialManager TutorialManager;
     #endregion
 
+    #region UI Toggle
     private void Start()
     {
         GameManager = FindFirstObjectByType<GameManager>();
         Player = FindFirstObjectByType<PlayerController>();
         MainCamera = Camera.main;
 
-        InitializeUiValues();
+        InitializeUi();
     }
 
     private void Update()
     {
-        UpdatePlayerHealthBar();
-        UpdatePlayerLaunchMeter();
-        UpdatePlayerHealCharge();
-        UpdateEnemyDetection();
-        UpdateIndicatorPositions();
+        if (Player.currentPlayerState != PlayerController.PlayerState.DEAD)
+        {
+            UpdatePlayerHealthBar();
+            UpdatePlayerLaunchMeter();
+            UpdatePlayerHealCharge();
+            UpdateEnemyDetection();
+            UpdateIndicatorPositions();
+        }
     }
 
-    private void InitializeUiValues()
+    private void InitializeUi()
     {
+        StartCoroutine(FadeToggle(true)); //Fade in
+
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
 
         launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
 
         UpdatePlayerAmmoCount();
+    }
+
+    private IEnumerator FadeToggle(bool fadeIn)
+    {
+        fadePrefab.SetActive(true);
+
+        if (fadeIn)
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade In");
+            yield return new WaitForSeconds(1f);
+            fadePrefab.SetActive(false);
+        }
+        else
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(GameManager.ReloadScene());
+        }
     }
 
     public void ShowPauseMenu(bool activeMode)
@@ -82,6 +108,7 @@ public class UiManager : MonoBehaviour
             pauseMenu.SetActive(false);
         }
     }
+    #endregion
 
     #region Player UI
     public void UpdatePlayerHealthBar()
@@ -95,7 +122,7 @@ public class UiManager : MonoBehaviour
 
     public void UpdatePlayerLaunchMeter()
     {
-        float fillPercentage = Player.currentLaunchMeter / Player.launchMeter;
+        float fillPercentage = Player.currentLaunchMeter / Player.maxLaunchMeter;
         Vector3 currentScale = playerLaunchMeter.localScale;
         Vector3 targetScale = new Vector3(Mathf.Lerp(0, 1, fillPercentage), currentScale.y, currentScale.z);
 
@@ -110,9 +137,18 @@ public class UiManager : MonoBehaviour
         for (int i = 0; i < playerHealCharge.Length; i++)
         {
             Renderer healChargeRenderer = playerHealCharge[i].GetComponent<Renderer>();
+            Light healChargeLight = playerHealCharge[i].transform.GetChild(0).GetComponent<Light>();
 
-            if (i < Player.currentHealCharge) healChargeRenderer.material.color = Color.green;
-            else healChargeRenderer.material.color = Color.gray;       
+            if (i < Player.currentHealCharge)
+            {
+                healChargeRenderer.material.color = Color.green;
+                healChargeLight.enabled = true;
+            }
+            else
+            {
+                healChargeRenderer.material.color = Color.gray;
+                healChargeLight.enabled = false;
+            }
         }
     }
 
@@ -289,6 +325,31 @@ public class UiManager : MonoBehaviour
         playerDamagedOverlay.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         playerDamagedOverlay.gameObject.SetActive(false);
+    }
+    #endregion
+
+    #region Pause UI
+    public void ResumeGame()
+    {
+        GameManager.ChangeGameState(GameManager.GameState.PLAY);
+        ShowPauseMenu(false); 
+    }
+
+    public void RestartGame()
+    {
+        GameManager.ChangeGameState(GameManager.GameState.PLAY);
+        ShowPauseMenu(false);
+        StartCoroutine(FadeToggle(false)); //Fade out
+    }
+
+    public void GoToSettings()
+    {
+
+    }
+
+    public void ReturnToMainMenu()
+    {
+
     }
     #endregion
 }

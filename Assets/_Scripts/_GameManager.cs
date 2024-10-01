@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public enum GameState { PLAY, PAUSE }
     public GameState currentGameState;
+
+    public string currentScene;
 
     private PlayerController Player;
     private UiManager UiManager;
@@ -16,6 +20,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ChangeGameState(GameState.PLAY);
+        currentScene = SceneManager.GetActiveScene().name;
 
         Player = FindFirstObjectByType<PlayerController>();
         UiManager = FindFirstObjectByType<UiManager>();
@@ -86,6 +91,8 @@ public class GameManager : MonoBehaviour
     #region Play
     private void PlayState()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ChangeGameState(GameState.PAUSE);
@@ -98,38 +105,21 @@ public class GameManager : MonoBehaviour
     #region Pause
     private void PauseState()
     {
+        Cursor.lockState = CursorLockMode.None;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ChangeGameState(GameState.PLAY);
             UiManager.ShowPauseMenu(false);
         }
     }
+    #endregion
 
-    public void ResumeGame()
+    #region Scene Management
+    public IEnumerator ReloadScene()
     {
-
-    }
-
-    public void RestartGame()
-    {
-        //Go to last checkpoint or restart game
-    }
-
-    public void Settings()
-    {
-
-    }
-
-    public void ResetTutorial()
-    {
-        //Reload scene
-        Player.initialPosition = new Vector3(0, 1, 0); //Back to start position
-        TutorialManager.currentTutorialState = TutorialManager.TutorialState.MOVEMENT;
-    }
-
-    public void ReturnToMainMenu()
-    {
-
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(currentScene);
     }
     #endregion
 }

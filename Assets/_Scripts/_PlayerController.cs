@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public float launchForce;
     public float minimumLaunchAmount;
     public float floatStrength;
-    public float launchMeter;
+    public float maxLaunchMeter;
     public float currentLaunchMeter;
 
     private bool canLaunch;
@@ -107,19 +107,17 @@ public class PlayerController : MonoBehaviour
     #region State Control
     private void Initialize()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         GameManager = FindFirstObjectByType<GameManager>();
         UiManager = FindFirstObjectByType<UiManager>();
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
-        ChangePlayerState(PlayerState.NORMAL);
+        ChangePlayerState(PlayerState.WAIT);
 
         initialPosition = transform.position;
 
         currentHealth = maxHealth;
-        currentLaunchMeter = launchMeter;
+        currentLaunchMeter = maxLaunchMeter;
         initialLaunchMeter = currentLaunchMeter;
         targetLaunchMeter = currentLaunchMeter;
         currentAmmo = maxAmmo;
@@ -132,6 +130,7 @@ public class PlayerController : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.WAIT:
+                StartCoroutine(StartWait());
                 break;
             case PlayerState.NORMAL:
                 Movement();
@@ -163,6 +162,12 @@ public class PlayerController : MonoBehaviour
     private void ChangePlayerState(PlayerState newState)
     {
         currentPlayerState = newState;
+    }
+
+    private IEnumerator StartWait()
+    {
+        yield return new WaitForSeconds(1f);
+        ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
 
@@ -346,7 +351,7 @@ public class PlayerController : MonoBehaviour
 
     private void LaunchingCooldown()
     {
-        if (targetLaunchMeter < launchMeter && isGrounded) targetLaunchMeter += Time.deltaTime;
+        if (targetLaunchMeter < maxLaunchMeter && isGrounded) targetLaunchMeter += Time.deltaTime * 3f;
 
         if (launchCooldown > 0) launchCooldown -= Time.deltaTime;
     }
@@ -360,7 +365,7 @@ public class PlayerController : MonoBehaviour
         {
             UpdateLaunchParticle(true);
         }
-        else if (currentLaunchMeter > previousLaunchMeter && currentLaunchMeter < launchMeter)
+        else if (currentLaunchMeter > previousLaunchMeter && currentLaunchMeter < maxLaunchMeter)
         {
             UpdateLaunchParticle(false);
         }
@@ -400,19 +405,14 @@ public class PlayerController : MonoBehaviour
     #region Shooting
     private void NormalShooting()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            RightWeaponShooting();
-            LeftWeaponShooting();
-        }
+        if (Input.GetButton("Fire1")) RightWeaponShooting();
+
+        if (Input.GetButton("Fire2")) LeftWeaponShooting();
     }
 
     private void IronmanShooting()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            RightWeaponShooting();
-        }
+        if (Input.GetButton("Fire1")) RightWeaponShooting();
     }
 
     private void RightWeaponShooting()
@@ -518,7 +518,6 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetAimPoint()
     {
-        //Ray ray = PlayerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
