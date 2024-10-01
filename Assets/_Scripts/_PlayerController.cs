@@ -426,10 +426,10 @@ public class PlayerController : MonoBehaviour
 
             GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
             rightProjectile.GetComponent<Rigidbody>().AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
+            currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
-
-            currentAmmo--;
+            UiManager.UpdateRightCrosshairShoot();
             UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }

@@ -14,8 +14,12 @@ public class UiManager : MonoBehaviour
     [Header("Player UI")]
     public float updateSpeed;
     public Image playerHealthFill;
+    public Image rightCrosshair;
+    public Image leftCrosshair;
+    public Vector3 expandedRightCrosshairScale;
 
     private float targetHealthFill;
+    private Vector3 currentTargetScale;
 
     [Header("Diegetic UI")]
     public Transform playerLaunchMeter;
@@ -45,7 +49,7 @@ public class UiManager : MonoBehaviour
     private TutorialManager TutorialManager;
     #endregion
 
-    #region UI Toggle
+    #region UI Initialization
     private void Start()
     {
         GameManager = FindFirstObjectByType<GameManager>();
@@ -62,6 +66,7 @@ public class UiManager : MonoBehaviour
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
             UpdatePlayerHealCharge();
+            UpdateRightCrosshairShoot();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
         }
@@ -73,6 +78,7 @@ public class UiManager : MonoBehaviour
 
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
+        currentTargetScale = expandedRightCrosshairScale;
 
         launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
 
@@ -137,17 +143,14 @@ public class UiManager : MonoBehaviour
         for (int i = 0; i < playerHealCharge.Length; i++)
         {
             Renderer healChargeRenderer = playerHealCharge[i].GetComponent<Renderer>();
-            //Light healChargeLight = playerHealCharge[i].transform.GetChild(0).GetComponent<Light>();
 
             if (i < Player.currentHealCharge)
             {
                 healChargeRenderer.material.color = Color.green;
-                //healChargeLight.enabled = true;
             }
             else
             {
                 healChargeRenderer.material.color = Color.gray;
-                //healChargeLight.enabled = false;
             }
         }
     }
@@ -158,6 +161,20 @@ public class UiManager : MonoBehaviour
         else playerAmmoCount.color = Color.white;
 
         playerAmmoCount.text = Player.currentAmmo.ToString();
+    }
+
+    public void UpdateRightCrosshairShoot()
+    {
+        rightCrosshair.rectTransform.localScale = Vector3.Lerp(rightCrosshair.rectTransform.localScale, currentTargetScale, Time.deltaTime * updateSpeed);
+
+        StartCoroutine(ResetRightCrosshair());
+    }
+
+    private IEnumerator ResetRightCrosshair()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        currentTargetScale = Vector3.one;
     }
     #endregion
 
