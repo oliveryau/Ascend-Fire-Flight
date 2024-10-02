@@ -34,7 +34,6 @@ public class EnemyController : MonoBehaviour
 
         Player = FindFirstObjectByType<PlayerController>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        //NavMeshAgent = transform.Find("NavMeshAgent").GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
 
         currentHealth = maxHealth;
@@ -165,15 +164,11 @@ public class EnemyController : MonoBehaviour
         if (currentEnemyState == EnemyState.DEAD) return;
 
         currentHealth -= damageTaken;
-        //Trigger damage effects or animations here
+        Animator.SetTrigger("Damaged");
 
         if (currentHealth <= 0)
         {
             ChangeEnemyState(EnemyState.DEAD);
-        }
-        else if (currentHealth < maxHealth * 0.3f)
-        {
-            //Play low health warning effects
         }
     }
     #endregion

@@ -873,7 +873,7 @@ MonoBehaviour:
   mouseSensitivity: 2
   currentMoveSpeed: 5
   walkSpeed: 5
-  sprintSpeed: 9
+  sprintSpeed: 8
   jumpForce: 2
   fallMultiplier: 2.5
   footstepWalkInterval: 0.4
@@ -894,9 +894,9 @@ MonoBehaviour:
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
   rightShootForce: 200
-  rightFireRate: 0.2
-  maxAmmo: 15
-  currentAmmo: 15
+  rightFireRate: 0.1
+  maxAmmo: 45
+  currentAmmo: 45
   maxHealCharge: 5
   currentHealCharge: 0
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}

@@ -235,8 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 1
-  currentHealth: 0
+  maxHealth: 2
+  currentHealth: 2
   attackDamage: 1
   attackCooldown: 0.5
   AttackRadius: {fileID: 3210398372328647434}

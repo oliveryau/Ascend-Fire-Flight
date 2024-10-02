@@ -44,7 +44,7 @@ public class EnemyMelee : EnemyController
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         meleeSlashParticle.SetActive(true);
         lastAttackTime = Time.time;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         meleeSlashParticle.SetActive(false);
         yield return new WaitForSeconds(attackCooldown - 0.5f);
         isAttacking = false;

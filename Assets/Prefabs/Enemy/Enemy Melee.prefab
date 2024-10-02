@@ -988,10 +988,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 1
-  currentHealth: 0
+  maxHealth: 3
+  currentHealth: 3
   attackDamage: 1
-  attackCooldown: 1.5
+  attackCooldown: 1
   AttackRadius: {fileID: 209929794180466739}
   meleeSlashParticle: {fileID: 7423323853688413314}
 --- !u!1 &7266422271689772126

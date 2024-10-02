@@ -523,8 +523,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetAimPoint()
     {
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
-        //Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        //Ray ray = PlayerCamera.ScreenPointToRay(screenCenter);
         RaycastHit hit;
 
         Debug.DrawLine(ray.origin, ray.origin + ray.direction * aimDistance, Color.red, 1f);
