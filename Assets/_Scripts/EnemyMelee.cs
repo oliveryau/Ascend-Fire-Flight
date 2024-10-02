@@ -43,11 +43,19 @@ public class EnemyMelee : EnemyController
         Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         meleeSlashParticle.SetActive(true);
+        RandomiseAttackAudio();
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(0.1f);
         meleeSlashParticle.SetActive(false);
         yield return new WaitForSeconds(attackCooldown - 0.5f);
         isAttacking = false;
+    }
+
+    private void RandomiseAttackAudio()
+    {
+        int soundIndex = Random.Range(1, 3);
+        string soundName = $"Enemy Melee {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
     #endregion
 

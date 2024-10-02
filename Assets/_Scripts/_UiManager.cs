@@ -38,6 +38,10 @@ public class UiManager : MonoBehaviour
     public LayerMask enemyLayer;
 
     private Dictionary<GameObject, GameObject> enemyIndicators = new Dictionary<GameObject, GameObject>();
+    private const float RIGHT_ROTATION = -90f;
+    private const float LEFT_ROTATION = 90f;
+    private const float TOP_ROTATION = 180f;
+    private const float BOTTOM_ROTATION = 0f;
 
     [Header("Other UI")]
     public GameObject fadePrefab;
@@ -307,11 +311,6 @@ public class UiManager : MonoBehaviour
             return new Vector2(Mathf.Clamp(edgeX, offset, screenWidth - offset), edgeY);
         }
     }
-
-    private const float RIGHT_ROTATION = -90f;
-    private const float LEFT_ROTATION = 90f;
-    private const float TOP_ROTATION = 180f;
-    private const float BOTTOM_ROTATION = 0f;
 
     private float DetermineEdgeRotation(Vector2 position)
     {

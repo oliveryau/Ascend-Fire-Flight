@@ -141,6 +141,14 @@ MonoBehaviour:
     maxDistance: 0
     loop: 0
     AudioSource: {fileID: 0}
+  - name: Death
+    clip: {fileID: 8300000, guid: e302e62fd130f134e95f8c6cee8ba32c, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 10
+    loop: 0
+    AudioSource: {fileID: 0}
   - name: Right Gunshot
     clip: {fileID: 8300000, guid: c5239d707e1644f498077b7afd10ef3f, type: 3}
     volume: 1
@@ -151,6 +159,14 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: Reload
     clip: {fileID: 8300000, guid: 620bb7c51bcc0664eb6ea726489a9036, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 10
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Reload Error
+    clip: {fileID: 8300000, guid: 47fb9dcc5f5b3274e99e92dc357995c9, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -242,7 +258,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 50
+    maxDistance: 100
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Shake
@@ -250,7 +266,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Break
@@ -258,7 +274,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 1
@@ -266,7 +282,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 10
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 2
@@ -274,6 +290,38 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 10
+    maxDistance: 20
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Melee 1
+    clip: {fileID: 8300000, guid: fd3faf79050c8044dae1e79f96311042, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 20
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Melee 2
+    clip: {fileID: 8300000, guid: 92d323f863f546845b79ad6d05c56715, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 20
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Death 1
+    clip: {fileID: 8300000, guid: 2b2e2baa04edbdf44b4471f82d2a3ca3, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 20
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Death 2
+    clip: {fileID: 8300000, guid: 9d0b70a3a04bcca49aa2e252be87d103, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}

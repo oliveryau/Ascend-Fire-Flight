@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float currentHealth;
 
     private bool hasTakenDamaged;
+    private bool isDead;
 
     [Header("Movement Variables")]
     public float mouseSensitivity;
@@ -46,11 +47,6 @@ public class PlayerController : MonoBehaviour
     private float launchCooldown;
     private bool floatSoundPlaying;
 
-    //[Header("Landing Variables")]
-    //public LayerMask enemyLayer;
-    //public float landingCheckDistance;
-    //public float landingHorizontalAdjustment;
-
     [Header("Right Weapon Variables")]
     public GameObject rightProjectilePrefab;
     public Transform rightFirePoint;
@@ -65,6 +61,8 @@ public class PlayerController : MonoBehaviour
     private float rightNextFireTime = 0f;
     private bool isReloading;
     private bool isHealing;
+    private float errorSoundCooldown = 0f;
+    private const float ERROR_SOUND_INTERVAL = 0.5f;
 
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
@@ -418,10 +416,11 @@ public class PlayerController : MonoBehaviour
             UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }
-        else if (currentAmmo <= 0)
+        else if (currentAmmo <= 0 && Time.time >= errorSoundCooldown)
         {
             RightWeaponAnimator.SetTrigger("Empty");
-            //Play error sound
+            AudioManager.Instance.PlayOneShot("Reload Error", RightWeaponAnimator.gameObject);
+            errorSoundCooldown = Time.time + ERROR_SOUND_INTERVAL; 
         }
     }
 
@@ -575,6 +574,11 @@ public class PlayerController : MonoBehaviour
         //Death animation
         //Wait 1/2 sec
         //Game over screen
+        if (!isDead)
+        {
+            isDead = true;
+            AudioManager.Instance.PlayOneShot("Death", gameObject);
+        }
     }
     #endregion
 

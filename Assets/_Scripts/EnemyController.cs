@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour
     public int maxHealth;
     public int currentHealth;
 
+    private bool playedSpawnSound;
+    private bool playedDeathSound;
+
     [Header("Enemy Attack Variables")]
     public int attackDamage;
     public float attackCooldown;
@@ -101,11 +104,9 @@ public class EnemyController : MonoBehaviour
 
     private void RandomiseSpawnAudio()
     {
-        bool played = true;
-
-        if (played)
+        if (!playedSpawnSound)
         {
-            played = false;
+            playedSpawnSound = true;
             int soundIndex = Random.Range(1, 3);
             string soundName = $"Enemy Spawn {soundIndex}";
             AudioManager.Instance.PlayOneShot(soundName, gameObject);
@@ -190,10 +191,22 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent.isStopped = true;
         NavMeshAgent.velocity = Vector3.zero;
         Animator.SetTrigger("Death");
+        RandomiseDeathAudio();
         GetComponent<SphereCollider>().enabled = false;
 
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
+    }
+
+    private void RandomiseDeathAudio()
+    {
+        if (!playedDeathSound)
+        {
+            playedDeathSound = true;
+            int soundIndex = Random.Range(1, 3);
+            string soundName = $"Enemy Death {soundIndex}";
+            AudioManager.Instance.PlayOneShot(soundName, gameObject);
+        }
     }
     #endregion
 }

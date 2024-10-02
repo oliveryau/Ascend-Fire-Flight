@@ -46,7 +46,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 15f);
+        currentPosition = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * 20f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
@@ -76,7 +76,7 @@ public class Gate : MonoBehaviour
             AudioManager.Instance.Play("Gate Move", gameObject);
         }
 
-        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 15f);
+        currentPosition = Vector3.MoveTowards(transform.position, initialPosition, Time.deltaTime * 20f);
         transform.position = currentPosition;
 
         if (Vector3.Distance(transform.position, initialPosition) < 0.01f)
