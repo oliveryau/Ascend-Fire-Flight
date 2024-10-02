@@ -262,7 +262,7 @@ MonoBehaviour:
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Shake
-    clip: {fileID: 8300000, guid: 0e38b202b2d12014986ef5769feb5bdb, type: 3}
+    clip: {fileID: 8300000, guid: b19e63ded09b50c4b9965f1066390483, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -270,7 +270,7 @@ MonoBehaviour:
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Break
-    clip: {fileID: 8300000, guid: bf1eb68ffd2eff04a80fd89685560290, type: 3}
+    clip: {fileID: 8300000, guid: 720385771cbaf9748918591aa2b6544e, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
