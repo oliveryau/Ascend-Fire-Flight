@@ -5,9 +5,12 @@ public class ProjectileLeftExplosion : MonoBehaviour
     public int damage;
     public float explosionRadius;
 
+    private UiManager UiManager;
+
     private void Start()
     {
-        damage = FindFirstObjectByType<PlayerController>().rightProjectileDamage;
+        UiManager = FindFirstObjectByType<UiManager>();
+        damage = FindFirstObjectByType<PlayerController>().leftProjectileDamage;
         ApplyExplosionDamage();
         Destroy(gameObject, 2f);
         
@@ -17,12 +20,19 @@ public class ProjectileLeftExplosion : MonoBehaviour
     private void ApplyExplosionDamage()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        bool hitOnce = false;
 
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Enemy"))
             {
                 hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
+
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
             }
         }
     }

@@ -167,14 +167,9 @@ public class UiManager : MonoBehaviour
         playerAmmoCount.text = Player.currentAmmo.ToString();
     }
 
-    public void UpdateRightCrosshairShoot(string animName)
+    public void UpdateRightCrosshair(string animName)
     {
         rightCrosshairAnimator.SetTrigger(animName);
-    }
-
-    public void UpdateLeftCrosshairShoot(string animName)
-    {
-        leftCrosshairAnimator.SetTrigger(animName);
     }
 
     public void UpdateRightCrosshairEnemy(bool onEnemy)
@@ -182,17 +177,20 @@ public class UiManager : MonoBehaviour
         rightCrosshairAnimator.SetBool("On Enemy", onEnemy);
     }
 
-    private void UpdateRightCrosshairDetection()
+    public void UpdateLeftCrosshair(string animName)
+    {
+        leftCrosshairAnimator.SetTrigger(animName);
+    }
+
+    public void UpdateRightCrosshairDetection()
     {
         Ray ray = MainCamera.ScreenPointToRay(rightCrosshair.transform.position);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, crosshairDetectionRange, enemyLayer))
         {
-            Debug.Log(hit.collider);
             if (!rightCrosshairOnEnemy)
             {
-                Debug.Log("A");
                 rightCrosshairOnEnemy = true;
                 UpdateRightCrosshairEnemy(true);
             }
@@ -204,6 +202,23 @@ public class UiManager : MonoBehaviour
                 rightCrosshairOnEnemy = false;
                 UpdateRightCrosshairEnemy(false);
             }
+        }
+    }
+
+    public void ToggleLeftCrosshair(bool inIronmanState)
+    {
+        if (inIronmanState && leftCrosshair.activeSelf) leftCrosshair.SetActive(false); 
+        else if (!inIronmanState && !leftCrosshair.activeSelf) leftCrosshair.SetActive(true);
+
+        if (inIronmanState)
+        {
+            if (!leftCrosshair.activeSelf) return; //Hide left crosshair if in ironman
+            leftCrosshair.SetActive(false);
+        }
+        else if (!inIronmanState)
+        {
+            if (leftCrosshair.activeSelf) return;
+            leftCrosshair.SetActive(true);
         }
     }
     #endregion

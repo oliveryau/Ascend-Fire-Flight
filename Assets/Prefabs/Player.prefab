@@ -877,7 +877,7 @@ MonoBehaviour:
   jumpForce: 2
   fallMultiplier: 2.5
   footstepWalkInterval: 0.4
-  footstepSprintInterval: 0.3
+  footstepSprintInterval: 0.25
   isGrounded: 0
   launchParticle: {fileID: 5523417766275449400}
   launchForce: 10
@@ -885,11 +885,6 @@ MonoBehaviour:
   floatStrength: 0.7
   maxLaunchMeter: 5
   currentLaunchMeter: 5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  landingCheckDistance: 1
-  landingHorizontalAdjustment: 0.5
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
@@ -901,7 +896,7 @@ MonoBehaviour:
   currentHealCharge: 0
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 5323497042461698155}
-  leftProjectileDamage: 2
+  leftProjectileDamage: 3
   leftShootForce: 12
   leftFireRate: 2
   grenadeExplosionRadius: 5
@@ -6293,7 +6288,7 @@ Transform:
   m_GameObject: {fileID: 4259689394781432369}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.602, y: -0.298, z: 0.613}
+  m_LocalPosition: {x: -0.55, y: -0.298, z: 0.613}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

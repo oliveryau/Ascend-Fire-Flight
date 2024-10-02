@@ -8,10 +8,12 @@ public class ProjectileRight : MonoBehaviour
     public GameObject hitGroundVfx;
 
     private PlayerController Player;
+    private UiManager UiManager;
 
     private void Start()
     {
         Player = FindFirstObjectByType<PlayerController>();
+        UiManager = FindFirstObjectByType<UiManager>();
         damage = Player.rightProjectileDamage;
 
         Destroy(gameObject, lifeTime);
@@ -29,6 +31,7 @@ public class ProjectileRight : MonoBehaviour
         if (target.gameObject.CompareTag("Enemy"))
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            UiManager.UpdateRightCrosshair("Hit");
             ChargeHeal();
 
             ContactPoint contact = target.contacts[0];

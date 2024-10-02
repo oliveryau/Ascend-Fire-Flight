@@ -48,7 +48,7 @@ MonoBehaviour:
   - name: Main BGM
     clip: {fileID: 8300000, guid: af4dfcb6ea3c43145a4e7ba6e852d298, type: 3}
     volume: 0.3
-    pitch: 1.32
+    pitch: 1
     spatialBlend: 0
     maxDistance: 0
     loop: 1
@@ -59,7 +59,7 @@ MonoBehaviour:
     pitch: 1
     spatialBlend: 0
     maxDistance: 0
-    loop: 0
+    loop: 1
     AudioSource: {fileID: 0}
   - name: Footstep 1
     clip: {fileID: 8300000, guid: 48b8219fe86112b409b769176293eb69, type: 3}

@@ -46,10 +46,10 @@ public class PlayerController : MonoBehaviour
     private float launchCooldown;
     private bool floatSoundPlaying;
 
-    [Header("Landing Variables")]
-    public LayerMask enemyLayer;
-    public float landingCheckDistance;
-    public float landingHorizontalAdjustment;
+    //[Header("Landing Variables")]
+    //public LayerMask enemyLayer;
+    //public float landingCheckDistance;
+    //public float landingHorizontalAdjustment;
 
     [Header("Right Weapon Variables")]
     public GameObject rightProjectilePrefab;
@@ -137,7 +137,6 @@ public class PlayerController : MonoBehaviour
                 LaunchEnabled();
                 LaunchingCooldown();
                 UpdateLaunchMeter();
-                CheckLanding();
                 NormalShooting();
                 RightWeaponReload();
                 RightWeaponHealing();
@@ -147,13 +146,11 @@ public class PlayerController : MonoBehaviour
                 LevitateEnabled();
                 LaunchingCooldown();
                 UpdateLaunchMeter();
-                CheckLanding();
                 IronmanShooting();
                 RightWeaponReload();
                 RightWeaponHealing();
                 break;
             case PlayerState.DEAD:
-                CheckLanding();
                 Dead();
                 break;
         }
@@ -382,24 +379,6 @@ public class PlayerController : MonoBehaviour
             if (launchParticle.isPlaying) launchParticle.Stop();
         }
     }
-
-    private void CheckLanding()
-    {
-        if (!isGrounded && velocity.y < 0)
-        {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, landingCheckDistance, enemyLayer))
-            {
-                Vector3 adjustmentDirection = Random.insideUnitCircle.normalized; //Enemy detected below, adjust landing position
-                Vector3 newPosition = transform.position + new Vector3(adjustmentDirection.x, 0, adjustmentDirection.y) * landingHorizontalAdjustment;
-
-                if (!Physics.Raycast(newPosition, Vector3.down, landingCheckDistance, enemyLayer)) //Check if the new position is clear
-                {
-                    transform.position = newPosition;
-                }
-            }
-        }
-    }
     #endregion
 
     #region Shooting
@@ -408,11 +387,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Fire1")) RightWeaponShooting();
 
         if (Input.GetButton("Fire2")) LeftWeaponShooting();
+
+        UiManager.ToggleLeftCrosshair(false);
     }
 
     private void IronmanShooting()
     {
         if (Input.GetButton("Fire1")) RightWeaponShooting();
+
+        UiManager.ToggleLeftCrosshair(true);
     }
 
     private void RightWeaponShooting()
@@ -431,7 +414,7 @@ public class PlayerController : MonoBehaviour
             currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
-            UiManager.UpdateRightCrosshairShoot("Shoot");
+            UiManager.UpdateRightCrosshair("Shoot");
             UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }
@@ -501,7 +484,7 @@ public class PlayerController : MonoBehaviour
             projectileRb.AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
-            UiManager.UpdateLeftCrosshairShoot("Shoot");
+            UiManager.UpdateLeftCrosshair("Shoot");
             leftNextFireTime = Time.time + leftFireRate;
 
             LeftWeaponExplosion(leftProjectile);
@@ -596,15 +579,6 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Collisions
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy") && !isGrounded)
-        {
-            Vector3 slideDirection = Vector3.ProjectOnPlane(velocity, hit.normal).normalized; //Slide off the enemy
-            Controller.Move(slideDirection * Time.deltaTime * currentMoveSpeed);
-        }
-    }
-
     private void OnTriggerEnter(Collider target)
     {
         if (target.CompareTag("Respawn"))
