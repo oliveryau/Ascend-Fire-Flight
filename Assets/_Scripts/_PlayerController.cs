@@ -429,7 +429,7 @@ public class PlayerController : MonoBehaviour
             currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
-            UiManager.UpdateRightCrosshairShoot();
+            UiManager.UpdateRightCrosshairShoot("Shoot");
             UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }

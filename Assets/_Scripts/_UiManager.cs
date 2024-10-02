@@ -14,8 +14,8 @@ public class UiManager : MonoBehaviour
     [Header("Player UI")]
     public float updateSpeed;
     public Image playerHealthFill;
-    public Image rightCrosshair;
-    public Image leftCrosshair;
+    public GameObject rightCrosshair;
+    public GameObject leftCrosshair;
     public Vector3 expandedRightCrosshairScale;
 
     private float targetHealthFill;
@@ -66,7 +66,6 @@ public class UiManager : MonoBehaviour
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
             UpdatePlayerHealCharge();
-            UpdateRightCrosshairShoot();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
         }
@@ -163,18 +162,9 @@ public class UiManager : MonoBehaviour
         playerAmmoCount.text = Player.currentAmmo.ToString();
     }
 
-    public void UpdateRightCrosshairShoot()
+    public void UpdateRightCrosshairShoot(string animName)
     {
-        rightCrosshair.rectTransform.localScale = Vector3.Lerp(rightCrosshair.rectTransform.localScale, currentTargetScale, Time.deltaTime * updateSpeed);
-
-        StartCoroutine(ResetRightCrosshair());
-    }
-
-    private IEnumerator ResetRightCrosshair()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        currentTargetScale = Vector3.one;
+        rightCrosshair.GetComponent<Animator>().SetTrigger(animName);
     }
     #endregion
 
