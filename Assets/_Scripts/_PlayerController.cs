@@ -424,8 +424,10 @@ public class PlayerController : MonoBehaviour
             Vector3 aimPoint = GetAimPoint();
             Vector3 rightShotDirection = (aimPoint - rightFirePoint.position).normalized;
 
-            GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, rightFirePoint.rotation);
-            rightProjectile.GetComponent<Rigidbody>().AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
+            GameObject rightProjectile = Instantiate(rightProjectilePrefab, rightFirePoint.position, Quaternion.LookRotation(rightShotDirection));
+            Rigidbody projectileRb = rightProjectile.GetComponent<Rigidbody>();
+            projectileRb.velocity = Vector3.zero;
+            projectileRb.AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
             currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
@@ -493,8 +495,10 @@ public class PlayerController : MonoBehaviour
             Vector3 aimPoint = GetAimPoint();
             Vector3 leftShotDirection = (aimPoint - leftFirePoint.position).normalized;
 
-            GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, leftFirePoint.rotation);
-            leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
+            GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, Quaternion.LookRotation(leftShotDirection));
+            Rigidbody projectileRb = leftProjectile.GetComponent<Rigidbody>();
+            projectileRb.velocity = Vector3.zero;
+            projectileRb.AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
             UiManager.UpdateLeftCrosshairShoot("Shoot");
@@ -519,7 +523,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetAimPoint()
     {
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        //Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        //Ray ray = PlayerCamera.ScreenPointToRay(screenCenter);
         RaycastHit hit;
+
+        Debug.DrawLine(ray.origin, ray.origin + ray.direction * aimDistance, Color.red, 1f);
 
         if (Physics.Raycast(PlayerCamera.transform.position, PlayerCamera.transform.forward, out hit, aimDistance))
         {

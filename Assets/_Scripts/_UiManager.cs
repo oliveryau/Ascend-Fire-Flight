@@ -16,10 +16,12 @@ public class UiManager : MonoBehaviour
     public Image playerHealthFill;
     public GameObject rightCrosshair;
     public GameObject leftCrosshair;
-    public Vector3 expandedRightCrosshairScale;
+    public float crosshairDetectionRange;
 
     private float targetHealthFill;
-    private Vector3 currentTargetScale;
+    private Animator rightCrosshairAnimator;
+    private Animator leftCrosshairAnimator;
+    private bool rightCrosshairOnEnemy;
 
     [Header("Diegetic UI")]
     public Transform playerLaunchMeter;
@@ -66,6 +68,7 @@ public class UiManager : MonoBehaviour
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
             UpdatePlayerHealCharge();
+            UpdateRightCrosshairDetection();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
         }
@@ -77,11 +80,13 @@ public class UiManager : MonoBehaviour
 
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
-        currentTargetScale = expandedRightCrosshairScale;
 
         launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
 
         UpdatePlayerAmmoCount();
+
+        rightCrosshairAnimator = rightCrosshair.GetComponent<Animator>();
+        leftCrosshairAnimator = leftCrosshair.GetComponent<Animator>();
     }
 
     private IEnumerator FadeToggle(bool fadeIn)
@@ -164,12 +169,42 @@ public class UiManager : MonoBehaviour
 
     public void UpdateRightCrosshairShoot(string animName)
     {
-        rightCrosshair.GetComponent<Animator>().SetTrigger(animName);
+        rightCrosshairAnimator.SetTrigger(animName);
     }
 
     public void UpdateLeftCrosshairShoot(string animName)
     {
-        leftCrosshair.GetComponent <Animator>().SetTrigger(animName);
+        leftCrosshairAnimator.SetTrigger(animName);
+    }
+
+    public void UpdateRightCrosshairEnemy(bool onEnemy)
+    {
+        rightCrosshairAnimator.SetBool("On Enemy", onEnemy);
+    }
+
+    private void UpdateRightCrosshairDetection()
+    {
+        Ray ray = MainCamera.ScreenPointToRay(rightCrosshair.transform.position);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, crosshairDetectionRange, enemyLayer))
+        {
+            Debug.Log(hit.collider);
+            if (!rightCrosshairOnEnemy)
+            {
+                Debug.Log("A");
+                rightCrosshairOnEnemy = true;
+                UpdateRightCrosshairEnemy(true);
+            }
+        }
+        else
+        {
+            if (rightCrosshairOnEnemy)
+            {
+                rightCrosshairOnEnemy = false;
+                UpdateRightCrosshairEnemy(false);
+            }
+        }
     }
     #endregion
 

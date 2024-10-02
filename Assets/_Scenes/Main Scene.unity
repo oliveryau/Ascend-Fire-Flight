@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 57991558}
   - component: {fileID: 57991560}
   - component: {fileID: 57991559}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Trigger Zone 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 127758304}
   - component: {fileID: 127758306}
   - component: {fileID: 127758305}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Falling Platform Trigger 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 207306037}
   - component: {fileID: 207306038}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: NavMesh Surface
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 229299911}
   - component: {fileID: 229299913}
   - component: {fileID: 229299912}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Trigger Zone 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1291,7 +1291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 246139618}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1322,7 +1322,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 261815878}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1358,7 +1358,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 312272327}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1733,7 +1733,7 @@ MonoBehaviour:
   playerHealthFill: {fileID: 1830169673}
   rightCrosshair: {fileID: 1569278191}
   leftCrosshair: {fileID: 382591726}
-  expandedRightCrosshairScale: {x: 1.5, y: 1.5, z: 1.5}
+  crosshairDetectionRange: 100
   playerLaunchMeter: {fileID: 8196178074307452406}
   playerHealCharge:
   - {fileID: 85221318341408663}
@@ -2345,7 +2345,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 555604226}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2618,7 +2618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 655171129}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3016,7 +3016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 829565141}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3095,7 +3095,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 860559019}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3448,7 +3448,7 @@ GameObject:
   - component: {fileID: 916497333}
   - component: {fileID: 916497334}
   - component: {fileID: 916497335}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Trigger Zone 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4002,7 +4002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1069384621}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Falling Platform Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4821,7 +4821,7 @@ GameObject:
   - component: {fileID: 1307921941}
   - component: {fileID: 1307921943}
   - component: {fileID: 1307921942}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint Trigger 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4999,7 +4999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1347059186}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5030,7 +5030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1353709278}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5984,7 +5984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1539589231}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6123,7 +6123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560736582}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6309,7 +6309,7 @@ GameObject:
   - component: {fileID: 1601131248}
   - component: {fileID: 1601131250}
   - component: {fileID: 1601131249}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint Trigger 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6325,7 +6325,7 @@ Transform:
   m_GameObject: {fileID: 1601131247}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 61}
+  m_LocalPosition: {x: 0, y: 6, z: 61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6448,7 +6448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1606603546}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint Triggers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6482,7 +6482,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1643665083}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6631,7 +6631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1659079359}
   - component: {fileID: 1659079360}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Out of Bounds Trigger
   m_TagString: Respawn
   m_Icon: {fileID: 0}
@@ -6836,7 +6836,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1704244771}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7225,7 +7225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1752283431}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7855,7 +7855,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1932125965}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7965,7 +7965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1988701670}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7996,7 +7996,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1996527672}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8524,7 +8524,7 @@ GameObject:
   - component: {fileID: 2110421313}
   - component: {fileID: 2110421315}
   - component: {fileID: 2110421314}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Checkpoint Trigger 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8540,7 +8540,7 @@ Transform:
   m_GameObject: {fileID: 2110421312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7, z: 24}
+  m_LocalPosition: {x: 0, y: 5, z: 24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

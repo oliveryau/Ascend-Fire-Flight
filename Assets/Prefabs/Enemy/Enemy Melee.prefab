@@ -658,7 +658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6932101525718398441}
   - component: {fileID: 209929794180466739}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 8464045431873716314}
   - component: {fileID: 7706747300985998884}
   - component: {fileID: 6299082181661574265}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy Melee
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1125,7 +1125,7 @@ GameObject:
   - component: {fileID: 4578521152101511325}
   - component: {fileID: 3537200139346302013}
   - component: {fileID: 4842428282739644862}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Hit Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

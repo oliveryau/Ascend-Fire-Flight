@@ -906,7 +906,7 @@ MonoBehaviour:
   leftFireRate: 2
   grenadeExplosionRadius: 5
   grenadeExplosionForce: 200
-  aimDistance: 500
+  aimDistance: 200
   fallDamage: 1
   initialPosition: {x: 0, y: 0, z: 0}
   RightWeaponAnimator: {fileID: 7456018265807552155}
