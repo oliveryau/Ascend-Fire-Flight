@@ -88,36 +88,6 @@ public class UiManager : MonoBehaviour
         rightCrosshairAnimator = rightCrosshair.GetComponent<Animator>();
         leftCrosshairAnimator = leftCrosshair.GetComponent<Animator>();
     }
-
-    private IEnumerator FadeToggle(bool fadeIn)
-    {
-        fadePrefab.SetActive(true);
-
-        if (fadeIn)
-        {
-            fadePrefab.GetComponent<Animator>().SetTrigger("Fade In");
-            yield return new WaitForSeconds(1f);
-            fadePrefab.SetActive(false);
-        }
-        else
-        {
-            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
-            yield return new WaitForSeconds(1f);
-            StartCoroutine(GameManager.ReloadScene());
-        }
-    }
-
-    public void ShowPauseMenu(bool activeMode)
-    {
-        if (activeMode)
-        {
-            pauseMenu.SetActive(true);
-        }
-        else
-        {
-            pauseMenu.SetActive(false);
-        }
-    }
     #endregion
 
     #region Player UI
@@ -371,6 +341,24 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Other UI
+    private IEnumerator FadeToggle(bool fadeIn)
+    {
+        fadePrefab.SetActive(true);
+
+        if (fadeIn)
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade In");
+            yield return new WaitForSeconds(1f);
+            fadePrefab.SetActive(false);
+        }
+        else
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(GameManager.ReloadScene());
+        }
+    }
+    
     public IEnumerator DisplayFallingOutOverlay()
     {
         playerFallingOutOfBoundsOverlay.gameObject.SetActive(true);
@@ -392,6 +380,18 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Pause UI
+    public void ShowPauseMenu(bool activeMode)
+    {
+        if (activeMode)
+        {
+            pauseMenu.SetActive(true);
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+        }
+    }
+
     public void ResumeGame()
     {
         GameManager.ChangeGameState(GameManager.GameState.PLAY);
