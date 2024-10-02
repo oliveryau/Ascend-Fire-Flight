@@ -497,7 +497,7 @@ public class PlayerController : MonoBehaviour
             leftProjectile.GetComponent<Rigidbody>().AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
-
+            UiManager.UpdateLeftCrosshairShoot("Shoot");
             leftNextFireTime = Time.time + leftFireRate;
 
             LeftWeaponExplosion(leftProjectile);

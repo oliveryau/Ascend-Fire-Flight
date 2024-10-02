@@ -166,6 +166,11 @@ public class UiManager : MonoBehaviour
     {
         rightCrosshair.GetComponent<Animator>().SetTrigger(animName);
     }
+
+    public void UpdateLeftCrosshairShoot(string animName)
+    {
+        leftCrosshair.GetComponent <Animator>().SetTrigger(animName);
+    }
     #endregion
 
     #region Enemy Indicator UI

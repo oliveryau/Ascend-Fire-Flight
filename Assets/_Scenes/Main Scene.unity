@@ -9097,10 +9097,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Start Menu
       objectReference: {fileID: 0}
-    - target: {fileID: 3425333108624978160, guid: 68e44c654a0c17b41b3d30f772ba53fd, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4023883299499795148, guid: 68e44c654a0c17b41b3d30f772ba53fd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
