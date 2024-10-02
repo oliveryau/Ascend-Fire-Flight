@@ -882,7 +882,7 @@ MonoBehaviour:
   launchParticle: {fileID: 5523417766275449400}
   launchForce: 10
   minimumLaunchAmount: 2
-  floatStrength: 0.75
+  floatStrength: 0.7
   maxLaunchMeter: 5
   currentLaunchMeter: 5
   enemyLayer:
