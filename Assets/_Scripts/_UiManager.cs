@@ -126,7 +126,7 @@ public class UiManager : MonoBehaviour
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = Mathf.Lerp(playerHealthFill.fillAmount, targetHealthFill, Time.deltaTime * updateSpeed);
 
-        Color lerpedColor = Color.Lerp(Color.red, Color.green, playerHealthFill.fillAmount);
+        Color lerpedColor = Color.Lerp(Color.red, Color.white, playerHealthFill.fillAmount);
         playerHealthFill.color = lerpedColor;
     }
 

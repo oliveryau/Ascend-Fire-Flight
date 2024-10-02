@@ -2,6 +2,9 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using static AudioManager;
+using UnityEngine.Audio;
+using Mono.Cecil;
 
 public class AudioManager : MonoBehaviour
 {
@@ -17,6 +20,7 @@ public class AudioManager : MonoBehaviour
         [Range(0.1f, 3f)] public float pitch;
         [Range(0f, 1f)]public float spatialBlend = 1f;
 
+        public float maxDistance;
         public bool loop;
 
         [HideInInspector] public AudioSource AudioSource;
@@ -52,12 +56,19 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds)
         {
             s.AudioSource = gameObject.AddComponent<AudioSource>();
-            s.AudioSource.clip = s.clip;
-            s.AudioSource.volume = s.volume;
-            s.AudioSource.pitch = s.pitch;
-            s.AudioSource.loop = s.loop;
-            s.AudioSource.spatialBlend = s.spatialBlend;
+            ConfigureAudioSource(s.AudioSource, s);
         }
+    }
+
+    private void ConfigureAudioSource(AudioSource audioSource, Sound sound)
+    {
+        audioSource.clip = sound.clip;
+        audioSource.volume = sound.volume;
+        audioSource.pitch = sound.pitch;
+        audioSource.loop = sound.loop;
+        audioSource.spatialBlend = sound.spatialBlend;
+        audioSource.maxDistance = sound.maxDistance;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
     }
 
     public void Play(string name, GameObject target = null)
@@ -70,11 +81,7 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : s.AudioSource;
-        sourceToUse.clip = s.clip;
-        sourceToUse.volume = s.volume;
-        sourceToUse.pitch = s.pitch;
-        sourceToUse.loop = s.loop;
-        sourceToUse.spatialBlend = s.spatialBlend;
+        ConfigureAudioSource(sourceToUse, s);
         sourceToUse.Play();
     }
 
@@ -88,6 +95,7 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : s.AudioSource;
+        ConfigureAudioSource(sourceToUse, s);
         sourceToUse.Stop();
     }
 
@@ -200,6 +208,7 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioSource sourceToUse = target != null ? GetAudioSource(target, name) : OneshotAudioSource;
+        ConfigureAudioSource(sourceToUse, s);
         sourceToUse.PlayOneShot(s.clip, s.volume);
     }
 
@@ -213,6 +222,11 @@ public class AudioManager : MonoBehaviour
         if (!gameObjectAudioSources[target].ContainsKey(soundName))
         {
             AudioSource newSource = target.AddComponent<AudioSource>();
+            Sound sound = Array.Find(sounds, s => s.name == soundName);
+            if (sound != null)
+            {
+                ConfigureAudioSource(newSource, sound);
+            }
             gameObjectAudioSources[target][soundName] = newSource;
         }
 

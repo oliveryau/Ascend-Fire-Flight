@@ -894,7 +894,7 @@ MonoBehaviour:
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
   rightShootForce: 200
-  rightFireRate: 0.1
+  rightFireRate: 0.2
   maxAmmo: 45
   currentAmmo: 45
   maxHealCharge: 5

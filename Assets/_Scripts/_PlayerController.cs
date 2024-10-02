@@ -548,7 +548,6 @@ public class PlayerController : MonoBehaviour
         currentHealth -= damageTaken;
         RandomiseHurtAudio();
         UiManager.DisplayDamagedOverlay();
-        //Trigger damage effects or animations here
 
         if (currentHealth <= 0)
         {

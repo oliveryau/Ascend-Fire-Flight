@@ -50,13 +50,15 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1.32
     spatialBlend: 0
+    maxDistance: 0
     loop: 1
     AudioSource: {fileID: 0}
   - name: Main Ambience
     clip: {fileID: 8300000, guid: 1f882662eba37b74cb1054885251b168, type: 3}
     volume: 0.5
-    pitch: 1.41
+    pitch: 1
     spatialBlend: 0
+    maxDistance: 0
     loop: 0
     AudioSource: {fileID: 0}
   - name: Footstep 1
@@ -64,6 +66,7 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Footstep 2
@@ -71,6 +74,7 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Footstep 3
@@ -78,6 +82,7 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Footstep 4
@@ -85,13 +90,15 @@ MonoBehaviour:
     volume: 0.6
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Jump
     clip: {fileID: 8300000, guid: 1751440ff79a91444acf79905769da88, type: 3}
     volume: 1
-    pitch: 3
+    pitch: 2
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Land 1
@@ -99,6 +106,7 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Land 2
@@ -106,6 +114,7 @@ MonoBehaviour:
     volume: 0.3
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Hurt 1
@@ -113,6 +122,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Hurt 2
@@ -120,13 +130,15 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Falling
     clip: {fileID: 8300000, guid: 87fa3fddfe8ef444b8d5993f3c2d7389, type: 3}
     volume: 1
     pitch: 1
-    spatialBlend: 1
+    spatialBlend: 0
+    maxDistance: 0
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Gunshot
@@ -134,6 +146,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Reload
@@ -141,6 +154,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Healing
@@ -148,6 +162,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Gunshot
@@ -155,6 +170,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Launch
@@ -162,13 +178,15 @@ MonoBehaviour:
     volume: 0.8
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Float
     clip: {fileID: 8300000, guid: a9bc32c2e7553b54cae12748b974e018, type: 3}
     volume: 1
-    pitch: 0.53
+    pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 1
     AudioSource: {fileID: 0}
   - name: Right Hit Enemy 1
@@ -176,6 +194,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Enemy 2
@@ -183,6 +202,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 1
@@ -190,6 +210,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 2
@@ -197,6 +218,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 1
@@ -204,6 +226,7 @@ MonoBehaviour:
     volume: 0.645
     pitch: 1
     spatialBlend: 1
+    maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 2
@@ -211,27 +234,31 @@ MonoBehaviour:
     volume: 0.673
     pitch: 1
     spatialBlend: 1
+    maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
   - name: Gate Move
     clip: {fileID: 8300000, guid: 57e8b0208c94af549ad9ccb6033eb3de, type: 3}
     volume: 1
-    pitch: 3
+    pitch: 1
     spatialBlend: 1
+    maxDistance: 50
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Shake
     clip: {fileID: 8300000, guid: 0e38b202b2d12014986ef5769feb5bdb, type: 3}
     volume: 1
-    pitch: 3
+    pitch: 1
     spatialBlend: 1
+    maxDistance: 20
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Break
     clip: {fileID: 8300000, guid: bf1eb68ffd2eff04a80fd89685560290, type: 3}
     volume: 1
-    pitch: 3
+    pitch: 1
     spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 1
@@ -239,6 +266,7 @@ MonoBehaviour:
     volume: 0.1
     pitch: 0.7
     spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 2
@@ -246,5 +274,6 @@ MonoBehaviour:
     volume: 0.1
     pitch: 0.7
     spatialBlend: 1
+    maxDistance: 20
     loop: 0
     AudioSource: {fileID: 0}
