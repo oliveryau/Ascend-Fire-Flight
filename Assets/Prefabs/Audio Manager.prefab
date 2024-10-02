@@ -263,17 +263,17 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 1
     clip: {fileID: 8300000, guid: 32735e2778169984db674a16f41d0930, type: 3}
-    volume: 0.1
-    pitch: 0.7
+    volume: 1
+    pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 2
     clip: {fileID: 8300000, guid: c0fee020eee27bb4da7d5c253867371f, type: 3}
-    volume: 0.1
-    pitch: 0.7
+    volume: 1
+    pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 10
     loop: 0
     AudioSource: {fileID: 0}

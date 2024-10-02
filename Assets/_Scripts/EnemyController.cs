@@ -101,9 +101,15 @@ public class EnemyController : MonoBehaviour
 
     private void RandomiseSpawnAudio()
     {
-        int soundIndex = Random.Range(1, 3);
-        string soundName = $"Enemy Spawn {soundIndex}";
-        AudioManager.Instance.PlayOneShot(soundName, gameObject);
+        bool played = true;
+
+        if (played)
+        {
+            played = false;
+            int soundIndex = Random.Range(1, 3);
+            string soundName = $"Enemy Spawn {soundIndex}";
+            AudioManager.Instance.PlayOneShot(soundName, gameObject);
+        }
     }
     #endregion
 

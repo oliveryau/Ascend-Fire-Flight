@@ -1729,12 +1729,12 @@ MonoBehaviour:
   - {fileID: 2367713547635859780}
   playerAmmoCount: {fileID: 121115300}
   enemyIndicatorPrefab: {fileID: 7998093304104476392, guid: 11ea3607b74b3e14b91e6b5e8a9c9dde, type: 3}
-  detectionRadius: 20
+  enemyDetectionRadius: 100
   indicatorDistance: 1
+  indicatorParent: {fileID: 1081168868}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
-  indicatorParent: {fileID: 1081168868}
   fadePrefab: {fileID: 1283709365}
   playerFallingOutOfBoundsOverlay: {fileID: 474726741}
   playerDamagedOverlay: {fileID: 846422327}
