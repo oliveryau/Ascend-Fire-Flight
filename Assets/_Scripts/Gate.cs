@@ -13,7 +13,7 @@ public class Gate : MonoBehaviour
     private void Start()
     {
         initialPosition = transform.position;
-        targetPosition = transform.position + new Vector3(0, 50f, 0);
+        targetPosition = transform.position + new Vector3(0, 25f, 0);
     }
 
     private void Update()

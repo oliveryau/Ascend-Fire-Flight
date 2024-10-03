@@ -282,9 +282,18 @@ public class PlayerController : MonoBehaviour
     #region Launching
     private void LaunchEnabled()
     {
-        if (currentLaunchMeter >= minimumLaunchAmount) canLaunch = true;
+        if (currentPlayerState != PlayerState.NORMAL) return;
 
-        if (Input.GetKeyDown(KeyCode.V) && canLaunch && isGrounded)
+        if (launchCooldown <= 0)
+        {
+            canLaunch = currentLaunchMeter >= minimumLaunchAmount;
+        }
+        else
+        {
+            canLaunch = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.V) && canLaunch)
         {
             Launching();
         }
@@ -292,11 +301,13 @@ public class PlayerController : MonoBehaviour
 
     private void LevitateEnabled()
     {
+        if (currentPlayerState != PlayerState.IRONMAN) return;
+
         if (Input.GetKey(KeyCode.V) && !isGrounded)
         {
             Levitating();
         }
-        else
+        else if (Input.GetKeyUp(KeyCode.V) || isGrounded)
         {
             StopLevitating();
         }
@@ -313,6 +324,12 @@ public class PlayerController : MonoBehaviour
         targetLaunchMeter = currentLaunchMeter - minimumLaunchAmount;
         canLaunch = false;
         launchCooldown = 1f;
+        isFloating = true;
+
+        if (!launchParticle.isPlaying)
+        {
+            launchParticle.Play();
+        }
     }
 
     private void Levitating()
@@ -329,6 +346,11 @@ public class PlayerController : MonoBehaviour
             targetLaunchMeter = currentLaunchMeter -= Time.deltaTime;
             isFloating = true;
             velocity.y = Mathf.Max(velocity.y, -floatStrength);
+
+            if (!launchParticle.isPlaying)
+            {
+                launchParticle.Play();
+            }
         }
         else
         {
@@ -342,13 +364,25 @@ public class PlayerController : MonoBehaviour
         floatSoundPlaying = false;
         LeftWeaponAnimator.SetBool("Floating", false);
         AudioManager.Instance.Stop("Float", LeftWeaponAnimator.gameObject);
+
+        if (launchParticle.isPlaying)
+        {
+            launchParticle.Stop();
+        }
     }
 
     private void LaunchingCooldown()
     {
-        if (targetLaunchMeter < maxLaunchMeter && isGrounded) targetLaunchMeter += Time.deltaTime * 3f;
+        if (launchCooldown > 0)
+        {
+            launchCooldown -= Time.deltaTime;
+            canLaunch = false;
+        }
 
-        if (launchCooldown > 0) launchCooldown -= Time.deltaTime;
+        if (targetLaunchMeter < maxLaunchMeter && !Input.GetKey(KeyCode.V))
+        {
+            targetLaunchMeter += Time.deltaTime * 2f;
+        }
     }
 
     private void UpdateLaunchMeter()
@@ -356,13 +390,16 @@ public class PlayerController : MonoBehaviour
         float previousLaunchMeter = currentLaunchMeter;
         currentLaunchMeter = Mathf.Lerp(currentLaunchMeter, targetLaunchMeter, Time.deltaTime * 5f);
 
-        if (currentLaunchMeter < previousLaunchMeter)
+        if (!isFloating)
         {
-            UpdateLaunchParticle(true);
-        }
-        else if (currentLaunchMeter > previousLaunchMeter && currentLaunchMeter < maxLaunchMeter)
-        {
-            UpdateLaunchParticle(false);
+            if (currentLaunchMeter < previousLaunchMeter)
+            {
+                UpdateLaunchParticle(true);
+            }
+            else if (currentLaunchMeter > previousLaunchMeter && currentLaunchMeter < maxLaunchMeter)
+            {
+                UpdateLaunchParticle(false);
+            }
         }
     }
 
