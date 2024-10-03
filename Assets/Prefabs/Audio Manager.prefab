@@ -258,7 +258,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 100
+    maxDistance: 50
     loop: 1
     AudioSource: {fileID: 0}
   - name: Falling Platform Shake
@@ -303,6 +303,14 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: Enemy Melee 2
     clip: {fileID: 8300000, guid: 92d323f863f546845b79ad6d05c56715, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 20
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Ranged 1
+    clip: {fileID: 8300000, guid: 4f7c7ea41ce1808429c4db2362cca2ac, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1

@@ -49,6 +49,7 @@ public class EnemyRanged : EnemyController
         GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, bulletFirePoint.rotation);
         bulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
         Animator.SetTrigger("Attack");
+        AudioManager.Instance.PlayOneShot("Enemy Ranged 1", gameObject);
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         lastAttackTime = Time.time;
         yield return new WaitForSeconds(attackCooldown);

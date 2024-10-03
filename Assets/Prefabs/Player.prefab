@@ -877,7 +877,7 @@ MonoBehaviour:
   jumpForce: 2
   fallMultiplier: 2.5
   footstepWalkInterval: 0.4
-  footstepSprintInterval: 0.25
+  footstepSprintInterval: 0.3
   isGrounded: 0
   launchParticle: {fileID: 5523417766275449400}
   launchForce: 10

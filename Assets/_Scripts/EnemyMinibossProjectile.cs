@@ -18,5 +18,9 @@ public class EnemyMinibossProjectile : MonoBehaviour
             target.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
             Destroy(gameObject);
         }
+        else if (target.gameObject.CompareTag("Ground"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
