@@ -243,7 +243,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
   bulletFirePoint: {fileID: 1841746045939758597}
   shootForce: 150
-  spreadAngle: 1
+  spreadAngle: 0.5
 --- !u!1 &1414482007335723520
 GameObject:
   m_ObjectHideFlags: 0
