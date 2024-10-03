@@ -2,9 +2,6 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using static AudioManager;
-using UnityEngine.Audio;
-using Mono.Cecil;
 
 public class AudioManager : MonoBehaviour
 {
