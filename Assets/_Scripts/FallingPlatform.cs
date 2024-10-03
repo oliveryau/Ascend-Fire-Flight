@@ -28,7 +28,6 @@ public class FallingPlatform : MonoBehaviour
         AudioManager.Instance.PlayOneShot("Falling Platform Break", gameObject);
         Animator.SetBool("Shake", false);
         yield return new WaitForSeconds(destroyDelay);
-        trigger.DestroyTrigger();
-        Destroy(gameObject);
+        trigger.CheckPlatform();
     }
 }

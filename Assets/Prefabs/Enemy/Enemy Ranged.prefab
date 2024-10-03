@@ -238,11 +238,11 @@ MonoBehaviour:
   maxHealth: 2
   currentHealth: 2
   attackDamage: 1
-  attackCooldown: 0.5
+  attackCooldown: 1
   AttackRadius: {fileID: 3210398372328647434}
   bulletPrefab: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
   bulletFirePoint: {fileID: 1841746045939758597}
-  shootForce: 200
+  shootForce: 150
   spreadAngle: 1
 --- !u!1 &1414482007335723520
 GameObject:
@@ -1313,5 +1313,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 50
+  m_Radius: 100
   m_Center: {x: 0, y: 0, z: 0}

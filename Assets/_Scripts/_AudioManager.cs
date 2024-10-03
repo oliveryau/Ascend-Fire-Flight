@@ -65,6 +65,7 @@ public class AudioManager : MonoBehaviour
         audioSource.clip = sound.clip;
         audioSource.volume = sound.volume;
         audioSource.pitch = sound.pitch;
+        audioSource.playOnAwake = false;
         audioSource.loop = sound.loop;
         audioSource.spatialBlend = sound.spatialBlend;
         audioSource.maxDistance = sound.maxDistance;
