@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.WAIT:
-                StartCoroutine(StartWait());
+                StartWait();
                 break;
             case PlayerState.NORMAL:
                 Movement();
@@ -159,9 +159,8 @@ public class PlayerController : MonoBehaviour
         currentPlayerState = newState;
     }
 
-    private IEnumerator StartWait()
+    private void StartWait()
     {
-        yield return new WaitForSeconds(1f);
         ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
