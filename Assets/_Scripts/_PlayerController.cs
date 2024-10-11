@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
         Controller = GetComponent<CharacterController>();
         PlayerCamera = GetComponentInChildren<Camera>();
 
-        ChangePlayerState(PlayerState.WAIT);
+        ChangePlayerState(PlayerState.NORMAL);
 
         initialPosition = transform.position;
 
@@ -128,7 +128,6 @@ public class PlayerController : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.WAIT:
-                StartWait();
                 break;
             case PlayerState.NORMAL:
                 Movement();
@@ -157,11 +156,6 @@ public class PlayerController : MonoBehaviour
     private void ChangePlayerState(PlayerState newState)
     {
         currentPlayerState = newState;
-    }
-
-    private void StartWait()
-    {
-        ChangePlayerState(PlayerState.NORMAL);
     }
     #endregion
 
