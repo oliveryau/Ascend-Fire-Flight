@@ -79,7 +79,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.SHOOT:
                 tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press Left Mouse Button to fire blast palm\nPress Right Mouse Button to fire grenade launcher";
                 tutorialCue.SetActive(true);
-                yield return new WaitUntil(() => Input.GetButtonDown("Fire1"));
+                yield return new WaitUntil(() => Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"));
                 tutorialCue.SetActive(false);
                 tutorialActive = false;
                 break;

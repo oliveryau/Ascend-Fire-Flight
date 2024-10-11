@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6627680690600791606}
   - component: {fileID: 8992637382385422933}
   - component: {fileID: 8175367962085121330}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Symbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 3765455296759654709}
   - component: {fileID: 3652976090376455617}
   - component: {fileID: 7473186110565579694}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: polySurface3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4385174276911834390}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Parts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 8891305195170357912}
   - component: {fileID: 5789073562439369112}
   - component: {fileID: 7667201259919758106}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: pCube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 7143461010542187952}
   - component: {fileID: 2575102180911326053}
   - component: {fileID: 4001155278963847955}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -381,7 +381,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 3000
+  m_ColorTemperature: 15000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
