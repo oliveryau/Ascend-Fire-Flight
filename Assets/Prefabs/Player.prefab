@@ -888,7 +888,7 @@ MonoBehaviour:
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
-  rightShootForce: 200
+  rightShootForce: 500
   rightFireRate: 0.2
   maxAmmo: 30
   currentAmmo: 30
