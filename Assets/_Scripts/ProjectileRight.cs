@@ -18,13 +18,6 @@ public class ProjectileRight : MonoBehaviour
 
         Destroy(gameObject, lifeTime);
     }
-    
-    private void ChargeHeal()
-    {
-        if (Player.currentHealCharge >= Player.maxHealCharge) return;
-
-        Player.currentHealCharge++;
-    }
 
     private void OnCollisionEnter(Collision target)
     {
@@ -32,7 +25,6 @@ public class ProjectileRight : MonoBehaviour
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             UiManager.UpdateRightCrosshair("Hit");
-            ChargeHeal();
 
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;

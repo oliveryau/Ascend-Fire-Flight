@@ -25,7 +25,6 @@ public class UiManager : MonoBehaviour
 
     [Header("Diegetic UI")]
     public Transform playerLaunchMeter;
-    public GameObject[] playerHealCharge;
     public TextMeshProUGUI playerAmmoCount;
 
     private Renderer launchMeterRenderer;
@@ -71,7 +70,6 @@ public class UiManager : MonoBehaviour
         {
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
-            UpdatePlayerHealCharge();
             UpdateRightCrosshairDetection();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
@@ -114,23 +112,6 @@ public class UiManager : MonoBehaviour
 
         Color lerpedColor = Color.Lerp(Color.red, Color.cyan, fillPercentage);
         launchMeterRenderer.material.color = lerpedColor;
-    }
-
-    public void UpdatePlayerHealCharge()
-    {
-        for (int i = 0; i < playerHealCharge.Length; i++)
-        {
-            Renderer healChargeRenderer = playerHealCharge[i].GetComponent<Renderer>();
-
-            if (i < Player.currentHealCharge)
-            {
-                healChargeRenderer.material.color = Color.cyan;
-            }
-            else
-            {
-                healChargeRenderer.material.color = Color.gray;
-            }
-        }
     }
 
     public void UpdatePlayerAmmoCount()

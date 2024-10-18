@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
 
+    public bool canHeal;
+    public bool isHealing;
     private bool hasTakenDamaged;
     private bool isDead;
 
@@ -55,12 +57,9 @@ public class PlayerController : MonoBehaviour
     public float rightFireRate;
     public int maxAmmo;
     public int currentAmmo;
-    public int maxHealCharge;
-    public int currentHealCharge;
 
     private float rightNextFireTime = 0f;
     private bool isReloading;
-    private bool isHealing;
     private float errorSoundCooldown = 0f;
     private const float ERROR_SOUND_INTERVAL = 0.5f;
 
@@ -136,7 +135,7 @@ public class PlayerController : MonoBehaviour
                 UpdateLaunchMeter();
                 NormalShooting();
                 RightWeaponReload();
-                RightWeaponHealing();
+                HealingEnabled();
                 break;
             case PlayerState.IRONMAN:
                 Movement();
@@ -145,7 +144,7 @@ public class PlayerController : MonoBehaviour
                 UpdateLaunchMeter();
                 IronmanShooting();
                 RightWeaponReload();
-                RightWeaponHealing();
+                HealingEnabled();
                 break;
             case PlayerState.DEAD:
                 Dead();
@@ -476,30 +475,6 @@ public class PlayerController : MonoBehaviour
         isReloading = false;
     }
 
-    private void RightWeaponHealing()
-    {
-        if (isReloading || isHealing) return;
-        if (currentHealth >= maxHealth) return;
-        
-        if (Input.GetKeyDown(KeyCode.E) && currentHealCharge > 0)
-        {
-            StartCoroutine(Heal());
-        }
-    }
-
-    private IEnumerator Heal()
-    {
-        isHealing = true;
-        RightWeaponAnimator.SetTrigger("Healing");
-        AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
-        yield return new WaitForSeconds(1f);
-        currentHealth += currentHealCharge;
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
-        currentHealCharge = 0;
-        yield return new WaitForSeconds(1f);
-        isHealing = false;
-    }
-
     private void LeftWeaponShooting()
     {
         if (Time.time >= leftNextFireTime)
@@ -612,12 +587,48 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    #region Healing
+    private void HealingEnabled()
+    {
+        if (isReloading) return;
+        if (!canHeal || isHealing) return;
+        if (currentHealth >= maxHealth) return;
+
+        if (Input.GetKeyDown(KeyCode.E)) StartCoroutine(HealPlayer());
+
+    }
+
+    public IEnumerator HealPlayer()
+    {
+        isHealing = true;
+        RightWeaponAnimator.SetTrigger("Healing");
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
+        currentHealth = maxHealth;
+        yield return new WaitForSeconds(1f);
+        isHealing = false;
+    }
+    #endregion
+
     #region Collisions
     private void OnTriggerEnter(Collider target)
     {
+        if (target.CompareTag("Healing"))
+        {
+            canHeal = true;
+        }
+
         if (target.CompareTag("Respawn"))
         {
             StartCoroutine(FallingOut());
+        }
+    }
+
+    private void OnTriggerExit(Collider target)
+    {
+        if (target.CompareTag("Healing"))
+        {
+            canHeal = false;
         }
     }
     #endregion

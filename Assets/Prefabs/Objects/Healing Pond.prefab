@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8992637382385422933}
   - component: {fileID: 8175367962085121330}
   m_Layer: 2
-  m_Name: Symbol
-  m_TagString: Untagged
+  m_Name: Healing Pond
+  m_TagString: Healing
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
