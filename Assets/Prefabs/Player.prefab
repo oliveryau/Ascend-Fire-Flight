@@ -791,6 +791,7 @@ MonoBehaviour:
   currentMoveSpeed: 5
   walkSpeed: 5
   sprintSpeed: 8
+  floatSpeed: 7
   jumpForce: 2
   fallMultiplier: 2.5
   footstepWalkInterval: 0.4

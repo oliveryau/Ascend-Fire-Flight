@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public float currentMoveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
+    public float floatSpeed;
     public float jumpForce;
     public float fallMultiplier;
     public float footstepWalkInterval;
@@ -186,7 +187,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            currentMoveSpeed = walkSpeed;
+            currentMoveSpeed = floatSpeed;
             isSprinting = false;
             sprintLines.SetActive(false);
         }
