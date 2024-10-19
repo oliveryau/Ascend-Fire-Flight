@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class Healing : MonoBehaviour
 {
-    private Animator Animator;
-    private SphereCollider DetectionRadius;
+    private UiManager UiManager;
 
     private void Start()
     {
-        Animator = GetComponent<Animator>();
-        DetectionRadius = GetComponent<SphereCollider>();
+        UiManager = FindFirstObjectByType<UiManager>();
     }
 
     private void OnTriggerEnter(Collider target)
     {
         if (target.CompareTag("Player"))
         {
-            Animator.SetTrigger("Light Up");
+            UiManager.ToggleHealCue(true);
         }
     }
 
@@ -23,7 +21,7 @@ public class Healing : MonoBehaviour
     {
         if (target.CompareTag("Player"))
         {
-            Animator.SetTrigger("Light Down");
+            UiManager.ToggleHealCue(false);
         }
     }
 }

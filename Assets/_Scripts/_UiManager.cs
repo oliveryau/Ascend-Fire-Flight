@@ -10,24 +10,32 @@ public class UiManager : MonoBehaviour
     [Header("Main UI")]
     public GameObject pauseMenu;
     public GameObject tutorialCue;
+    [HideInInspector] public float updateSpeed = 5f;
 
-    [Header("Player UI")]
-    public float updateSpeed;
+    [Header("Player HP")]
     public Image playerHealthFill;
+
+    private float targetHealthFill;
+
+    [Header("Player Launch Meter")]
+    public Image playerLaunchFill;
+
+    private float targetLaunchFill;
+
+    [Header("Player Ammo")]
+    public TextMeshProUGUI playerAmmoText;
+
+    [Header("Player Crosshair")]
     public GameObject rightCrosshair;
     public GameObject leftCrosshair;
     public float crosshairDetectionRange;
 
-    private float targetHealthFill;
     private Animator rightCrosshairAnimator;
     private Animator leftCrosshairAnimator;
     private bool rightCrosshairOnEnemy;
 
-    [Header("Diegetic UI")]
-    public Transform playerLaunchMeter;
-    public TextMeshProUGUI playerAmmoCount;
-
-    private Renderer launchMeterRenderer;
+    [Header("Player Healing")]
+    public GameObject playerHealCue;
 
     [Header("Enemy Indicator UI")]
     public GameObject enemyIndicatorPrefab;
@@ -42,7 +50,7 @@ public class UiManager : MonoBehaviour
     private const float TOP_ROTATION = 180f;
     private const float BOTTOM_ROTATION = 0f;
 
-    [Header("Other UI")]
+    [Header("Non-Player UI")]
     public GameObject fadePrefab;
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
@@ -83,7 +91,8 @@ public class UiManager : MonoBehaviour
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
 
-        launchMeterRenderer = playerLaunchMeter.GetComponent<Renderer>();
+        targetLaunchFill = Player.currentLaunchMeter / Player.maxLaunchMeter;
+        playerLaunchFill.fillAmount = targetLaunchFill;
 
         UpdatePlayerAmmoCount();
 
@@ -104,22 +113,19 @@ public class UiManager : MonoBehaviour
 
     public void UpdatePlayerLaunchMeter()
     {
-        float fillPercentage = Player.currentLaunchMeter / Player.maxLaunchMeter;
-        Vector3 currentScale = playerLaunchMeter.localScale;
-        Vector3 targetScale = new Vector3(Mathf.Lerp(0, 1, fillPercentage), currentScale.y, currentScale.z);
+        targetLaunchFill = Player.currentLaunchMeter / Player.maxLaunchMeter;
+        playerLaunchFill.fillAmount = Mathf.Lerp(playerLaunchFill.fillAmount, targetLaunchFill, Time.deltaTime * updateSpeed);
 
-        playerLaunchMeter.localScale = Vector3.Lerp(currentScale, targetScale, Time.deltaTime * updateSpeed);
-
-        Color lerpedColor = Color.Lerp(Color.red, Color.cyan, fillPercentage);
-        launchMeterRenderer.material.color = lerpedColor;
+        Color lerpedColor = Color.Lerp(Color.black, Color.white, playerLaunchFill.fillAmount);
+        playerLaunchFill.color = lerpedColor;
     }
 
     public void UpdatePlayerAmmoCount()
     {
-        if (Player.currentAmmo <= 0) playerAmmoCount.color = Color.red;
-        else playerAmmoCount.color = Color.white;
+        if (Player.currentAmmo <= 0.2f * Player.maxAmmo) playerAmmoText.color = Color.red;
+        else playerAmmoText.color = Color.white;
 
-        playerAmmoCount.text = Player.currentAmmo.ToString();
+        playerAmmoText.text = Player.currentAmmo.ToString() + " / " + Player.maxAmmo.ToString();
     }
 
     public void UpdateRightCrosshair(string animName)
@@ -175,6 +181,11 @@ public class UiManager : MonoBehaviour
             if (leftCrosshair.activeSelf) return;
             leftCrosshair.SetActive(true);
         }
+    }
+
+    public void ToggleHealCue(bool canHeal)
+    {
+        playerHealCue.SetActive(canHeal);
     }
     #endregion
 

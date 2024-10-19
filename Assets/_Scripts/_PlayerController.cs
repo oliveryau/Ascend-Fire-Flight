@@ -454,12 +454,13 @@ public class PlayerController : MonoBehaviour
             RightWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
             UiManager.UpdateRightCrosshair("Shoot");
+            UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
             UiManager.UpdatePlayerAmmoCount();
             rightNextFireTime = Time.time + rightFireRate;
         }
         else if (currentAmmo <= 0 && Time.time >= errorSoundCooldown)
         {
-            RightWeaponAnimator.SetTrigger("Empty");
+            UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
             AudioManager.Instance.PlayOneShot("Reload Error", RightWeaponAnimator.gameObject);
             errorSoundCooldown = Time.time + ERROR_SOUND_INTERVAL; 
         }
@@ -483,6 +484,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         currentAmmo = maxAmmo;
         UiManager.UpdatePlayerAmmoCount();
+        UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
         yield return new WaitForSeconds(0.5f);
         isReloading = false;
     }
