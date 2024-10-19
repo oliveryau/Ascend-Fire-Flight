@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     [Header("Right Weapon Variables")]
     public GameObject rightProjectilePrefab;
     public Transform rightFirePoint;
-    public int rightProjectileDamage;
+    public float rightProjectileDamage;
     public float rightShootForce;
     public float rightFireRate;
     public int maxAmmo;
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
-    public int leftProjectileDamage;
+    public float leftProjectileDamage;
     public float leftShootForce;
     public float leftFireRate;
 
@@ -540,7 +540,7 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region Taking Damage
-    public void TakeDamage(int damageTaken)
+    public void TakeDamage(float damageTaken)
     {
         if (currentPlayerState == PlayerState.DEAD) return;
         if (hasTakenDamaged) return;

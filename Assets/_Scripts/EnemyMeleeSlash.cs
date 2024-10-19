@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyMeleeSlash : MonoBehaviour
 {
-    public int damage;
+    public float damage;
 
     private void Start()
     {

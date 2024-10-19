@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class ProjectileRight : MonoBehaviour
 {
-    public int damage;
     public float lifeTime;
     public GameObject hitEnemyVfx;
     public GameObject hitGroundVfx;
 
     private PlayerController Player;
     private UiManager UiManager;
+    private float damage;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class ProjectileRight : MonoBehaviour
     {
         if (target.gameObject.CompareTag("Enemy"))
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage melee enemy
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];

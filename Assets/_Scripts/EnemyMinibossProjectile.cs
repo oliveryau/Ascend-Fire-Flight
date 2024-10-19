@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class EnemyMinibossProjectile : MonoBehaviour
 {
-    public int damage;
     public float lifeTime;
+    
+    private float damage;
 
     private void Start()
     {

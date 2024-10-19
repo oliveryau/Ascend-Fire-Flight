@@ -3,7 +3,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyRangedBullet : MonoBehaviour
 {
-    public int damage;
+    public float damage;
     public float lifeTime;
 
     private void Start()

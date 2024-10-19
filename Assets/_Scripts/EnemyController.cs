@@ -10,14 +10,14 @@ public class EnemyController : MonoBehaviour
 
     [Header("Enemy Base Variables")]
     public int enemyId;
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
 
     private bool playedSpawnSound;
     private bool playedDeathSound;
 
     [Header("Enemy Attack Variables")]
-    public int attackDamage;
+    public float attackDamage;
     public float attackCooldown;
 
     protected bool isAttacking;
@@ -166,7 +166,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Taking Damage
-    public void TakeDamage(int damageTaken)
+    public void TakeDamage(float damageTaken)
     {
         if (currentEnemyState == EnemyState.DEAD) return;
 

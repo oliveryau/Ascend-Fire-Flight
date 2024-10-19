@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class ProjectileLeftExplosion : MonoBehaviour
 {
-    public int damage;
     public float explosionRadius;
 
     private UiManager UiManager;
+    private float damage;
 
     private void Start()
     {
@@ -24,9 +24,9 @@ public class ProjectileLeftExplosion : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Enemy")) //Double damage melee enemy
+            if (hitCollider.CompareTag("Enemy")) 
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2);
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2); //Double damage melee enemy
 
                 if (!hitOnce)
                 {
@@ -34,9 +34,9 @@ public class ProjectileLeftExplosion : MonoBehaviour
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Ranged"))
+            else if (hitCollider.CompareTag("Enemy Ranged")) 
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage ranged enemy
 
                 if (!hitOnce)
                 {
