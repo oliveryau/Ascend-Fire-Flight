@@ -32,6 +32,17 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
+        else if (target.gameObject.CompareTag("Enemy Ranged")) //Double damage ranged enemy
+        {
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 2);
+            UiManager.UpdateRightCrosshair("Hit");
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
         else if (target.gameObject.CompareTag("Ground"))
         {
             ContactPoint contact = target.contacts[0];

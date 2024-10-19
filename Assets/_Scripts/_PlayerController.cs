@@ -25,11 +25,13 @@ public class PlayerController : MonoBehaviour
     public float fallMultiplier;
     public float footstepWalkInterval;
     public float footstepSprintInterval;
+    public GameObject sprintLines;
 
     private float verticalRotation = 0f;
     [HideInInspector] public bool isGrounded;
     private Vector3 velocity;
     private Coroutine footstepCoroutine;
+    private bool isMoving;
     private bool isWalking;
     private bool isSprinting;
     private bool isInAir;
@@ -174,19 +176,26 @@ public class PlayerController : MonoBehaviour
         //Moving
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
+        isMoving = (moveX != 0 || moveZ != 0);
 
-        if (currentPlayerState != PlayerState.IRONMAN) currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
-        else currentMoveSpeed = walkSpeed;
+        if (currentPlayerState != PlayerState.IRONMAN)
+        {
+            isSprinting = Input.GetKey(KeyCode.LeftShift);
+            currentMoveSpeed = isSprinting ? sprintSpeed : walkSpeed;
+            sprintLines.SetActive(isSprinting && isMoving && isGrounded);
+        }
+        else
+        {
+            currentMoveSpeed = walkSpeed;
+            isSprinting = false;
+            sprintLines.SetActive(false);
+        }
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        Controller.Move(move * currentMoveSpeed * Time.deltaTime);
-
-        if (isGrounded && (moveX != 0 || moveZ != 0))
+        if (isGrounded && isMoving)
         {
             if (!isWalking)
             {
                 isWalking = true;
-                isSprinting = Input.GetKey(KeyCode.LeftShift);
                 footstepCoroutine = StartCoroutine(PlayFootstepSounds());
             }
         }
@@ -202,6 +211,9 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        Controller.Move(move * currentMoveSpeed * Time.deltaTime);
 
         //Jumping and Falling
         if (Input.GetButtonDown("Jump") && isGrounded)

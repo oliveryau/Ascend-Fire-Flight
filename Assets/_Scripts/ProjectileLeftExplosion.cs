@@ -24,7 +24,17 @@ public class ProjectileLeftExplosion : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Enemy"))
+            if (hitCollider.CompareTag("Enemy")) //Double damage melee enemy
+            {
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2);
+
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
+            }
+            else if (hitCollider.CompareTag("Enemy Ranged"))
             {
                 hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
 

@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8857076428734308458}
   m_Layer: 6
   m_Name: Enemy Ranged
-  m_TagString: Enemy
+  m_TagString: Enemy Ranged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -235,8 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 2
-  currentHealth: 2
+  maxHealth: 4
+  currentHealth: 4
   attackDamage: 1
   attackCooldown: 1
   AttackRadius: {fileID: 3210398372328647434}
