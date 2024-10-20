@@ -12,7 +12,6 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
     private Animator Animator;
     private bool isActivated;
     private bool isSpawning;
-    private bool initialSpawnComplete;
 
     [Header("Enemy Variables")]
     public EnemyController EnemyToSpawn;
@@ -39,9 +38,9 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         if (currentHealth <= 0 || !isActivated) return;
 
         CurrentEnemiesAlive.RemoveAll(enemy => enemy == null);
-        if (!isSpawning && CurrentEnemiesAlive.Count < maxEnemies && initialSpawnComplete)
+        if (!isSpawning && CurrentEnemiesAlive.Count < maxEnemies)
         {
-            StartCoroutine(SpawnSingleWithDelay());
+            StartCoroutine(SpawnEnemyWithDelay());
         }
     }
 
@@ -49,24 +48,10 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
     {
         if (isSpawning) return;
 
-        InitialSpawnSequence();
-    }
-
-    private void InitialSpawnSequence()
-    {
         isActivated = true;
-        isSpawning = true;
-
-        for (int i = 0; i < EnemySpawnPoints.Length && CurrentEnemiesAlive.Count < maxEnemies; i++)
-        {
-            SpawnSingleEnemy();
-        }
-
-        initialSpawnComplete = true;
-        isSpawning = false;
     }
 
-    private IEnumerator SpawnSingleWithDelay()
+    private IEnumerator SpawnEnemyWithDelay()
     {
         isSpawning = true;
         yield return new WaitForSeconds(spawnInterval);
@@ -108,6 +93,6 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         }
         //Animator.SetTrigger("Dead");
         yield return new WaitForSeconds(3f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

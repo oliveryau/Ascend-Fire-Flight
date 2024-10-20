@@ -9,7 +9,7 @@ public class UiManager : MonoBehaviour
     #region Variables
     [Header("Main UI")]
     public GameObject pauseMenu;
-    public GameObject tutorialCue;
+    public GameObject mainGameUi;
     [HideInInspector] public float updateSpeed = 5f;
 
     [Header("Player HP")]
@@ -34,8 +34,9 @@ public class UiManager : MonoBehaviour
     private Animator leftCrosshairAnimator;
     private bool rightCrosshairOnEnemy;
 
-    [Header("Player Healing")]
-    public GameObject playerHealCue;
+    [Header("Other Player UI")]
+    public GameObject playerHealUi;
+    public GameObject tutorialCue;
 
     [Header("Enemy Indicator UI")]
     public GameObject enemyIndicatorPrefab;
@@ -74,13 +75,19 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
-        if (Player.currentPlayerState != PlayerController.PlayerState.DEAD)
+        if (GameManager.currentGameState != GameManager.GameState.PAUSE || Player.currentPlayerState != PlayerController.PlayerState.DEAD)
         {
+            ToggleUi(true);
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
             UpdateRightCrosshairDetection();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
+        }
+
+        if (GameManager.currentGameState == GameManager.GameState.PAUSE)
+        {
+            ToggleUi(false);
         }
     }
 
@@ -98,6 +105,11 @@ public class UiManager : MonoBehaviour
 
         rightCrosshairAnimator = rightCrosshair.GetComponent<Animator>();
         leftCrosshairAnimator = leftCrosshair.GetComponent<Animator>();
+    }
+
+    private void ToggleUi(bool active)
+    {
+        mainGameUi.SetActive(active);
     }
     #endregion
 
@@ -185,7 +197,7 @@ public class UiManager : MonoBehaviour
 
     public void ToggleHealCue(bool canHeal)
     {
-        playerHealCue.SetActive(canHeal);
+        playerHealUi.SetActive(canHeal);
     }
     #endregion
 

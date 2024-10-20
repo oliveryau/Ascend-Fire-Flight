@@ -70,9 +70,10 @@ public class EnemyBoss : EnemyController
         {
             case BossState.PHASEONE:
                 ActivateSpawners();
+                CheckSpawners();
                 break;
             case BossState.PHASETWO:
-                LookAtPlayer();
+                //LookAtPlayer();
                 //RangedAttack();
                 break;
         }
@@ -90,6 +91,16 @@ public class EnemyBoss : EnemyController
         {
             spawner.SpawnMeleeEnemies();
         }
+    }
+
+    private void CheckSpawners()
+    {
+        foreach (var spawner in meleeSpawners)
+        {
+            if (spawner.gameObject.activeSelf) return;
+        }
+
+        ChangeBossState(BossState.PHASETWO);
     }
 
     //private void RangedAttack()
