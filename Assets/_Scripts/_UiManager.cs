@@ -56,6 +56,16 @@ public class UiManager : MonoBehaviour
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
 
+    [Header("Tutorial Interactive UI")]
+    public GameObject sprintUi;
+    public GameObject launchUi;
+    public GameObject rightWeaponUi;
+    public GameObject leftWeaponUi;
+    public GameObject ammoUi;
+    public GameObject crosshairUi;
+    public GameObject rightDecorativeUi;
+    public GameObject reloadUi;
+
     [Header("References")]
     private GameManager GameManager;
     private PlayerController Player;
