@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyMiniboss : EnemyController
+public class EnemyBoss : EnemyController
 {
     [Header("Miniboss Attack State")]
     public MinibossAttack currentAttack;
@@ -67,23 +67,23 @@ public class EnemyMiniboss : EnemyController
     {
         LookAtPlayer();
 
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-        if (Player.isGrounded && distanceToPlayer > MeleeAttackRadius.radius)
-        {
-            ChangeBossAttack(MinibossAttack.CHARGE);
-        }
-        else if (Player.isGrounded && distanceToPlayer <= MeleeAttackRadius.radius)
-        {
-            ChangeBossAttack(MinibossAttack.MELEE);
-        }
-        else if (!Player.isGrounded && distanceToPlayer < RangedAttackRadius.radius)
-        {
-            ChangeBossAttack(MinibossAttack.RANGED);
-        }
-        else
-        {
-            ChangeBossAttack(MinibossAttack.CHASE);
-        }
+        //float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+        //if (Player.isGrounded && distanceToPlayer > MeleeAttackRadius.radius)
+        //{
+        //    ChangeBossAttack(MinibossAttack.CHARGE);
+        //}
+        //else if (Player.isGrounded && distanceToPlayer <= MeleeAttackRadius.radius)
+        //{
+        //    ChangeBossAttack(MinibossAttack.MELEE);
+        //}
+        //else if (!Player.isGrounded && distanceToPlayer < RangedAttackRadius.radius)
+        //{
+        //    ChangeBossAttack(MinibossAttack.RANGED);
+        //}
+        //else
+        //{
+        //    ChangeBossAttack(MinibossAttack.CHASE);
+        //}
 
         //if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         //{

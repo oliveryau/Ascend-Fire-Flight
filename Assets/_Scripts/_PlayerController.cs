@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public GameObject sprintLines;
 
     private float verticalRotation = 0f;
-    [HideInInspector] public bool isGrounded;
+    private bool isGrounded;
     private Vector3 velocity;
     private Coroutine footstepCoroutine;
     private bool isMoving;
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
     [Header("Shared Weapon Variables")]
     public float aimDistance;
 
-    [Header("World/Checkpoint Variables")]
+    [Header("Other Variables")]
     public int fallDamage;
     public Vector3 initialPosition;
 

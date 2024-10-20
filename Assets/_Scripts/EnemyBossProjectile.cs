@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMinibossProjectile : MonoBehaviour
+public class EnemyBossProjectile : MonoBehaviour
 {
     public float lifeTime;
     
@@ -8,7 +8,7 @@ public class EnemyMinibossProjectile : MonoBehaviour
 
     private void Start()
     {
-        damage = FindFirstObjectByType<EnemyMiniboss>().attackDamage;
+        damage = FindFirstObjectByType<EnemyBoss>().attackDamage;
         Destroy(gameObject, lifeTime);
     }
 
