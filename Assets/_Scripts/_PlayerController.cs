@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviour
 
         if (targetLaunchMeter < maxLaunchMeter && !Input.GetKey(KeyCode.V))
         {
-            targetLaunchMeter += Time.deltaTime * 2f;
+            targetLaunchMeter += Time.deltaTime;
         }
     }
 
