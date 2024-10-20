@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
     [Header("References")]
     public SphereCollider AttackRadius;
     protected PlayerController Player;
+    protected SphereCollider BodyCollider;
     protected NavMeshAgent NavMeshAgent;
     protected Animator Animator;
     #endregion
@@ -36,9 +37,11 @@ public class EnemyController : MonoBehaviour
         currentEnemyState = EnemyState.WAIT;
 
         Player = FindFirstObjectByType<PlayerController>();
+        BodyCollider = GetComponent<SphereCollider>();
         NavMeshAgent = GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
 
+        BodyCollider.enabled = false;
         currentHealth = maxHealth;
         lastAttackTime = -attackCooldown;
     }
@@ -119,6 +122,7 @@ public class EnemyController : MonoBehaviour
     {
         if (currentHealth <= 0) return;
         
+        BodyCollider.enabled = true;
         NavMeshAgent.isStopped = false;
 
         float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
@@ -166,7 +170,7 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     #region Taking Damage
-    public void TakeDamage(float damageTaken)
+    public virtual void TakeDamage(float damageTaken)
     {
         if (currentEnemyState == EnemyState.DEAD) return;
 

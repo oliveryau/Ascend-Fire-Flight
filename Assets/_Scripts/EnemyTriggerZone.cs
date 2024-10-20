@@ -15,7 +15,7 @@ public class EnemyTriggerZone : MonoBehaviour
     public GameObject gate;
 
     private bool isTriggered;
-    [HideInInspector] private bool endSegment;
+    private bool endSegment;
 
     private void Start()
     {

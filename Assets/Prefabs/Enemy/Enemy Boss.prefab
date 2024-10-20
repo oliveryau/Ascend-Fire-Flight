@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2690917761850030322}
   - component: {fileID: 3502961674627413183}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Ranged Attack Radius
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ Transform:
   m_GameObject: {fileID: 7533825188774776857}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -96,11 +96,11 @@ GameObject:
   - component: {fileID: 1952063985163407397}
   - component: {fileID: 815046322456660112}
   - component: {fileID: 9137439935850282097}
-  - component: {fileID: 7667794516041056169}
+  - component: {fileID: 2525850014188011496}
   - component: {fileID: 1746508162296873449}
   - component: {fileID: 4891510014933008917}
   m_Layer: 6
-  m_Name: Boss
+  m_Name: Enemy Boss
   m_TagString: Enemy Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,8 +197,8 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!136 &7667794516041056169
-CapsuleCollider:
+--- !u!135 &2525850014188011496
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -215,10 +215,8 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  serializedVersion: 3
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &1746508162296873449
 NavMeshAgent:
@@ -258,15 +256,11 @@ MonoBehaviour:
   enemyId: 0
   maxHealth: 100
   currentHealth: 100
-  attackDamage: 0
-  attackCooldown: 0
-  AttackRadius: {fileID: 0}
-  currentAttack: 0
-  chargeSpeed: 20
-  chargeDuration: 1.5
-  chargeDamage: 4
-  projectile: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
+  attackDamage: 5
+  attackCooldown: 1.5
+  AttackRadius: {fileID: 3502961674627413183}
+  currentBossState: 0
+  projectile: {fileID: 4493625471514249341, guid: 652e3178dd249f44e965692c2379c52e, type: 3}
   projectileFirepoint: {fileID: 1573391703455451402}
   shootForce: 150
-  MeleeAttackRadius: {fileID: 0}
-  RangedAttackRadius: {fileID: 3502961674627413183}
+  meleeSpawners: []

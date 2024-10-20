@@ -44,6 +44,26 @@ public class ProjectileLeftExplosion : MonoBehaviour
                     hitOnce = true;
                 }
             }
+            else if (hitCollider.CompareTag("Enemy Boss"))
+            {
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage); //Normal damage boss
+
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
+            }
+            else if (hitCollider.CompareTag("Enemy Spawner"))
+            {
+                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage boss spawner
+
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
+            }
         }
     }
 

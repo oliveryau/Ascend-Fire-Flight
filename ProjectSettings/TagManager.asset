@@ -9,6 +9,7 @@ TagManager:
   - Healing
   - Enemy Ranged
   - Enemy Boss
+  - Enemy Spawner
   layers:
   - Default
   - TransparentFX

@@ -37,7 +37,9 @@ public class LeftProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Ground"))
+        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Ranged") ||
+            target.gameObject.CompareTag("Enemy Boss") || target.gameObject.CompareTag("Enemy Spawner") ||
+            target.gameObject.CompareTag("Ground"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 position = contact.point;

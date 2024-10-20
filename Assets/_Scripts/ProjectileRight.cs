@@ -32,9 +32,31 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Ranged")) //Double damage ranged enemy
+        else if (target.gameObject.CompareTag("Enemy Ranged")) 
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 2);
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 2); //Double damage ranged enemy
+            UiManager.UpdateRightCrosshair("Hit");
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Enemy Boss"))
+        {
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage); //Normal damage boss
+            UiManager.UpdateRightCrosshair("Hit");
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Enemy Spawner"))
+        {
+            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage boss spawners
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];

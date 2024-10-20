@@ -3,87 +3,79 @@ using UnityEngine;
 
 public class EnemyBoss : EnemyController
 {
-    [Header("Miniboss Attack State")]
-    public MinibossAttack currentAttack;
-    public enum MinibossAttack { CHASE, CHARGE, MELEE, RANGED };
+    [Header("Boss Variables")]
+    public BossState currentBossState;
+    public enum BossState { WAIT, PHASEONE, PHASETWO };
 
-    [Header("Miniboss Charge Variables")]
-    public int chargeSpeed;
-    public float chargeDuration;
-    public int chargeDamage;
-
-    private bool isCharging;
-    private Vector3 chargeDirection;
-
-    [Header("Miniboss Ranged Variables")]
     public GameObject projectile;
     public Transform projectileFirepoint;
     public float shootForce;
 
-    [Header("Miniboss References")]
-    public SphereCollider MeleeAttackRadius;
-    public SphereCollider RangedAttackRadius;
+    [Header("Boss Spawners")]
+    public EnemyBossMeleeSpawner[] meleeSpawners;
+    //public EnemyBossRangedSpawner[] rangedSpawners;
 
     private void Start()
     {
-        enemyId = 98;
+        enemyId = 99;
         InitializeEnemy();
+        InitializeBoss();
     }
 
     private void Update()
     {
         CheckEnemyState();
-        BossAttack();
     }
 
-    private void ChangeBossAttack(MinibossAttack nextAttack)
+    private void ChangeBossState(BossState nextState)
     {
-        currentAttack = nextAttack;
+        currentBossState = nextState;
+    }
+
+    private void InitializeBoss()
+    {
+        //Display boss hp ui
+        meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
+        //Get ranged spawners
     }
 
     #region Wait
     public override void Wait()
     {
-        //Regain health if less than current health (may not need)
+        StartCoroutine(WakeUp());
+    }
 
-        base.Wait();
+    private IEnumerator WakeUp()
+    {
+        //AudioManager.Instance.PlayOneShot("Boss Wake Up", gameObject);
+        yield return new WaitForSeconds(2f);
+        ChangeEnemyState(EnemyState.ALERT);
     }
     #endregion
 
     #region Alert
     public override void Alert()
     {
-        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-        if (distanceToPlayer <= AttackRadius.radius)
-        {
-            //Animator.SetTrigger("Idle");
-            ChangeEnemyState(EnemyState.ATTACK); //Attack if within attacking radius
-        }
+        BodyCollider.enabled = true;
+
+        ChangeEnemyState(EnemyState.ATTACK);
+        ChangeBossState(BossState.PHASEONE);
     }
     #endregion
 
     #region Attack
     public override void Attacking()
     {
-        LookAtPlayer();
-
-        //float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
-        //if (Player.isGrounded && distanceToPlayer > MeleeAttackRadius.radius)
-        //{
-        //    ChangeBossAttack(MinibossAttack.CHARGE);
-        //}
-        //else if (Player.isGrounded && distanceToPlayer <= MeleeAttackRadius.radius)
-        //{
-        //    ChangeBossAttack(MinibossAttack.MELEE);
-        //}
-        //else if (!Player.isGrounded && distanceToPlayer < RangedAttackRadius.radius)
-        //{
-        //    ChangeBossAttack(MinibossAttack.RANGED);
-        //}
-        //else
-        //{
-        //    ChangeBossAttack(MinibossAttack.CHASE);
-        //}
+        switch (currentBossState)
+        {
+            case BossState.PHASEONE:
+                ActivateSpawners();
+                break;
+            case BossState.PHASETWO:
+                LookAtPlayer();
+                //RangedAttack();
+                break;
+        }
 
         //if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
         //{
@@ -92,124 +84,51 @@ public class EnemyBoss : EnemyController
         //}
     }
 
-    private void BossAttack()
+    private void ActivateSpawners()
     {
-        if (currentEnemyState != EnemyState.ATTACK) return;
-
-        switch (currentAttack)
+        foreach (var spawner in meleeSpawners)
         {
-            case MinibossAttack.CHASE:
-                Chase();
-                break;
-            case MinibossAttack.CHARGE:
-                Charge();
-                break;
-            case MinibossAttack.MELEE:
-                Melee();
-                break;
-            case MinibossAttack.RANGED:
-                Ranged();
-                break;
+            spawner.SpawnMeleeEnemies();
         }
     }
 
-    private void Chase()
-    {
-        NavMeshAgent.isStopped = false;
+    //private void RangedAttack()
+    //{
+    //    if (!isAttacking)
+    //    {
+    //        StartCoroutine(PerformRangedAttack());
+    //    }
+    //}
 
-        NavMeshAgent.SetDestination(Player.transform.position);
-        LookAtPlayer();
-    }
+    //private IEnumerator PerformRangedAttack()
+    //{
+    //    isAttacking = true;
+    //    Debug.LogWarning("Ranged Attacking");
+    //    Vector3 shootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
 
-    private void Charge()
+    //    GameObject bulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
+    //    bulletProjectile.GetComponent<Rigidbody>().AddForce(shootDirection * shootForce, ForceMode.Impulse);
+
+    //    //Animator.SetTrigger("Ranged");
+    //    yield return new WaitForSeconds(0.5f); //Delay before hitting player
+    //    Debug.LogError("RANGED!");
+    //    lastAttackTime = Time.time;
+    //    yield return new WaitForSeconds(attackCooldown);
+    //    isAttacking = false;
+    //}
+    #endregion
+
+    #region Take Damage
+    public override void TakeDamage(float damageTaken)
     {
-        if (!isCharging)
+        if (currentBossState == BossState.PHASEONE)
         {
-            StartCoroutine(PerformChargeAttack());
-        }
-    }
-
-    private IEnumerator PerformChargeAttack()
-    {
-        NavMeshAgent.isStopped = true;
-        isCharging = true;
-        Debug.LogWarning("Charging Up");
-        //Animator.SetTrigger("Charge")
-        chargeDirection = (Player.transform.position - transform.position).normalized;
-
-        float elapsedTime = 0f;
-        Vector3 startPosition = transform.position;
-
-        yield return new WaitForSeconds(1.5f);
-        Debug.LogError("CHARGE!");
-        while (elapsedTime < chargeDuration)
-        {
-            transform.position += chargeDirection * chargeSpeed * Time.deltaTime;
-            elapsedTime += Time.deltaTime;
-            //Activate emitter for trail
-
-            // Check for collision with player
-            if (Vector3.Distance(transform.position, Player.transform.position) < 0.5f)
-            {
-                Player.GetComponent<PlayerController>().TakeDamage(chargeDamage);
-                break;
-            }
-
-            yield return null;
+            //Animator.SetTrigger("Null Damage");
+            //AudioManager.Instance.PlayOneShot("Boss Null Damage", gameObject);
+            return;
         }
 
-        isCharging = false;
-        NavMeshAgent.isStopped = false;
-
-        yield return new WaitForSeconds(1.5f);
-    }
-
-    private void Melee()
-    {
-        if (!isAttacking)
-        {
-            StartCoroutine(PerformMeleeAttack());
-        }
-    }
-
-    private IEnumerator PerformMeleeAttack()
-    {
-        NavMeshAgent.isStopped = true;
-        isAttacking = true;
-        Debug.LogWarning("Melee Attacking");
-        //Animator.SetTrigger("Melee");
-        yield return new WaitForSeconds(0.5f); //Delay before hitting player
-        Debug.LogError("MELEE!");
-        Player.GetComponent<PlayerController>().TakeDamage(attackDamage);
-        lastAttackTime = Time.time;
-        yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
-    }
-
-    private void Ranged()
-    {
-        if (!isAttacking)
-        {
-            StartCoroutine(PerformRangedAttack());
-        }
-    }
-
-    private IEnumerator PerformRangedAttack()
-    {
-        NavMeshAgent.isStopped = true;
-        isAttacking = true;
-        Debug.LogWarning("Ranged Attacking");
-        Vector3 shootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
-
-        GameObject bulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
-        bulletProjectile.GetComponent<Rigidbody>().AddForce(shootDirection * shootForce, ForceMode.Impulse);
-
-        //Animator.SetTrigger("Ranged");
-        yield return new WaitForSeconds(0.5f); //Delay before hitting player
-        Debug.LogError("RANGED!");
-        lastAttackTime = Time.time;
-        yield return new WaitForSeconds(attackCooldown);
-        isAttacking = false;
+        base.TakeDamage(damageTaken);
     }
     #endregion
 

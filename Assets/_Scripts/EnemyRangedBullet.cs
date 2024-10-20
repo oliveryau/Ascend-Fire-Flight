@@ -1,10 +1,10 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyRangedBullet : MonoBehaviour
 {
-    public float damage;
     public float lifeTime;
+
+    private float damage;
 
     private void Start()
     {
