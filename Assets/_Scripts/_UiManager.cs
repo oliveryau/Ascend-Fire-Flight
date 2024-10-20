@@ -40,12 +40,15 @@ public class UiManager : MonoBehaviour
 
     [Header("Enemy Indicator UI")]
     public GameObject enemyIndicatorPrefab;
-    public float enemyDetectionRadius;
+    public GameObject enemySpawnerIndicatorPrefab;
+    public float detectionRadius;
     public float indicatorDistance; //Distance from screen center (0-1)
     public Transform indicatorParent;
     public LayerMask enemyLayer;
+    public LayerMask spawnerLayer;
 
     private Dictionary<GameObject, GameObject> enemyIndicators = new Dictionary<GameObject, GameObject>();
+    private Dictionary<GameObject, GameObject> spawnerIndicators = new Dictionary<GameObject, GameObject>();
     private const float RIGHT_ROTATION = -90f;
     private const float LEFT_ROTATION = 90f;
     private const float TOP_ROTATION = 180f;
@@ -216,7 +219,7 @@ public class UiManager : MonoBehaviour
     {
         // Reuse array to reduce garbage collection
         Collider[] enemiesInRange = new Collider[20]; // Adjust size based on your needs
-        int numEnemies = Physics.OverlapSphereNonAlloc(Player.transform.position, enemyDetectionRadius, enemiesInRange, enemyLayer);
+        int numEnemies = Physics.OverlapSphereNonAlloc(Player.transform.position, detectionRadius, enemiesInRange, enemyLayer);
 
         // Use HashSet for faster lookups
         HashSet<GameObject> currentEnemies = new HashSet<GameObject>();
@@ -224,6 +227,8 @@ public class UiManager : MonoBehaviour
         // Process found enemies
         for (int i = 0; i < numEnemies; i++)
         {
+            if (enemiesInRange[i] == null) continue;
+
             GameObject enemy = enemiesInRange[i].gameObject;
             currentEnemies.Add(enemy);
 
@@ -234,7 +239,27 @@ public class UiManager : MonoBehaviour
             }
         }
 
-        // Remove old indicators
+        Collider[] spawnersInRange = new Collider[10];
+        int numSpawners = Physics.OverlapSphereNonAlloc(Player.transform.position, detectionRadius, spawnersInRange, spawnerLayer);
+
+        HashSet<GameObject> currentSpawners = new HashSet<GameObject>();
+
+        // Process found spawners
+        for (int i = 0; i < numSpawners; i++)
+        {
+            if (spawnersInRange[i] == null) continue;
+
+            GameObject spawner = spawnersInRange[i].gameObject;
+            currentSpawners.Add(spawner);
+
+            if (!spawnerIndicators.ContainsKey(spawner))
+            {
+                GameObject indicator = Instantiate(enemySpawnerIndicatorPrefab, indicatorParent);
+                spawnerIndicators.Add(spawner, indicator);
+            }
+        }
+
+        // Clean up enemy indicators
         List<GameObject> enemiesToRemove = new List<GameObject>();
         foreach (var enemy in enemyIndicators.Keys)
         {
@@ -249,6 +274,22 @@ public class UiManager : MonoBehaviour
             Destroy(enemyIndicators[enemy]);
             enemyIndicators.Remove(enemy);
         }
+
+        // Clean up spawner indicators
+        List<GameObject> spawnersToRemove = new List<GameObject>();
+        foreach (var spawner in spawnerIndicators.Keys)
+        {
+            if (!currentSpawners.Contains(spawner))
+            {
+                spawnersToRemove.Add(spawner);
+            }
+        }
+
+        foreach (var spawner in spawnersToRemove)
+        {
+            Destroy(spawnerIndicators[spawner]);
+            spawnerIndicators.Remove(spawner);
+        }
     }
 
     private void UpdateIndicatorPositions()
@@ -256,18 +297,27 @@ public class UiManager : MonoBehaviour
         Vector3 screenCenter = new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0);
         var mainCamTransform = MainCamera.transform;
 
-        foreach (var kvp in enemyIndicators)
-        {
-            GameObject enemy = kvp.Key;
-            GameObject indicator = kvp.Value;
-            Vector3 directionToEnemy = enemy.transform.position - mainCamTransform.position;
+        // Update enemy indicators
+        UpdateIndicatorGroup(enemyIndicators, detectionRadius, screenCenter, mainCamTransform);
 
-            // Early out if enemy is too far
-            float distanceToEnemy = directionToEnemy.magnitude;
-            if (distanceToEnemy > enemyDetectionRadius)
+        // Update spawner indicators
+        UpdateIndicatorGroup(spawnerIndicators, detectionRadius, screenCenter, mainCamTransform);
+    }
+
+    private void UpdateIndicatorGroup(Dictionary<GameObject, GameObject> indicators, float detectionRadius, Vector3 screenCenter, Transform mainCamTransform)
+    {
+        foreach (var kvp in indicators)
+        {
+            GameObject target = kvp.Key;
+            GameObject indicator = kvp.Value;
+            Vector3 directionToTarget = target.transform.position - mainCamTransform.position;
+
+            // If too far from enemy/spawner
+            float distanceToTarget = directionToTarget.magnitude;
+            if (distanceToTarget > detectionRadius)
                 continue;
 
-            Vector3 viewportPoint = MainCamera.WorldToViewportPoint(enemy.transform.position);
+            Vector3 viewportPoint = MainCamera.WorldToViewportPoint(target.transform.position);
             bool isInFront = viewportPoint.z > 0;
             bool isInViewport = isInFront &&
                                viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
@@ -285,7 +335,7 @@ public class UiManager : MonoBehaviour
             indicatorImage.color = Color.white;
 
             // Calculate screen position and direction
-            Vector3 enemyScreenPos = MainCamera.WorldToScreenPoint(enemy.transform.position);
+            Vector3 enemyScreenPos = MainCamera.WorldToScreenPoint(target.transform.position);
             Vector2 directionOnScreen = ((Vector2)enemyScreenPos - (Vector2)screenCenter).normalized;
 
             // Calculate edge position and set indicator position
@@ -295,8 +345,8 @@ public class UiManager : MonoBehaviour
                 Quaternion.Euler(0, 0, DetermineEdgeRotation(indicatorPos))
             );
 
-            // Update scale
-            float scale = Mathf.Lerp(2f, 0.5f, distanceToEnemy / enemyDetectionRadius);
+            // Update scale based on distance
+            float scale = Mathf.Lerp(2f, 0.5f, distanceToTarget / detectionRadius);
             indicator.transform.localScale = new Vector3(scale, scale, 1);
         }
     }

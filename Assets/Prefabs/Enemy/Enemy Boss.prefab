@@ -62,7 +62,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1573391703455451402}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Ranged Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2525850014188011496}
   - component: {fileID: 1746508162296873449}
   - component: {fileID: 4891510014933008917}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Enemy Boss
   m_TagString: Enemy Boss
   m_Icon: {fileID: 0}

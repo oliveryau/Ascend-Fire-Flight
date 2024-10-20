@@ -13,7 +13,6 @@ public class EnemyBoss : EnemyController
 
     [Header("Boss Spawners")]
     public EnemyBossMeleeSpawner[] meleeSpawners;
-    //public EnemyBossRangedSpawner[] rangedSpawners;
 
     private void Start()
     {
@@ -36,7 +35,6 @@ public class EnemyBoss : EnemyController
     {
         //Display boss hp ui
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
-        //Get ranged spawners
     }
 
     #region Wait
@@ -73,7 +71,6 @@ public class EnemyBoss : EnemyController
                 CheckSpawners();
                 break;
             case BossState.PHASETWO:
-                //LookAtPlayer();
                 //RangedAttack();
                 break;
         }
@@ -105,6 +102,10 @@ public class EnemyBoss : EnemyController
 
     //private void RangedAttack()
     //{
+    //    if (gameObject.layer != LayerMask.NameToLayer("Enemy")) 
+    //    {
+    //        gameObject.layer = LayerMask.NameToLayer("Enemy"); //For enemy indicator
+    //    }
     //    if (!isAttacking)
     //    {
     //        StartCoroutine(PerformRangedAttack());

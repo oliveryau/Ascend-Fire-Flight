@@ -49,6 +49,10 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         if (isSpawning) return;
 
         isActivated = true;
+        if (gameObject.layer != LayerMask.NameToLayer("Spawner"))
+        {
+            gameObject.layer = LayerMask.NameToLayer("Spawner"); //For indicators
+        }
     }
 
     private IEnumerator SpawnEnemyWithDelay()
