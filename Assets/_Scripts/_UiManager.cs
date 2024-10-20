@@ -33,6 +33,7 @@ public class UiManager : MonoBehaviour
     private Animator rightCrosshairAnimator;
     private Animator leftCrosshairAnimator;
     private bool rightCrosshairOnEnemy;
+    private bool crosshairOnSpawner;
 
     [Header("Other Player UI")]
     public GameObject playerHealUi;
@@ -94,6 +95,7 @@ public class UiManager : MonoBehaviour
             UpdatePlayerHealthBar();
             UpdatePlayerLaunchMeter();
             UpdateRightCrosshairDetection();
+            UpdateSpawnerHealthDetection();
             UpdateEnemyDetection();
             UpdateIndicatorPositions();
         }
@@ -205,6 +207,29 @@ public class UiManager : MonoBehaviour
         {
             if (leftCrosshair.activeSelf) return;
             leftCrosshair.SetActive(true);
+        }
+    }
+
+    private void UpdateSpawnerHealthDetection()
+    {
+        Ray ray = MainCamera.ScreenPointToRay(crosshairUi.transform.position);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, crosshairDetectionRange, spawnerLayer))
+        {
+            if (!crosshairOnSpawner)
+            {
+                crosshairOnSpawner = true;
+                //DisplaySpawnerHealth(true);
+            }
+        }
+        else
+        {
+            if (crosshairOnSpawner)
+            {
+                crosshairOnSpawner = false;
+                //DisplaySpawnerHealth(false);
+            }
         }
     }
 
