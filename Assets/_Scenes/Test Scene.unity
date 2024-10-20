@@ -1031,7 +1031,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144108581}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 7
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -1097,12 +1097,16 @@ MonoBehaviour:
   playerHealUi: {fileID: 1739811876}
   tutorialCue: {fileID: 1367859927}
   enemyIndicatorPrefab: {fileID: 7998093304104476392, guid: 11ea3607b74b3e14b91e6b5e8a9c9dde, type: 3}
-  enemyDetectionRadius: 100
+  enemySpawnerIndicatorPrefab: {fileID: 7998093304104476392, guid: 048eb98a38d1d6e4d8fe8e7545079f71, type: 3}
+  detectionRadius: 100
   indicatorDistance: 1
   indicatorParent: {fileID: 174232068}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  spawnerLayer:
+    serializedVersion: 2
+    m_Bits: 128
   fadePrefab: {fileID: 929516997}
   playerFallingOutOfBoundsOverlay: {fileID: 1476100992}
   playerDamagedOverlay: {fileID: 1629586345}
@@ -2446,7 +2450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 246139618}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -2827,7 +2831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 290032833}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -2874,7 +2878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 312272327}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -4119,7 +4123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 472015893}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 6
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -5084,7 +5088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 592381132}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -5811,7 +5815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 691188593}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 4
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -6736,7 +6740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 823701234}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -6767,7 +6771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 829565141}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -6840,7 +6844,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 860559019}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -7558,7 +7562,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 992963915}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -7663,7 +7667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1007167426}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 5
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -10447,7 +10451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3978237705901115222, guid: 2970880c0d74cb243a024127bcbe4b33, type: 3}
       propertyPath: m_Name
-      value: Enemy Boss Spawner 1 (2)
+      value: Enemy Boss Spawner 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12018,7 +12022,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1471722223}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 5
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -12441,7 +12445,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1539589231}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -12583,7 +12587,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560736582}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -13319,7 +13323,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615181557}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 6
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -15780,7 +15784,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1932125965}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -16416,7 +16420,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1996527672}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 3
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -17069,7 +17073,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2066989403}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -17105,7 +17109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2082977318}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 1
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -17215,7 +17219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2089755204}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: Enemy Spawn Point 2
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -17361,7 +17365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3978237705901115222, guid: 2970880c0d74cb243a024127bcbe4b33, type: 3}
       propertyPath: m_Name
-      value: Enemy Boss Spawner 1 (1)
+      value: Enemy Boss Spawner 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17934,11 +17938,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 88
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.z
