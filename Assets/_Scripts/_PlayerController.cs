@@ -148,6 +148,7 @@ public class PlayerController : MonoBehaviour
                 IronmanShooting();
                 RightWeaponReload();
                 HealingEnabled();
+                OverlayLeftHotkeys();
                 break;
             case PlayerState.DEAD:
                 Dead();
@@ -418,6 +419,11 @@ public class PlayerController : MonoBehaviour
         {
             if (launchParticle.isPlaying) launchParticle.Stop();
         }
+    }
+
+    private void OverlayLeftHotkeys()
+    {
+
     }
     #endregion
 
