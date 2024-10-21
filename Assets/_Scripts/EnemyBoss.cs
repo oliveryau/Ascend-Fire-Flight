@@ -10,9 +10,16 @@ public class EnemyBoss : EnemyController
     public GameObject projectile;
     public Transform projectileFirepoint;
     public float shootForce;
+    public float spreadAngle;
 
     [Header("Boss Spawners")]
     public EnemyBossMeleeSpawner[] meleeSpawners;
+    public EnemyBossRangedSpawner[] rangedSpawners;
+
+    [Header("Boss Platforms")]
+    public EnemyBossPlatform[] platformWaves;
+
+    private bool isPlatformSequenceActive;
 
     private void Start()
     {
@@ -35,6 +42,8 @@ public class EnemyBoss : EnemyController
     {
         //Display boss hp ui
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
+        rangedSpawners = FindObjectsByType<EnemyBossRangedSpawner>(FindObjectsSortMode.None);
+        platformWaves = FindObjectsByType<EnemyBossPlatform>(FindObjectsSortMode.None);
     }
 
     #region Wait
@@ -67,22 +76,19 @@ public class EnemyBoss : EnemyController
         switch (currentBossState)
         {
             case BossState.PHASEONE:
-                ActivateSpawners();
-                CheckSpawners();
+                ActivateMeleeSpawners();
+                CheckMeleeSpawners();
                 break;
             case BossState.PHASETWO:
-                //RangedAttack();
+                SwitchToEnemyLayer();
+                ActivateRangedSpawners();
+                StartFallingPlatformWaves();
+                RangedAttack();
                 break;
         }
-
-        //if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
-        //{
-        //    Debug.LogWarning("Enemy attacking player!");
-        //    StartCoroutine(PerformAttack());
-        //}
     }
 
-    private void ActivateSpawners()
+    private void ActivateMeleeSpawners()
     {
         foreach (var spawner in meleeSpawners)
         {
@@ -90,7 +96,7 @@ public class EnemyBoss : EnemyController
         }
     }
 
-    private void CheckSpawners()
+    private void CheckMeleeSpawners()
     {
         foreach (var spawner in meleeSpawners)
         {
@@ -100,34 +106,114 @@ public class EnemyBoss : EnemyController
         ChangeBossState(BossState.PHASETWO);
     }
 
-    //private void RangedAttack()
-    //{
-    //    if (gameObject.layer != LayerMask.NameToLayer("Enemy")) 
-    //    {
-    //        gameObject.layer = LayerMask.NameToLayer("Enemy"); //For enemy indicator
-    //    }
-    //    if (!isAttacking)
-    //    {
-    //        StartCoroutine(PerformRangedAttack());
-    //    }
-    //}
+    private void SwitchToEnemyLayer()
+    {
+        if (gameObject.layer == LayerMask.NameToLayer("Enemy")) return;
 
-    //private IEnumerator PerformRangedAttack()
-    //{
-    //    isAttacking = true;
-    //    Debug.LogWarning("Ranged Attacking");
-    //    Vector3 shootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
+        gameObject.layer = LayerMask.NameToLayer("Enemy"); //For enemy indicator
+    }
 
-    //    GameObject bulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
-    //    bulletProjectile.GetComponent<Rigidbody>().AddForce(shootDirection * shootForce, ForceMode.Impulse);
+    private void ActivateRangedSpawners()
+    {
+        foreach (var spawner in rangedSpawners)
+        {
+            spawner.GetComponent<MeshRenderer>().enabled = true;
+            spawner.GetComponent<BoxCollider>().enabled = true;
+            spawner.SpawnRangedEnemies();
+        }
+    }
 
-    //    //Animator.SetTrigger("Ranged");
-    //    yield return new WaitForSeconds(0.5f); //Delay before hitting player
-    //    Debug.LogError("RANGED!");
-    //    lastAttackTime = Time.time;
-    //    yield return new WaitForSeconds(attackCooldown);
-    //    isAttacking = false;
-    //}
+    private void StartFallingPlatformWaves()
+    {
+        isPlatformSequenceActive = true;
+        
+        StartCoroutine(FallingPlatformSequence());
+    }
+
+    private IEnumerator FallingPlatformSequence()
+    {
+        if (!isPlatformSequenceActive) yield break;
+
+        while (currentHealth > 0)
+        {
+            foreach (EnemyBossPlatform platformWave in platformWaves)
+            {
+                if (currentHealth <= 0) yield break; // Exit if boss dies during sequence
+
+                yield return StartCoroutine(ActivatePlatformWave(platformWave));
+                yield return new WaitForSeconds(platformWave.timeBetweenWaves);
+            }
+        }
+    }
+
+    private IEnumerator ActivatePlatformWave(EnemyBossPlatform platformWave)
+    {
+        if (platformWave == null) yield break;
+
+        // Get all platforms in this wave
+        FallingPlatform[] platforms = platformWave.GetComponentsInChildren<FallingPlatform>();
+
+        foreach (FallingPlatform platform in platforms)
+        {
+            if (currentHealth <= 0) yield break; // Exit if boss dies during wave
+
+            // Get or add the trigger component
+            FallingPlatformTrigger trigger = platform.GetComponent<FallingPlatformTrigger>();
+            if (trigger == null)
+            {
+                trigger = platform.gameObject.AddComponent<FallingPlatformTrigger>();
+            }
+
+            // Start the falling sequence
+            StartCoroutine(platform.Falling(trigger, 1f)); // 1f is the fall delay
+            yield return new WaitForSeconds(platform.destroyDelay);
+        }
+    }
+
+    private void RangedAttack()
+    {
+        if (currentHealth <= 0) return;
+
+        if (Time.time - lastAttackTime >= attackCooldown && !isAttacking)
+        {
+            StartCoroutine(PerformAttack());
+        }
+    }
+
+    public override IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        //Animator.SetTrigger("Windup");
+        //yield return new WaitForSeconds(2f);
+
+        Vector3 baseShootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
+        Vector3 spreadDirection = ApplySpread(baseShootDirection);
+
+        GameObject firstBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
+        firstBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
+        //Animator.SetTrigger("Attack");
+        //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
+        yield return new WaitForSeconds(0.3f); //Short interval
+
+        GameObject secondBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
+        secondBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
+        //Animator.SetTrigger("Attack");
+        //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
+
+        yield return new WaitForSeconds(0.5f); //Delay before hitting player
+        lastAttackTime = Time.time;
+        yield return new WaitForSeconds(attackCooldown);
+        isAttacking = false;
+    }
+
+    private Vector3 ApplySpread(Vector3 baseDirection)
+    {
+        float randomSpreadX = Random.Range(-spreadAngle, spreadAngle);
+        float randomSpreadY = Random.Range(-spreadAngle, spreadAngle);
+
+        Quaternion spreadRotation = Quaternion.Euler(randomSpreadY, randomSpreadX, 0);
+        return spreadRotation * baseDirection;
+    }
     #endregion
 
     #region Take Damage
@@ -147,6 +233,7 @@ public class EnemyBoss : EnemyController
     #region Death
     public override void Dead()
     {
+        isPlatformSequenceActive = false;
         base.Dead();
     }
     #endregion

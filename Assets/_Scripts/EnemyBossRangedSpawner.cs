@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBossMeleeSpawner : MonoBehaviour
+public class EnemyBossRangedSpawner : MonoBehaviour
 {
     [Header("Spawner Variables")]
-    public float maxHealth;
-    public float currentHealth;
     public float spawnInterval;
 
     private Animator Animator;
@@ -23,8 +21,6 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
-
         Animator = GetComponent<Animator>();
 
         CurrentEnemiesAlive = new List<GameObject>();
@@ -35,7 +31,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (currentHealth <= 0 || !isActivated) return;
+        if (!isActivated) return;
 
         CurrentEnemiesAlive.RemoveAll(enemy => enemy == null);
         if (!isSpawning && CurrentEnemiesAlive.Count < maxEnemies)
@@ -44,15 +40,11 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         }
     }
 
-    public void SpawnMeleeEnemies()
+    public void SpawnRangedEnemies()
     {
         if (isSpawning) return;
 
         isActivated = true;
-        if (gameObject.layer != LayerMask.NameToLayer("Spawner"))
-        {
-            gameObject.layer = LayerMask.NameToLayer("Spawner"); //For indicators
-        }
     }
 
     private IEnumerator SpawnEnemyWithDelay()
@@ -73,20 +65,6 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         currentSpawnPoint = (currentSpawnPoint + 1) % EnemySpawnPoints.Length;
         EnemyController newEnemy = Instantiate(EnemyToSpawn, EnemySpawnPoints[currentSpawnPoint].position, EnemySpawnPoints[currentSpawnPoint].rotation);
         CurrentEnemiesAlive.Add(newEnemy.gameObject);
-    }
-
-    public void TakeDamage(float damageTaken)
-    {
-        if (currentHealth <= 0 || !isActivated) return;
-
-        currentHealth -= damageTaken;
-        //Animator.SetTrigger("Damaged");
-
-        if (currentHealth <= 0)
-        {
-            StopAllCoroutines();
-            StartCoroutine(SpawnerDestroy());
-        }
     }
 
     private IEnumerator SpawnerDestroy()
