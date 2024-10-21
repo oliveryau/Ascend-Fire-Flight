@@ -145,6 +145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6358642243430484821}
+  - component: {fileID: 7867903123218940665}
   m_Layer: 5
   m_Name: Reload Ui
   m_TagString: Untagged
@@ -175,6 +176,28 @@ RectTransform:
   m_AnchoredPosition: {x: 1317, y: -104}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &7867903123218940665
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2659114019458032353}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 447ecdcc60069704da761bee1aa0fdf0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4326808268957726131
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +210,7 @@ GameObject:
   - component: {fileID: 5032591687795843421}
   - component: {fileID: 3090561564217385450}
   m_Layer: 5
-  m_Name: 'Current Blast Palm '
+  m_Name: Reload Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -337,7 +360,7 @@ GameObject:
   - component: {fileID: 8963549759648171044}
   - component: {fileID: 2708869330977426495}
   m_Layer: 5
-  m_Name: Blast Palm Back
+  m_Name: Reload Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

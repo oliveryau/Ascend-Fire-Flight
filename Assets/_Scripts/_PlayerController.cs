@@ -185,12 +185,22 @@ public class PlayerController : MonoBehaviour
             isSprinting = Input.GetKey(KeyCode.LeftShift);
             currentMoveSpeed = isSprinting ? sprintSpeed : walkSpeed;
             sprintLines.SetActive(isSprinting && isMoving && isGrounded);
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", true);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", false);
+            }
         }
         else
         {
             currentMoveSpeed = floatSpeed;
             isSprinting = false;
             sprintLines.SetActive(false);
+            UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", false);
         }
 
         if (isGrounded && isMoving)
@@ -324,6 +334,7 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.IRONMAN);
 
         LeftWeaponAnimator.SetTrigger("Flying");
+        UiManager.launchUi.GetComponent<Animator>().SetTrigger("Flying");
         AudioManager.Instance.PlayOneShot("Launch", LeftWeaponAnimator.gameObject);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
@@ -341,6 +352,7 @@ public class PlayerController : MonoBehaviour
     private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
+        UiManager.launchUi.GetComponent<Animator>().SetBool("Floating", true);
         if (!floatSoundPlaying)
         {
             floatSoundPlaying = true;
@@ -369,6 +381,7 @@ public class PlayerController : MonoBehaviour
         isFloating = false;
         floatSoundPlaying = false;
         LeftWeaponAnimator.SetBool("Floating", false);
+        UiManager.launchUi.GetComponent<Animator>().SetBool("Floating", false);
         AudioManager.Instance.Stop("Float", LeftWeaponAnimator.gameObject);
 
         if (launchParticle.isPlaying)
@@ -459,6 +472,7 @@ public class PlayerController : MonoBehaviour
             projectileRb.AddForce(rightShotDirection * rightShootForce, ForceMode.Impulse);
             currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
+            UiManager.rightWeaponUi.GetComponent<Animator>().SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
             UiManager.UpdateRightCrosshair("Shoot");
             UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
@@ -487,12 +501,14 @@ public class PlayerController : MonoBehaviour
     {
         isReloading = true;
         RightWeaponAnimator.SetTrigger("Reload");
+        UiManager.reloadUi.GetComponent<Animator>().SetBool("Reload", true);
         AudioManager.Instance.PlayOneShot("Reload", RightWeaponAnimator.gameObject);
         yield return new WaitForSeconds(0.5f);
         currentAmmo = maxAmmo;
         UiManager.UpdatePlayerAmmoCount();
         UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
         yield return new WaitForSeconds(0.5f);
+        UiManager.reloadUi.GetComponent<Animator>().SetBool("Reload", false);
         isReloading = false;
     }
 
@@ -508,6 +524,7 @@ public class PlayerController : MonoBehaviour
             projectileRb.velocity = Vector3.zero;
             projectileRb.AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
+            UiManager.leftWeaponUi.GetComponent<Animator>().SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
             UiManager.UpdateLeftCrosshair("Shoot");
             leftNextFireTime = Time.time + leftFireRate;
@@ -623,10 +640,12 @@ public class PlayerController : MonoBehaviour
     {
         isHealing = true;
         RightWeaponAnimator.SetTrigger("Healing");
+        UiManager.playerHealUi.GetComponent<Animator>().SetBool("Healing", true);
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
         currentHealth = maxHealth;
         yield return new WaitForSeconds(1f);
+        UiManager.playerHealUi.GetComponent<Animator>().SetBool("Healing", false);
         isHealing = false;
     }
     #endregion

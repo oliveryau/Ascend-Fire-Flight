@@ -10328,7 +10328,6 @@ RectTransform:
   - {fileID: 1619647064}
   - {fileID: 1207001799}
   - {fileID: 878989448}
-  - {fileID: 1816793272}
   - {fileID: 401230809}
   - {fileID: 348646133}
   - {fileID: 1781276273}
@@ -10337,6 +10336,7 @@ RectTransform:
   - {fileID: 1475009147}
   - {fileID: 1739811879}
   - {fileID: 1936558620}
+  - {fileID: 1816793272}
   - {fileID: 1367859930}
   m_Father: {fileID: 150387152}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13229,19 +13229,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4653013625758922037, guid: 007caa6dbc26a144ebca69542256cb1e, type: 3}
       propertyPath: m_Name
-      value: Blast Palm
+      value: Grenade Cue
       objectReference: {fileID: 0}
-    - target: {fileID: 4653013625758922037, guid: 007caa6dbc26a144ebca69542256cb1e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7720517790369455979, guid: 007caa6dbc26a144ebca69542256cb1e, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 19c08d0bb8615f3469683ecd2569fdef, type: 3}
     - target: {fileID: 9143783401773949165, guid: 007caa6dbc26a144ebca69542256cb1e, type: 3}
       propertyPath: m_Name
-      value: Current Blast Palm
+      value: Grenade Front
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15557,11 +15549,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1898182554637686912, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
       propertyPath: m_Name
-      value: 'Grenade Cue Palm '
+      value: Blast Palm Front
       objectReference: {fileID: 0}
     - target: {fileID: 1944124137392514351, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
       propertyPath: m_Name
-      value: Grenade Cue Back
+      value: Blast Palm Back
       objectReference: {fileID: 0}
     - target: {fileID: 5568165702572632802, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
       propertyPath: m_Pivot.x
@@ -15643,17 +15635,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7164371651975911768, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: bb619363f4768e945b6aff50e38288a5, type: 3}
     - target: {fileID: 8767491260447956893, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
       propertyPath: m_Name
-      value: Grenade Cue
-      objectReference: {fileID: 0}
-    - target: {fileID: 8767491260447956893, guid: 429cf894a35b9bc48b3e4762a87e864d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: Blast Palm Cue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
