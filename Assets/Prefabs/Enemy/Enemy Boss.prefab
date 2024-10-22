@@ -241,3 +241,4 @@ MonoBehaviour:
   projectileFirepoint: {fileID: 1573391703455451402}
   shootForce: 150
   spreadAngle: 0.5
+  platformWaveIntervals: 4.5

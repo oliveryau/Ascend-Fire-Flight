@@ -17,6 +17,7 @@ public class EnemyBoss : EnemyController
     private EnemyBossMeleeSpawner[] meleeSpawners;
     private EnemyBossRangedSpawner[] rangedSpawners;
     private EnemyBossPlatformWave[] platformWaves;
+    private Coroutine waveCoroutine;
     private UiManager UiManager;
     private bool isPlatformSequenceActive;
     #endregion
@@ -69,7 +70,7 @@ public class EnemyBoss : EnemyController
         BodyCollider.enabled = true;
 
         ChangeEnemyState(EnemyState.ATTACK);
-        ChangeBossState(BossState.PHASEONE);
+        ChangeBossState(BossState.PHASETWO);
     }
     #endregion
 
@@ -143,36 +144,36 @@ public class EnemyBoss : EnemyController
 
     private IEnumerator FallingPlatformSequence()
     {
-        if (!isPlatformSequenceActive) yield break;
+        if (!isPlatformSequenceActive) yield break; //Exit if platform sequence inactive
+        if (currentHealth <= 0) yield break;
 
-        while (currentHealth > 0)
+        for (int i = 0; i < platformWaves.Length; i++)
         {
-            foreach (EnemyBossPlatformWave platformWave in platformWaves)
-            {
-                if (currentHealth <= 0) yield break; // Exit if boss dies during sequence
-
-                yield return StartCoroutine(ActivatePlatformWave(platformWave));
-                yield return new WaitForSeconds(platformWave.timeBetweenWaves);
-            }
+            waveCoroutine = StartCoroutine(ActivatePlatformWave(platformWaves[i]));
+            yield return new WaitUntil(() => platformWaves[i].hasRespawned);
+            platformWaves[i].ResetWave();
+            StopCoroutine(waveCoroutine);
         }
     }
 
     private IEnumerator ActivatePlatformWave(EnemyBossPlatformWave platformWave)
     {
-        if (platformWave == null) yield break;
+        if (platformWave == null) yield break; //Exit if no platform wave
 
-        // Get all platforms in this wave
         FallingPlatform[] platforms = platformWave.GetComponentsInChildren<FallingPlatform>();
-
         foreach (FallingPlatform platform in platforms)
         {
-            if (currentHealth <= 0) yield break; // Exit if boss dies during wave
-
-            // Start the falling sequence
-            platformWave.isFalling = true;
-            StartCoroutine(platform.Falling(platformWave.gameObject, platformWave.fallDelay, platform));
-            yield return new WaitForSeconds(platform.destroyDelay);
+            if (currentHealth <= 0) yield break;
+            platform.StartShaking(platformWave.gameObject, platformWave.fallDelay, platform, platformWave.stayDelay);
         }
+
+        while (!platformWave.hasRespawned)
+        {
+            if (currentHealth <= 0) yield break;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(platformWave.respawnDelay);
     }
 
     private void RangedAttack()

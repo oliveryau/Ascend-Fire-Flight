@@ -4,22 +4,16 @@ using UnityEngine;
 public class EnemyBossPlatformWave : MonoBehaviour
 {
     public float fallDelay;
+    public float stayDelay;
     public float respawnDelay;
-    public float timeBetweenWaves;
-    public bool isFalling;
+    public bool hasRespawned;
 
     private FallingPlatform[] fallingPlatforms;
-    public Vector3[] initialPosition;
+    private int respawnedPlatformCounter = 0;
 
     private void Start()
     {
         fallingPlatforms = GetComponentsInChildren<FallingPlatform>();
-
-        initialPosition = new Vector3[fallingPlatforms.Length];
-        for (int i = 0; i < fallingPlatforms.Length; ++i)
-        {
-            initialPosition[i] = fallingPlatforms[i].gameObject.transform.position;
-        }
     }
 
     public void CheckPlatform(FallingPlatform platform)
@@ -34,16 +28,27 @@ public class EnemyBossPlatformWave : MonoBehaviour
         }
     }
 
-    public IEnumerator RespawnPlatform(FallingPlatform platform)
+    public IEnumerator RespawnPlatform(FallingPlatform platform = null)
     {
+        if (hasRespawned) yield break;
+
         platform.gameObject.SetActive(false);
+        platform.Reset();
 
         yield return new WaitForSeconds(respawnDelay);
 
-        int index = System.Array.IndexOf(fallingPlatforms, platform);
-        platform.transform.position = initialPosition[index];
-        platform.GetComponent<Rigidbody>().isKinematic = true;
         platform.gameObject.SetActive(true);
-        isFalling = false;
+
+        ++respawnedPlatformCounter;
+        if (respawnedPlatformCounter >= fallingPlatforms.Length)
+        {
+            hasRespawned = true;
+        }
+    }
+
+    public void ResetWave()
+    {
+        hasRespawned = false;
+        respawnedPlatformCounter = 0;
     }
 }

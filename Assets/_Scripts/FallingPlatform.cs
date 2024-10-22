@@ -5,9 +5,11 @@ public class FallingPlatform : MonoBehaviour
 {
     public float destroyDelay;
     public float fallSpeed;
+    public bool isFalling;
 
     [HideInInspector] public Vector3 initialPosition;
-    private Rigidbody Rb;
+    [HideInInspector] public Rigidbody Rb;
+    private Coroutine fallingCoroutine;
     private Animator Animator;
 
     private void Start()
@@ -15,12 +17,23 @@ public class FallingPlatform : MonoBehaviour
         Rb = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
 
-        Rb.isKinematic = true; //No physics
+        Rb.isKinematic = true;
         initialPosition = transform.position;
     }
 
-    public IEnumerator Falling(GameObject trigger, float fallDelay, FallingPlatform platform = null)
+    public void StartShaking(GameObject trigger, float fallDelay, FallingPlatform platform = null, float shakeDelay = 0f)
     {
+        if (!isFalling) 
+        {
+            isFalling = true;
+            fallingCoroutine = StartCoroutine(FallingSequence(trigger, fallDelay, platform, shakeDelay));
+        }
+    }
+
+    private IEnumerator FallingSequence(GameObject trigger, float fallDelay, FallingPlatform platform = null, float shakeDelay = 0f)
+    {
+        yield return new WaitForSeconds(shakeDelay);
+
         Animator.SetBool("Shake", true);
         AudioManager.Instance.Play("Falling Platform Shake", gameObject);
 
@@ -28,19 +41,38 @@ public class FallingPlatform : MonoBehaviour
 
         Rb.isKinematic = false;
         Rb.velocity = new Vector3(0, -fallSpeed, 0);
+
         AudioManager.Instance.Stop("Falling Platform Shake", gameObject);
         AudioManager.Instance.PlayOneShot("Falling Platform Break", gameObject);
         Animator.SetBool("Shake", false);
 
         yield return new WaitForSeconds(destroyDelay);
 
-        if (trigger.GetComponent<FallingPlatformTrigger>() != null)
+        if (trigger != null)
         {
-            trigger.GetComponent<FallingPlatformTrigger>().CheckPlatform();
+            var triggerComponent = trigger.GetComponent<FallingPlatformTrigger>();
+            var waveComponent = trigger.GetComponent<EnemyBossPlatformWave>();
+
+            if (triggerComponent != null) triggerComponent.CheckPlatform();
+            else if (waveComponent != null) waveComponent.CheckPlatform(platform);
         }
-        else if (trigger.GetComponent<EnemyBossPlatformWave>() != null)
+
+        isFalling = false;
+        fallingCoroutine = null;
+    }
+
+    public void Reset()
+    {
+        if (fallingCoroutine != null)
         {
-            trigger.GetComponent<EnemyBossPlatformWave>().CheckPlatform(platform);
+            StopCoroutine(fallingCoroutine);
+            fallingCoroutine = null;
         }
+
+        transform.position = initialPosition;
+        Rb.isKinematic = true;
+        isFalling = false;
+        Animator.SetBool("Shake", false);
+        AudioManager.Instance.Stop("Falling Platform Shake", gameObject);
     }
 }
