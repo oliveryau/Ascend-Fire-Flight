@@ -19,12 +19,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeGameState(GameState.PLAY);
-        currentScene = SceneManager.GetActiveScene().name;
-
-        Player = FindFirstObjectByType<PlayerController>();
-        UiManager = FindFirstObjectByType<UiManager>();
-        TutorialManager = FindFirstObjectByType<TutorialManager>();
+        InitializeManager();
+        InitializeEssentials();
     }
 
     private void Update()
@@ -32,9 +28,38 @@ public class GameManager : MonoBehaviour
         CheckGameState();
     }
 
+    private void InitializeManager()
+    {
+        ChangeGameState(GameState.PLAY);
+        
+        currentScene = SceneManager.GetActiveScene().name;
+    }
+
+    public void InitializeEssentials()
+    {
+        switch (currentScene)
+        {
+            case "Main Menu":
+                Cursor.lockState = CursorLockMode.None;
+                AudioManager.Instance.FadeIn("Main Ambience", 2f);
+                break;
+            case "Main Scene":
+            case "Test Scene":
+                AudioManager.Instance.FadeIn("Main BGM", 2f);
+                AudioManager.Instance.FadeIn("Main Ambience", 2f);
+
+                Player = FindFirstObjectByType<PlayerController>();
+                UiManager = FindFirstObjectByType<UiManager>();
+                TutorialManager = FindFirstObjectByType<TutorialManager>();
+                break;
+        }
+    }
+
     #region State Control
     private void CheckGameState()
     {
+        if (currentScene != "Main Scene") return;
+
         switch (currentGameState)
         {
             case GameState.PLAY:
@@ -116,10 +141,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Scene Management
-    public IEnumerator ReloadScene()
+    public IEnumerator ReloadMainScene()
     {
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene(currentScene);
+    }
+
+    public IEnumerator LoadMainMenu()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public IEnumerator LoadMainScene()
+    {
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene("Main Scene");
     }
     #endregion
 }

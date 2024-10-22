@@ -650,9 +650,15 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    #region Collisions
+    #region Other Collisions
     private void OnTriggerEnter(Collider target)
     {
+        if (target.CompareTag("Boss Music"))
+        {
+            AudioManager.Instance.FadeOut("Main BGM", 2f);
+            AudioManager.Instance.FadeIn("Boss BGM", 10f);
+        }
+
         if (target.CompareTag("Healing"))
         {
             canHeal = true;

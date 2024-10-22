@@ -108,7 +108,7 @@ public class UiManager : MonoBehaviour
 
     private void InitializeUi()
     {
-        StartCoroutine(FadeToggle(true)); //Fade in
+        StartCoroutine(FadeToggle(true, true)); //Fade in
 
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
@@ -429,7 +429,7 @@ public class UiManager : MonoBehaviour
     #endregion
 
     #region Other UI
-    private IEnumerator FadeToggle(bool fadeIn)
+    private IEnumerator FadeToggle(bool fadeIn, bool sameScene)
     {
         fadePrefab.SetActive(true);
 
@@ -439,11 +439,17 @@ public class UiManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             fadePrefab.SetActive(false);
         }
-        else
+        else if (!fadeIn && sameScene)
         {
             fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
             yield return new WaitForSeconds(1f);
-            StartCoroutine(GameManager.ReloadScene());
+            StartCoroutine(GameManager.ReloadMainScene());
+        }
+        else if (!fadeIn && !sameScene)
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(GameManager.LoadMainMenu());
         }
     }
     
@@ -490,7 +496,7 @@ public class UiManager : MonoBehaviour
     {
         GameManager.ChangeGameState(GameManager.GameState.PLAY);
         ShowPauseMenu(false);
-        StartCoroutine(FadeToggle(false)); //Fade out
+        StartCoroutine(FadeToggle(false, true)); //Fade out, same scene
     }
 
     public void GoToSettings()
@@ -500,7 +506,9 @@ public class UiManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-
+        GameManager.ChangeGameState(GameManager.GameState.PLAY);
+        ShowPauseMenu(false);
+        StartCoroutine(FadeToggle(false, false)); //Fade out, main menu
     }
     #endregion
 }
