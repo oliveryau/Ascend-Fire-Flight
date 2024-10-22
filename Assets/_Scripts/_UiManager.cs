@@ -12,20 +12,20 @@ public class UiManager : MonoBehaviour
     public GameObject mainGameUi;
     [HideInInspector] public float updateSpeed = 5f;
 
-    [Header("Player HP")]
+    [Header("Player HP UI")]
     public Image playerHealthFill;
 
     private float targetHealthFill;
 
-    [Header("Player Launch Meter")]
+    [Header("Player Launch UI")]
     public Image playerLaunchFill;
 
     private float targetLaunchFill;
 
-    [Header("Player Ammo")]
+    [Header("Player Ammo UI")]
     public TextMeshProUGUI playerAmmoText;
 
-    [Header("Player Crosshair")]
+    [Header("Player Crosshair UI")]
     public GameObject rightCrosshair;
     public GameObject leftCrosshair;
     public float crosshairDetectionRange;
@@ -55,12 +55,17 @@ public class UiManager : MonoBehaviour
     private const float TOP_ROTATION = 180f;
     private const float BOTTOM_ROTATION = 0f;
 
+    [Header("Enemy HP UI")]
+    public Image enemyBossHealthFill;
+
+    private float targetEnemyBossHealthFill;
+
     [Header("Non-Player UI")]
     public GameObject fadePrefab;
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
 
-    [Header("Tutorial Interactive UI")]
+    [Header("Adaptive UI")]
     public GameObject sprintUi;
     public GameObject launchUi;
     public GameObject rightWeaponUi;
@@ -69,6 +74,8 @@ public class UiManager : MonoBehaviour
     public GameObject crosshairUi;
     public GameObject rightDecorativeUi;
     public GameObject reloadUi;
+    public GameObject enemyBossHealthUi;
+    public GameObject enemyBossSpawnerHealthUi;
 
     [Header("References")]
     private GameManager GameManager;
@@ -77,7 +84,7 @@ public class UiManager : MonoBehaviour
     private TutorialManager TutorialManager;
     #endregion
 
-    #region UI Initialization
+    #region Initialization
     private void Start()
     {
         GameManager = FindFirstObjectByType<GameManager>();
@@ -108,7 +115,7 @@ public class UiManager : MonoBehaviour
 
     private void InitializeUi()
     {
-        StartCoroutine(FadeToggle(true, true)); //Fade in
+        StartCoroutine(GameManager.FadeToggle(true)); //Fade in
 
         targetHealthFill = Player.currentHealth / Player.maxHealth;
         playerHealthFill.fillAmount = targetHealthFill;
@@ -428,31 +435,18 @@ public class UiManager : MonoBehaviour
     }
     #endregion
 
-    #region Other UI
-    private IEnumerator FadeToggle(bool fadeIn, bool sameScene)
+    #region Enemy Boss UI
+    public void UpdateBossEnemyHealthBar(EnemyBoss boss)
     {
-        fadePrefab.SetActive(true);
+        targetEnemyBossHealthFill = boss.currentHealth / boss.maxHealth;
+        enemyBossHealthFill.fillAmount = Mathf.Lerp(enemyBossHealthFill.fillAmount, targetEnemyBossHealthFill, Time.deltaTime * updateSpeed);
 
-        if (fadeIn)
-        {
-            fadePrefab.GetComponent<Animator>().SetTrigger("Fade In");
-            yield return new WaitForSeconds(1f);
-            fadePrefab.SetActive(false);
-        }
-        else if (!fadeIn && sameScene)
-        {
-            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
-            yield return new WaitForSeconds(1f);
-            StartCoroutine(GameManager.ReloadMainScene());
-        }
-        else if (!fadeIn && !sameScene)
-        {
-            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
-            yield return new WaitForSeconds(1f);
-            StartCoroutine(GameManager.LoadMainMenu());
-        }
+        //Color lerpedColor = Color.Lerp(Color.red, Color.white, enemyBossHealthFill.fillAmount);
+        //enemyBossHealthFill.color = lerpedColor;
     }
-    
+    #endregion
+
+    #region Other UI   
     public IEnumerator DisplayFallingOutOverlay()
     {
         playerFallingOutOfBoundsOverlay.gameObject.SetActive(true);
@@ -496,7 +490,7 @@ public class UiManager : MonoBehaviour
     {
         GameManager.ChangeGameState(GameManager.GameState.PLAY);
         ShowPauseMenu(false);
-        StartCoroutine(FadeToggle(false, true)); //Fade out, same scene
+        StartCoroutine(GameManager.FadeToggle(false, "Main Scene")); //Fade out, same scene
     }
 
     public void GoToSettings()
@@ -506,9 +500,7 @@ public class UiManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        GameManager.ChangeGameState(GameManager.GameState.PLAY);
-        ShowPauseMenu(false);
-        StartCoroutine(FadeToggle(false, false)); //Fade out, main menu
+        StartCoroutine(GameManager.FadeToggle(false, "Main Menu")); //Fade out, main menu
     }
     #endregion
 }

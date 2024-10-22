@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyBoss : EnemyController
 {
+    #region Variables
     [Header("Boss Variables")]
     public BossState currentBossState;
     public enum BossState { WAIT, PHASEONE, PHASETWO };
@@ -12,15 +13,15 @@ public class EnemyBoss : EnemyController
     public float shootForce;
     public float spreadAngle;
 
-    [Header("Boss Spawners")]
-    public EnemyBossMeleeSpawner[] meleeSpawners;
-    public EnemyBossRangedSpawner[] rangedSpawners;
-
-    [Header("Boss Platforms")]
-    public EnemyBossPlatform[] platformWaves;
-
+    [Header("References")]
+    private EnemyBossMeleeSpawner[] meleeSpawners;
+    private EnemyBossRangedSpawner[] rangedSpawners;
+    private EnemyBossPlatformWave[] platformWaves;
+    private UiManager UiManager;
     private bool isPlatformSequenceActive;
+    #endregion
 
+    #region Initialization
     private void Start()
     {
         enemyId = 99;
@@ -40,11 +41,13 @@ public class EnemyBoss : EnemyController
 
     private void InitializeBoss()
     {
-        //Display boss hp ui
+        UiManager = FindFirstObjectByType<UiManager>();
+
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
         rangedSpawners = FindObjectsByType<EnemyBossRangedSpawner>(FindObjectsSortMode.None);
-        platformWaves = FindObjectsByType<EnemyBossPlatform>(FindObjectsSortMode.None);
+        platformWaves = FindObjectsByType<EnemyBossPlatformWave>(FindObjectsSortMode.None);
     }
+    #endregion
 
     #region Wait
     public override void Wait()
@@ -86,6 +89,14 @@ public class EnemyBoss : EnemyController
                 RangedAttack();
                 break;
         }
+
+        if (currentHealth > 0) ActivateBossHealth();
+    }
+
+    private void ActivateBossHealth()
+    {
+        UiManager.enemyBossHealthUi.SetActive(true);
+        UiManager.UpdateBossEnemyHealthBar(this);
     }
 
     private void ActivateMeleeSpawners()
@@ -136,7 +147,7 @@ public class EnemyBoss : EnemyController
 
         while (currentHealth > 0)
         {
-            foreach (EnemyBossPlatform platformWave in platformWaves)
+            foreach (EnemyBossPlatformWave platformWave in platformWaves)
             {
                 if (currentHealth <= 0) yield break; // Exit if boss dies during sequence
 
@@ -146,7 +157,7 @@ public class EnemyBoss : EnemyController
         }
     }
 
-    private IEnumerator ActivatePlatformWave(EnemyBossPlatform platformWave)
+    private IEnumerator ActivatePlatformWave(EnemyBossPlatformWave platformWave)
     {
         if (platformWave == null) yield break;
 
@@ -157,15 +168,9 @@ public class EnemyBoss : EnemyController
         {
             if (currentHealth <= 0) yield break; // Exit if boss dies during wave
 
-            // Get or add the trigger component
-            FallingPlatformTrigger trigger = platform.GetComponent<FallingPlatformTrigger>();
-            if (trigger == null)
-            {
-                trigger = platform.gameObject.AddComponent<FallingPlatformTrigger>();
-            }
-
             // Start the falling sequence
-            StartCoroutine(platform.Falling(trigger, 1f)); // 1f is the fall delay
+            platformWave.isFalling = true;
+            StartCoroutine(platform.Falling(platformWave.gameObject, platformWave.fallDelay, platform));
             yield return new WaitForSeconds(platform.destroyDelay);
         }
     }
@@ -233,8 +238,24 @@ public class EnemyBoss : EnemyController
     #region Death
     public override void Dead()
     {
-        isPlatformSequenceActive = false;
         base.Dead();
+    }
+
+    public override IEnumerator DeathAnimation()
+    {
+        foreach (var spawner in rangedSpawners)
+        {
+            StartCoroutine(spawner.SpawnerDestroy());
+        }
+        isPlatformSequenceActive = false;
+
+        UiManager.enemyBossHealthUi.SetActive(false); 
+        Animator.SetTrigger("Death");
+        //AudioManager.Instance.PlayOneShot("Enemy Boss Death", gameObject);
+        GetComponent<SphereCollider>().enabled = false;
+
+        yield return new WaitForSeconds(1f);
+        Destroy(gameObject);
     }
     #endregion
 }

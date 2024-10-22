@@ -190,7 +190,7 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(DeathAnimation());
     }
 
-    private IEnumerator DeathAnimation()
+    public virtual IEnumerator DeathAnimation()
     {
         NavMeshAgent.isStopped = true;
         NavMeshAgent.velocity = Vector3.zero;

@@ -231,8 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 10
+  currentHealth: 10
   attackDamage: 1
   attackCooldown: 1.5
   AttackRadius: {fileID: 3502961674627413183}
@@ -241,5 +241,3 @@ MonoBehaviour:
   projectileFirepoint: {fileID: 1573391703455451402}
   shootForce: 150
   spreadAngle: 0.5
-  meleeSpawners: []
-  rangedSpawners: []

@@ -94,6 +94,7 @@ public class PlayerController : MonoBehaviour
     private Camera PlayerCamera;
     #endregion
 
+    #region Initialization
     private void Start()
     {
         Initialize();
@@ -104,7 +105,6 @@ public class PlayerController : MonoBehaviour
         CheckPlayerState();
     }
 
-    #region State Control
     private void Initialize()
     {
         GameManager = FindFirstObjectByType<GameManager>();
@@ -122,7 +122,9 @@ public class PlayerController : MonoBehaviour
         targetLaunchMeter = currentLaunchMeter;
         currentAmmo = maxAmmo;
     }
+    #endregion
 
+    #region State Control
     private void CheckPlayerState()
     {
         if (GameManager.currentGameState == GameManager.GameState.PAUSE) return;
@@ -653,12 +655,6 @@ public class PlayerController : MonoBehaviour
     #region Other Collisions
     private void OnTriggerEnter(Collider target)
     {
-        if (target.CompareTag("Boss Music"))
-        {
-            AudioManager.Instance.FadeOut("Main BGM", 2f);
-            AudioManager.Instance.FadeIn("Boss BGM", 10f);
-        }
-
         if (target.CompareTag("Healing"))
         {
             canHeal = true;
@@ -668,6 +664,12 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(FallingOut());
         }
+
+        if (target.CompareTag("Boss Music"))
+        {
+            StartCoroutine(TransitionMusic(5f));
+            Destroy(target.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider target)
@@ -676,6 +678,13 @@ public class PlayerController : MonoBehaviour
         {
             canHeal = false;
         }
+    }
+
+    private IEnumerator TransitionMusic(float duration)
+    {
+        AudioManager.Instance.FadeOut("Main BGM", duration);
+        yield return new WaitForSeconds(duration);
+        AudioManager.Instance.FadeIn("Boss BGM", duration);
     }
     #endregion
 }

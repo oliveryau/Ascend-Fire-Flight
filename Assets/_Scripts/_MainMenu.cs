@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
@@ -9,11 +7,13 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         GameManager = FindFirstObjectByType<GameManager>();
+
+        StartCoroutine(GameManager.FadeToggle(true)); //Fade in
     }
 
     public void StartGame()
     {
-        //StartCoroutine(FadeToggle(false, false)); //Fade out, main menu
+        StartCoroutine(GameManager.FadeToggle(false, "Main Scene")); //Fade out, main menu
     }
 
     public void GoToSettings()

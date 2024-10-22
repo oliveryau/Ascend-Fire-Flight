@@ -2398,6 +2398,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b15d7637772495745917b973c27103cb, type: 3}
+--- !u!1 &288070593 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7497932223029237943, guid: b15d7637772495745917b973c27103cb, type: 3}
+  m_PrefabInstance: {fileID: 288070592}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &305964365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8936658732223772935, guid: 7e5184889d93b7c4cbfa10b85285b491, type: 3}
@@ -10570,6 +10575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGameState: 0
   currentScene: 
+  fadePrefab: {fileID: 288070593}
 --- !u!4 &1536247130
 Transform:
   m_ObjectHideFlags: 0

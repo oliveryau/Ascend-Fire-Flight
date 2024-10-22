@@ -67,7 +67,7 @@ public class EnemyBossRangedSpawner : MonoBehaviour
         CurrentEnemiesAlive.Add(newEnemy.gameObject);
     }
 
-    private IEnumerator SpawnerDestroy()
+    public IEnumerator SpawnerDestroy()
     {
         isActivated = false;
         foreach (var enemy in CurrentEnemiesAlive)

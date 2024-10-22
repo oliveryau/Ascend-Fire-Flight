@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { PLAY, PAUSE }
+    public enum GameState { WAIT, PLAY, PAUSE }
     public GameState currentGameState;
 
     public string currentScene;
+
+    public GameObject fadePrefab;
 
     private PlayerController Player;
     private UiManager UiManager;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     private bool playCheckAudio;
     private bool pauseCheckAudio;
 
+    #region Initialization
     private void Start()
     {
         InitializeManager();
@@ -29,9 +32,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void InitializeManager()
-    {
-        ChangeGameState(GameState.PLAY);
-        
+    {       
         currentScene = SceneManager.GetActiveScene().name;
     }
 
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
     #region State Control
     private void CheckGameState()
@@ -62,6 +64,9 @@ public class GameManager : MonoBehaviour
 
         switch (currentGameState)
         {
+            case GameState.WAIT:
+                Time.timeScale = 1f;
+                break;
             case GameState.PLAY:
                 Time.timeScale = 1f;
                 PlayState();
@@ -141,12 +146,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Scene Management
-    public IEnumerator ReloadMainScene()
-    {
-        yield return new WaitForSeconds(0.5f);
-        SceneManager.LoadScene(currentScene);
-    }
-
     public IEnumerator LoadMainMenu()
     {
         yield return new WaitForSeconds(0.5f);
@@ -157,6 +156,36 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("Main Scene");
+    }
+    #endregion
+
+    #region Fading
+    public IEnumerator FadeToggle(bool fadeIn, string sceneName = null)
+    {
+        fadePrefab.SetActive(true);
+
+        if (fadeIn)
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade In");
+            ChangeGameState(GameState.WAIT);
+            yield return new WaitForSeconds(1f);
+            ChangeGameState(GameState.PLAY);
+            fadePrefab.SetActive(false);
+        }
+        else if (!fadeIn && sceneName == "Main Scene")
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
+            ChangeGameState(GameState.WAIT);
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(LoadMainScene());
+        }
+        else if (!fadeIn && sceneName == "Main Menu")
+        {
+            fadePrefab.GetComponent<Animator>().SetTrigger("Fade Out");
+            ChangeGameState(GameState.WAIT);
+            yield return new WaitForSeconds(1f);
+            StartCoroutine(LoadMainMenu());
+        }
     }
     #endregion
 }

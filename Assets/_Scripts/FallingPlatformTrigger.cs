@@ -8,12 +8,6 @@ public class FallingPlatformTrigger : MonoBehaviour
     public float respawnDelay;
 
     private bool isFalling;
-    private Vector3 initialPosition;
-
-    private void Start()
-    {
-        initialPosition = fallingPlatform.gameObject.transform.position;
-    }
 
     public void CheckPlatform()
     {
@@ -30,8 +24,10 @@ public class FallingPlatformTrigger : MonoBehaviour
     public IEnumerator RespawnPlatform()
     {
         fallingPlatform.gameObject.SetActive(false);
+
         yield return new WaitForSeconds(respawnDelay);
-        fallingPlatform.transform.position = initialPosition;
+
+        fallingPlatform.transform.position = fallingPlatform.initialPosition;
         fallingPlatform.GetComponent<Rigidbody>().isKinematic = true;
         fallingPlatform.gameObject.SetActive(true);
         isFalling = false;
@@ -42,7 +38,7 @@ public class FallingPlatformTrigger : MonoBehaviour
         if (target.CompareTag("Player") && !isFalling)
         {
             isFalling = true;
-            StartCoroutine(fallingPlatform.Falling(this, fallDelay));
+            StartCoroutine(fallingPlatform.Falling(this.gameObject, fallDelay));
         }
     }
 }
