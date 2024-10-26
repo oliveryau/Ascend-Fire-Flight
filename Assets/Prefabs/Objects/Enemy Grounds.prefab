@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1979326661395312949}
   - component: {fileID: 6038219247626074435}
   m_Layer: 0
-  m_Name: Cliff1
+  m_Name: Enemy Grounds
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

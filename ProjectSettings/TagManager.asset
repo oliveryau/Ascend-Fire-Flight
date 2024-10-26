@@ -11,6 +11,7 @@ TagManager:
   - Enemy Boss
   - Enemy Spawner
   - Boss Music
+  - Main Ground
   layers:
   - Default
   - TransparentFX

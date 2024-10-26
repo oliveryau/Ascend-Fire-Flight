@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 201903669322403849}
   m_Layer: 0
   m_Name: NewRock3
-  m_TagString: Ground
+  m_TagString: Main Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
