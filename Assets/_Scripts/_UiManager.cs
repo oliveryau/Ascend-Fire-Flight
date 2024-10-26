@@ -76,6 +76,7 @@ public class UiManager : MonoBehaviour
     public GameObject reloadUi;
     public GameObject enemyBossHealthUi;
     public GameObject enemyBossSpawnerHealthUi;
+    public GameObject[] leftOverlayUi;
 
     [Header("References")]
     private GameManager GameManager;
@@ -243,6 +244,14 @@ public class UiManager : MonoBehaviour
     public void ToggleHealCue(bool canHeal)
     {
         playerHealUi.SetActive(canHeal);
+    }
+
+    public void OverlayLeftUi(bool showOverlay)
+    {
+        foreach (var overlay in leftOverlayUi)
+        {
+            overlay.SetActive(showOverlay);
+        }
     }
     #endregion
 

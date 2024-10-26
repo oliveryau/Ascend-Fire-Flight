@@ -52,21 +52,21 @@ public class TutorialManager : MonoBehaviour
         switch (currentState)
         {
             case TutorialState.MOVEMENT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press WASD to move";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "WASD - Move";
                 tutorialCue.SetActive(true);
                 yield return new WaitUntil(() => Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"));
                 tutorialCue.SetActive(false);
                 tutorialActive = false;
                 break;
             case TutorialState.JUMP:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press Spacebar to jump";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Spacebar - Jump";
                 tutorialCue.SetActive(true);
                 yield return new WaitUntil(() => Input.GetButtonDown("Jump"));
                 tutorialCue.SetActive(false);
                 tutorialActive = false;
                 break;
             case TutorialState.SPRINT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press LeftShift to sprint";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "LeftShift - Sprint";
                 tutorialCue.SetActive(true);
                 UiManager.sprintUi.SetActive(true);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.LeftShift));
@@ -74,7 +74,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.LAUNCH:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press and hold V to fly and glide in the air";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "V - Fly And Glide";
                 tutorialCue.SetActive(true);
                 UiManager.launchUi.SetActive(true);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.V));
@@ -82,19 +82,19 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.SHOOT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press Left Mouse Button to fire blast palm\nPress Right Mouse Button to fire grenade launcher";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Left Mouse Button - Fire Plasma Missiles\nRight Mouse Button - Fire Grenades";
                 tutorialCue.SetActive(true);
                 UiManager.rightWeaponUi.SetActive(true);
                 UiManager.leftWeaponUi.SetActive(true);
                 UiManager.ammoUi.SetActive(true);
                 UiManager.crosshairUi.SetActive(true);
                 UiManager.rightDecorativeUi.SetActive(true);
-                yield return new WaitUntil(() => Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"));
+                yield return new WaitUntil(() => Input.GetButtonDown("Fire1") && Input.GetButtonDown("Fire2"));
                 tutorialCue.SetActive(false);
                 tutorialActive = false;
                 break;
             case TutorialState.RELOAD:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press R to reload";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload Plasma Missiles";
                 tutorialCue.SetActive(true);
                 UiManager.reloadUi.SetActive(true);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.R));
@@ -102,7 +102,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.HEAL:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Press E to heal";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "E - Restore Health Near Healing Crystal";
                 tutorialCue.SetActive(true);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
                 tutorialCue.SetActive(false);

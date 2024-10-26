@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private bool isInAir;
 
     [Header("Launching Variables")]
-    public ParticleSystem launchParticle;
+    public ParticleSystem[] launchParticles;
     public float launchForce;
     public float minimumLaunchAmount;
     public float floatStrength;
@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
     [Header("Left Weapon Variables")]
     public GameObject leftProjectilePrefab;
     public Transform leftFirePoint;
+    public ParticleSystem leftFlameParticle;
     public float leftProjectileDamage;
     public float leftShootForce;
     public float leftFireRate;
@@ -141,6 +142,7 @@ public class PlayerController : MonoBehaviour
                 NormalShooting();
                 RightWeaponReload();
                 HealingEnabled();
+                ToggleLeftKeys(false);
                 break;
             case PlayerState.IRONMAN:
                 Movement();
@@ -150,7 +152,7 @@ public class PlayerController : MonoBehaviour
                 IronmanShooting();
                 RightWeaponReload();
                 HealingEnabled();
-                OverlayLeftHotkeys();
+                ToggleLeftKeys(true);
                 break;
             case PlayerState.DEAD:
                 Dead();
@@ -161,6 +163,11 @@ public class PlayerController : MonoBehaviour
     private void ChangePlayerState(PlayerState newState)
     {
         currentPlayerState = newState;
+    }
+
+    private void ToggleLeftKeys(bool activeOverlay)
+    {
+        UiManager.OverlayLeftUi(activeOverlay);
     }
     #endregion
 
@@ -265,7 +272,10 @@ public class PlayerController : MonoBehaviour
         }
 
         if (isGrounded && currentPlayerState == PlayerState.IRONMAN && launchCooldown <= 0 && !isFloating)
+        {
+            if (!leftFlameParticle.isPlaying) leftFlameParticle.Play();
             ChangePlayerState(PlayerState.NORMAL);
+        }
     }
 
     private IEnumerator PlayFootstepSounds()
@@ -345,9 +355,13 @@ public class PlayerController : MonoBehaviour
         launchCooldown = 1f;
         isFloating = true;
 
-        if (!launchParticle.isPlaying)
+        if (leftFlameParticle.isPlaying) leftFlameParticle.Stop();
+        foreach (var launchParticle in launchParticles)
         {
-            launchParticle.Play();
+            if (!launchParticle.isPlaying)
+            {
+                launchParticle.Play();
+            }
         }
     }
 
@@ -367,10 +381,14 @@ public class PlayerController : MonoBehaviour
             isFloating = true;
             velocity.y = Mathf.Max(velocity.y, -floatStrength);
 
+            if (leftFlameParticle.isPlaying) leftFlameParticle.Stop();
+            foreach (var launchParticle in launchParticles)
+        {
             if (!launchParticle.isPlaying)
             {
                 launchParticle.Play();
             }
+        }
         }
         else
         {
@@ -386,9 +404,12 @@ public class PlayerController : MonoBehaviour
         UiManager.launchUi.GetComponent<Animator>().SetBool("Floating", false);
         AudioManager.Instance.Stop("Float", LeftWeaponAnimator.gameObject);
 
-        if (launchParticle.isPlaying)
+        foreach (var launchParticle in launchParticles)
         {
-            launchParticle.Stop();
+            if (launchParticle.isPlaying)
+            {
+                launchParticle.Stop();
+            }
         }
     }
 
@@ -426,19 +447,17 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateLaunchParticle(bool isDecreasing)
     {
-        if (isDecreasing)
+        foreach (var launchParticle in launchParticles)
         {
-            if (!launchParticle.isPlaying) launchParticle.Play();
+            if (isDecreasing && !launchParticle.isPlaying)
+            {
+                launchParticle.Play();
+            }
+            else if (!isDecreasing && launchParticle.isPlaying)
+            {
+                launchParticle.Stop();
+            }
         }
-        else
-        {
-            if (launchParticle.isPlaying) launchParticle.Stop();
-        }
-    }
-
-    private void OverlayLeftHotkeys()
-    {
-
     }
     #endregion
 
