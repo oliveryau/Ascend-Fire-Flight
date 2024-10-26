@@ -1154,9 +1154,6 @@ MonoBehaviour:
   fadePrefab: {fileID: 929516997}
   playerFallingOutOfBoundsOverlay: {fileID: 1476100992}
   playerDamagedOverlay: {fileID: 1629586345}
-  leftOverlayUi:
-  - {fileID: 2055751491}
-  - {fileID: 1598461261}
   sprintUi: {fileID: 1065936776}
   launchUi: {fileID: 1173586411}
   rightWeaponUi: {fileID: 1733981579}
@@ -1167,6 +1164,9 @@ MonoBehaviour:
   reloadUi: {fileID: 1054864420}
   enemyBossHealthUi: {fileID: 1349092741}
   enemyBossSpawnerHealthUi: {fileID: 0}
+  leftOverlayUi:
+  - {fileID: 2055751491}
+  - {fileID: 1598461261}
 --- !u!114 &150387149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4517,6 +4517,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2135739765}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &444397250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 444397251}
+  - component: {fileID: 444397252}
+  m_Layer: 0
+  m_Name: Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &444397251
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444397250}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1536247130}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &444397252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444397250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 5c17d5645b600054db0b1df6dc35faeb, type: 2}
 --- !u!1 &444445201
 GameObject:
   m_ObjectHideFlags: 0
@@ -12595,7 +12644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1367859928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13855,7 +13904,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 444397251}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1536247131
