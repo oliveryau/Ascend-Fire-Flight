@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class FallingPlatform : MonoBehaviour
+public class EnemyBossFallingPlatform : MonoBehaviour
 {
+    [Header("Platform Variables")]
+    public float shakeDelay;
     public float fallDelay;
     public float destroyDelay;
     public float fallSpeed;
 
-    [Header("Trigger References")]
     public bool isFalling;
 
     private Vector3 initialPosition;
@@ -24,25 +25,28 @@ public class FallingPlatform : MonoBehaviour
         initialPosition = transform.position;
     }
 
-    public void StartShaking(FallingPlatformTrigger trigger)
+    public void StartShaking(EnemyBossFallingPlatformTrigger trigger)
     {
-        if (!isFalling) 
+        if (!isFalling)
         {
             fallingCoroutine = StartCoroutine(FallingSequence(trigger));
         }
     }
 
-    private IEnumerator FallingSequence(FallingPlatformTrigger trigger)
+    private IEnumerator FallingSequence(EnemyBossFallingPlatformTrigger trigger)
     {
         isFalling = true;
+        yield return new WaitForSeconds(shakeDelay);
+
         Animator.SetBool("Shake", true);
         AudioManager.Instance.Play("Falling Platform Shake", gameObject);
 
         yield return new WaitForSeconds(fallDelay);
 
         Rb.isKinematic = false;
+        Rb.constraints = RigidbodyConstraints.None;
+        Rb.constraints = RigidbodyConstraints.FreezeRotation;
         Rb.velocity = new Vector3(0, -fallSpeed, 0);
-
         Animator.SetBool("Shake", false);
         AudioManager.Instance.Stop("Falling Platform Shake", gameObject);
         AudioManager.Instance.PlayOneShot("Falling Platform Break", gameObject);

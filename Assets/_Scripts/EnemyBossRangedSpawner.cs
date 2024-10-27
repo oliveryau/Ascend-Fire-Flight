@@ -67,7 +67,7 @@ public class EnemyBossRangedSpawner : MonoBehaviour
         CurrentEnemiesAlive.Add(newEnemy.gameObject);
     }
 
-    public IEnumerator SpawnerDestroy()
+    public void SpawnerStop()
     {
         isActivated = false;
         foreach (var enemy in CurrentEnemiesAlive)
@@ -75,7 +75,5 @@ public class EnemyBossRangedSpawner : MonoBehaviour
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;
         }
         //Animator.SetTrigger("Dead");
-        yield return new WaitForSeconds(3f);
-        gameObject.SetActive(false);
     }
 }

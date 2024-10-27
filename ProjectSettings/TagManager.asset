@@ -12,6 +12,7 @@ TagManager:
   - Enemy Spawner
   - Boss Music
   - Main Ground
+  - Enemy Boss Weakpoint
   layers:
   - Default
   - TransparentFX

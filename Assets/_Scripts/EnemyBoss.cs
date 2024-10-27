@@ -15,11 +15,9 @@ public class EnemyBoss : EnemyController
 
     [Header("References")]
     private EnemyBossMeleeSpawner[] meleeSpawners;
-    private EnemyBossRangedSpawner[] rangedSpawners;
-    private EnemyBossPlatformWave[] platformWaves;
-    private Coroutine waveCoroutine;
+    private EnemyBossRangedSpawner rangedSpawner;
+    [SerializeField] private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
     private UiManager UiManager;
-    private bool isPlatformSequenceActive;
     #endregion
 
     #region Initialization
@@ -45,8 +43,8 @@ public class EnemyBoss : EnemyController
         UiManager = FindFirstObjectByType<UiManager>();
 
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
-        rangedSpawners = FindObjectsByType<EnemyBossRangedSpawner>(FindObjectsSortMode.None);
-        platformWaves = FindObjectsByType<EnemyBossPlatformWave>(FindObjectsSortMode.None);
+        rangedSpawner = GetComponent<EnemyBossRangedSpawner>();
+        bossPlatformTriggers = FindObjectsByType<EnemyBossFallingPlatformTrigger>(FindObjectsSortMode.None);
     }
     #endregion
 
@@ -86,7 +84,7 @@ public class EnemyBoss : EnemyController
             case BossState.PHASETWO:
                 SwitchToEnemyLayer();
                 ActivateRangedSpawners();
-                StartFallingPlatformWaves();
+                ActivateFallingPlatformSequence();
                 RangedAttack();
                 break;
         }
@@ -127,53 +125,15 @@ public class EnemyBoss : EnemyController
 
     private void ActivateRangedSpawners()
     {
-        foreach (var spawner in rangedSpawners)
-        {
-            spawner.GetComponent<MeshRenderer>().enabled = true;
-            spawner.GetComponent<BoxCollider>().enabled = true;
-            spawner.SpawnRangedEnemies();
-        }
+        rangedSpawner.SpawnRangedEnemies();
     }
 
-    private void StartFallingPlatformWaves()
+    private void ActivateFallingPlatformSequence()
     {
-        isPlatformSequenceActive = true;
-        
-        StartCoroutine(FallingPlatformSequence());
-    }
-
-    private IEnumerator FallingPlatformSequence()
-    {
-        if (!isPlatformSequenceActive) yield break; //Exit if platform sequence inactive
-        if (currentHealth <= 0) yield break;
-
-        for (int i = 0; i < platformWaves.Length; i++)
+        foreach (var platformTrigger in bossPlatformTriggers)
         {
-            waveCoroutine = StartCoroutine(ActivatePlatformWave(platformWaves[i]));
-            yield return new WaitUntil(() => platformWaves[i].hasRespawned);
-            platformWaves[i].ResetWave();
-            StopCoroutine(waveCoroutine);
+            platformTrigger.GetComponent<BoxCollider>().enabled = true;
         }
-    }
-
-    private IEnumerator ActivatePlatformWave(EnemyBossPlatformWave platformWave)
-    {
-        if (platformWave == null) yield break; //Exit if no platform wave
-
-        FallingPlatform[] platforms = platformWave.GetComponentsInChildren<FallingPlatform>();
-        foreach (FallingPlatform platform in platforms)
-        {
-            if (currentHealth <= 0) yield break;
-            platform.StartShaking(platformWave.gameObject, platformWave.fallDelay, platform, platformWave.stayDelay);
-        }
-
-        while (!platformWave.hasRespawned)
-        {
-            if (currentHealth <= 0) yield break;
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(platformWave.respawnDelay);
     }
 
     private void RangedAttack()
@@ -244,11 +204,11 @@ public class EnemyBoss : EnemyController
 
     public override IEnumerator DeathAnimation()
     {
-        foreach (var spawner in rangedSpawners)
+        rangedSpawner.SpawnerStop();
+        foreach (var platformTrigger in bossPlatformTriggers)
         {
-            StartCoroutine(spawner.SpawnerDestroy());
+            platformTrigger.GetComponent<BoxCollider>().enabled = false;
         }
-        isPlatformSequenceActive = false;
 
         UiManager.enemyBossHealthUi.SetActive(false); 
         Animator.SetTrigger("Death");

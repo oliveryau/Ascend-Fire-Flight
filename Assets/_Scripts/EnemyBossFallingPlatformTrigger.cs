@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class FallingPlatformTrigger : MonoBehaviour
+public class EnemyBossFallingPlatformTrigger : MonoBehaviour
 {
-    public FallingPlatform fallingPlatform;
+    public EnemyBossFallingPlatform fallingPlatform;
     public float respawnDelay;
 
     public void RespawnPlatform()
@@ -14,11 +14,15 @@ public class FallingPlatformTrigger : MonoBehaviour
     public IEnumerator RespawningSequence()
     {
         fallingPlatform.gameObject.SetActive(false);
+        //fallingPlatform.GetComponent<MeshRenderer>().enabled = false;
+        //fallingPlatform.GetComponent<MeshCollider>().enabled = false;
         fallingPlatform.Reset();
 
         yield return new WaitForSeconds(respawnDelay);
 
         fallingPlatform.gameObject.SetActive(true);
+        //fallingPlatform.GetComponent<MeshRenderer>().enabled = true;
+        //fallingPlatform.GetComponent<MeshCollider>().enabled = true;
     }
 
     private void OnTriggerEnter(Collider target)
