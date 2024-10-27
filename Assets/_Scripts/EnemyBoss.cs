@@ -14,9 +14,10 @@ public class EnemyBoss : EnemyController
     public float spreadAngle;
 
     [Header("References")]
+    public GameObject weakPoint;
     private EnemyBossMeleeSpawner[] meleeSpawners;
     private EnemyBossRangedSpawner rangedSpawner;
-    [SerializeField] private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
+    private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
     private UiManager UiManager;
     #endregion
 
@@ -152,9 +153,11 @@ public class EnemyBoss : EnemyController
     public override IEnumerator PerformAttack()
     {
         isAttacking = true;
+        weakPoint.gameObject.SetActive(true);
         //Animator.SetTrigger("Windup");
-        //yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f);
 
+        weakPoint.gameObject.SetActive(false);
         Vector3 baseShootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
         Vector3 spreadDirection = ApplySpread(baseShootDirection);
 

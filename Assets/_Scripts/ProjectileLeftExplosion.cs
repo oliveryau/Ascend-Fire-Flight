@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class ProjectileLeftExplosion : MonoBehaviour
 {
@@ -22,32 +23,42 @@ public class ProjectileLeftExplosion : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         bool hitOnce = false;
 
+        EnemyController bossController = null; //Track if boss is hit
+        float highestDamage = 0f;
+
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Enemy")) 
+            if (hitCollider.CompareTag("Enemy Boss") || hitCollider.CompareTag("Enemy Boss Weakpoint"))
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2); //Double damage melee enemy
+                EnemyController controller = hitCollider.GetComponent<EnemyController>(); //Store the boss controller reference
+                bossController = controller;
+
+                float currentDamage = hitCollider.CompareTag("Enemy Boss Weakpoint") ? damage * 2f : damage; //Check if weak point is hit and calculate damage
+
+                highestDamage = Mathf.Max(highestDamage, currentDamage); //Track highest damage to apply
 
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
-            }
-            else if (hitCollider.CompareTag("Enemy Ranged")) 
-            {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage ranged enemy
 
+                continue; //Wait until all colliders checked
+            }
+
+            //Handle other enemy types normally
+            if (hitCollider.CompareTag("Enemy"))
+            {
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2f); //Double damage melee
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Boss"))
+            else if (hitCollider.CompareTag("Enemy Ranged"))
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage); //Normal damage boss
-
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage ranged
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
@@ -56,14 +67,18 @@ public class ProjectileLeftExplosion : MonoBehaviour
             }
             else if (hitCollider.CompareTag("Enemy Spawner"))
             {
-                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage boss spawner
-
+                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage spawner
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
             }
+        }
+
+        if (bossController != null && highestDamage > 0)
+        {
+            bossController.TakeDamage(highestDamage); //Apply the highest damage to the boss if hit
         }
     }
 
