@@ -57,8 +57,11 @@ public class UiManager : MonoBehaviour
 
     [Header("Enemy HP UI")]
     public Image enemyBossHealthFill;
+    public Image enemySpawnerHealthFill;
 
     private float targetEnemyBossHealthFill;
+    private float targetEnemySpawnerHealthFill;
+    private EnemyBossMeleeSpawner currentTargetedSpawner;
 
     [Header("Non-Player UI")]
     public GameObject fadePrefab;
@@ -215,29 +218,6 @@ public class UiManager : MonoBehaviour
         {
             if (leftCrosshair.activeSelf) return;
             leftCrosshair.SetActive(true);
-        }
-    }
-
-    private void UpdateSpawnerHealthDetection()
-    {
-        Ray ray = MainCamera.ScreenPointToRay(crosshairUi.transform.position);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, crosshairDetectionRange, spawnerLayer))
-        {
-            if (!crosshairOnSpawner)
-            {
-                crosshairOnSpawner = true;
-                //DisplaySpawnerHealth(true);
-            }
-        }
-        else
-        {
-            if (crosshairOnSpawner)
-            {
-                crosshairOnSpawner = false;
-                //DisplaySpawnerHealth(false);
-            }
         }
     }
 
@@ -449,9 +429,53 @@ public class UiManager : MonoBehaviour
     {
         targetEnemyBossHealthFill = boss.currentHealth / boss.maxHealth;
         enemyBossHealthFill.fillAmount = Mathf.Lerp(enemyBossHealthFill.fillAmount, targetEnemyBossHealthFill, Time.deltaTime * updateSpeed);
+    }
 
-        //Color lerpedColor = Color.Lerp(Color.red, Color.white, enemyBossHealthFill.fillAmount);
-        //enemyBossHealthFill.color = lerpedColor;
+    private void UpdateSpawnerHealthDetection()
+    {
+        Ray ray = MainCamera.ScreenPointToRay(crosshairUi.transform.position);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, crosshairDetectionRange, spawnerLayer))
+        {
+            var spawner = hit.collider.GetComponent<EnemyBossMeleeSpawner>();
+            if (spawner != null)
+            {
+                if (!crosshairOnSpawner || currentTargetedSpawner != spawner) //Only update if looking at different spawner or none previously
+                {
+                    crosshairOnSpawner = true;
+                    currentTargetedSpawner = spawner;
+                    DisplaySpawnerHealth(true);
+                    UpdateEnemySpawnerHealthBar(spawner);
+                }
+                else if (currentTargetedSpawner == spawner) //Continue updating while looking at the same spawner
+                {
+                    UpdateEnemySpawnerHealthBar(spawner);
+                }
+            }
+        }
+        else
+        {
+            if (crosshairOnSpawner)
+            {
+                crosshairOnSpawner = false;
+                currentTargetedSpawner = null;
+                DisplaySpawnerHealth(false);
+            }
+        }
+    }
+
+    private void DisplaySpawnerHealth(bool onSpawner)
+    {
+        enemyBossSpawnerHealthUi.SetActive(onSpawner);
+    }
+
+    public void UpdateEnemySpawnerHealthBar(EnemyBossMeleeSpawner spawner)
+    {
+        if (spawner == null) return;
+
+        targetEnemySpawnerHealthFill = spawner.currentHealth / spawner.maxHealth;
+        enemySpawnerHealthFill.fillAmount = Mathf.Lerp(enemySpawnerHealthFill.fillAmount, targetEnemySpawnerHealthFill, Time.deltaTime * updateSpeed);
     }
     #endregion
 

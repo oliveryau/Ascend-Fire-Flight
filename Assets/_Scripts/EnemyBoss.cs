@@ -68,7 +68,7 @@ public class EnemyBoss : EnemyController
         BodyCollider.enabled = true;
 
         ChangeEnemyState(EnemyState.ATTACK);
-        ChangeBossState(BossState.PHASETWO);
+        ChangeBossState(BossState.PHASEONE);
     }
     #endregion
 
@@ -98,6 +98,7 @@ public class EnemyBoss : EnemyController
         UiManager.UpdateBossEnemyHealthBar(this);
     }
 
+    #region Phase 1
     private void ActivateMeleeSpawners()
     {
         foreach (var spawner in meleeSpawners)
@@ -115,7 +116,9 @@ public class EnemyBoss : EnemyController
 
         ChangeBossState(BossState.PHASETWO);
     }
+    #endregion
 
+    #region Phase 2
     private void SwitchToEnemyLayer()
     {
         if (gameObject.layer == LayerMask.NameToLayer("Enemy")) return;
@@ -180,6 +183,7 @@ public class EnemyBoss : EnemyController
         Quaternion spreadRotation = Quaternion.Euler(randomSpreadY, randomSpreadX, 0);
         return spreadRotation * baseDirection;
     }
+    #endregion
     #endregion
 
     #region Take Damage
