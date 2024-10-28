@@ -6,9 +6,8 @@ public class EnemyBossRangedSpawner : MonoBehaviour
 {
     [Header("Spawner Variables")]
     public float spawnInterval;
+    public bool isActivated;
 
-    private Animator Animator;
-    private bool isActivated;
     private bool isSpawning;
 
     [Header("Enemy Variables")]
@@ -21,8 +20,6 @@ public class EnemyBossRangedSpawner : MonoBehaviour
 
     private void Start()
     {
-        Animator = GetComponent<Animator>();
-
         CurrentEnemiesAlive = new List<GameObject>();
         CurrentEnemiesAlive.Clear();
 
@@ -69,11 +66,11 @@ public class EnemyBossRangedSpawner : MonoBehaviour
 
     public void SpawnerStop()
     {
-        isActivated = false;
         foreach (var enemy in CurrentEnemiesAlive)
         {
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;
         }
-        //Animator.SetTrigger("Dead");
+
+        isActivated = false;
     }
 }

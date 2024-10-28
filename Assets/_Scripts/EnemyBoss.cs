@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBoss : EnemyController
 {
@@ -14,10 +15,11 @@ public class EnemyBoss : EnemyController
     public float spreadAngle;
 
     [Header("References")]
-    public GameObject weakPoint;
+    public GameObject[] weakPoints;
     private EnemyBossMeleeSpawner[] meleeSpawners;
     private EnemyBossRangedSpawner rangedSpawner;
     private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
+    private BoxCollider BoxCollider;
     private UiManager UiManager;
     #endregion
 
@@ -25,7 +27,6 @@ public class EnemyBoss : EnemyController
     private void Start()
     {
         enemyId = 99;
-        InitializeEnemy();
         InitializeBoss();
     }
 
@@ -41,8 +42,18 @@ public class EnemyBoss : EnemyController
 
     private void InitializeBoss()
     {
-        UiManager = FindFirstObjectByType<UiManager>();
+        currentEnemyState = EnemyState.WAIT;
 
+        Player = FindFirstObjectByType<PlayerController>();
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        Animator = GetComponent<Animator>();
+
+        currentHealth = maxHealth;
+        lastAttackTime = -attackCooldown;
+        UiManager = FindFirstObjectByType<UiManager>();
+        BoxCollider = GetComponent<BoxCollider>();
+
+        BoxCollider.enabled = false;
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
         rangedSpawner = GetComponent<EnemyBossRangedSpawner>();
         bossPlatformTriggers = FindObjectsByType<EnemyBossFallingPlatformTrigger>(FindObjectsSortMode.None);
@@ -66,7 +77,7 @@ public class EnemyBoss : EnemyController
     #region Alert
     public override void Alert()
     {
-        BodyCollider.enabled = true;
+        BoxCollider.enabled = true;
 
         ChangeEnemyState(EnemyState.ATTACK);
         ChangeBossState(BossState.PHASEONE);
@@ -153,11 +164,11 @@ public class EnemyBoss : EnemyController
     public override IEnumerator PerformAttack()
     {
         isAttacking = true;
-        weakPoint.gameObject.SetActive(true);
+        foreach (var point in weakPoints) point.SetActive(true);
         //Animator.SetTrigger("Windup");
         yield return new WaitForSeconds(2f);
 
-        weakPoint.gameObject.SetActive(false);
+        foreach (var point in weakPoints) point.SetActive(false);
         Vector3 baseShootDirection = (Player.transform.position - projectileFirepoint.position).normalized;
         Vector3 spreadDirection = ApplySpread(baseShootDirection);
 
@@ -211,7 +222,7 @@ public class EnemyBoss : EnemyController
 
     public override IEnumerator DeathAnimation()
     {
-        rangedSpawner.SpawnerStop();
+        if (rangedSpawner.isActivated) rangedSpawner.SpawnerStop();
         foreach (var platformTrigger in bossPlatformTriggers)
         {
             platformTrigger.GetComponent<BoxCollider>().enabled = false;
@@ -220,7 +231,7 @@ public class EnemyBoss : EnemyController
         UiManager.enemyBossHealthUi.SetActive(false); 
         Animator.SetTrigger("Death");
         //AudioManager.Instance.PlayOneShot("Enemy Boss Death", gameObject);
-        GetComponent<SphereCollider>().enabled = false;
+        BoxCollider.enabled = false;
 
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
