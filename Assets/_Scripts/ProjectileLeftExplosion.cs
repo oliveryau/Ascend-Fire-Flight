@@ -58,7 +58,7 @@ public class ProjectileLeftExplosion : MonoBehaviour
             }
             else if (hitCollider.CompareTag("Enemy Ranged"))
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage ranged
+                //hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Zero damage ranged
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");

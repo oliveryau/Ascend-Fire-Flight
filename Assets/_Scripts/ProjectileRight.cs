@@ -23,7 +23,7 @@ public class ProjectileRight : MonoBehaviour
     {
         if (target.gameObject.CompareTag("Enemy"))
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Half damage melee enemy
+            //target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Zero damage melee enemy
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];

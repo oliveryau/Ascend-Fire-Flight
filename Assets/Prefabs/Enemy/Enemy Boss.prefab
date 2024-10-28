@@ -401,9 +401,9 @@ MonoBehaviour:
   currentBossState: 0
   projectile: {fileID: 4493625471514249341, guid: 652e3178dd249f44e965692c2379c52e, type: 3}
   projectileFirepoint: {fileID: 1573391703455451402}
-  shootForce: 50
+  shootForce: 70
   spreadAngle: 0.5
-  bossPlatformTriggers: []
+  weakPoint: {fileID: 9182411302926993528}
 --- !u!114 &2664866582073538642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +417,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnInterval: 2
-  EnemyToSpawn: {fileID: 8857076428734308458, guid: 20cae7c913b0b0846be7b80eb438788d, type: 3}
+  EnemyToSpawn: {fileID: 2899864010223265178, guid: 7bf0a12d02bc2b94fbdd0786845aa75d, type: 3}
   EnemySpawnPoints:
   - {fileID: 1837007425601092045}
   - {fileID: 6835444824634156287}
