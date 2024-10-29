@@ -59,6 +59,11 @@ public class UiManager : MonoBehaviour
     public Image enemyBossHealthFill;
     public Image enemySpawnerHealthFill;
 
+    [SerializeField] private Color originalColor;
+    [SerializeField] private Color flashColor;
+    private float flashDuration = 0.1f;
+    private bool isFlashing = false;
+    private float flashTimer = 0f;
     private float targetEnemyBossHealthFill;
     private float targetEnemySpawnerHealthFill;
     private EnemyBossMeleeSpawner currentTargetedSpawner;
@@ -429,6 +434,26 @@ public class UiManager : MonoBehaviour
     {
         targetEnemyBossHealthFill = boss.currentHealth / boss.maxHealth;
         enemyBossHealthFill.fillAmount = Mathf.Lerp(enemyBossHealthFill.fillAmount, targetEnemyBossHealthFill, Time.deltaTime * updateSpeed);
+    }
+
+    public void UpdateBossEnemyHealthFlash(EnemyBoss boss)
+    {
+        if (!isFlashing) return;
+
+        flashTimer += Time.deltaTime;
+        if (flashTimer >= flashDuration)
+        {
+            enemyBossHealthFill.color = originalColor;
+            isFlashing = false;
+            flashTimer = 0f;
+        }
+    }
+
+    public void FlashBossEnemyHealthBar()
+    {
+        enemyBossHealthFill.color = flashColor;
+        isFlashing = true;
+        flashTimer = 0f;
     }
 
     private void UpdateSpawnerHealthDetection()

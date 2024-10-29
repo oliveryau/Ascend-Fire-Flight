@@ -114,6 +114,7 @@ public class EnemyBoss : EnemyController
     {
         UiManager.enemyBossHealthUi.SetActive(true);
         UiManager.UpdateBossEnemyHealthBar(this);
+        UiManager.UpdateBossEnemyHealthFlash(this);
     }
 
     private void ActivateFlames()
@@ -227,6 +228,11 @@ public class EnemyBoss : EnemyController
         }
 
         base.TakeDamage(damageTaken);
+    }
+
+    public void FlashHealthBar()
+    {
+        UiManager.FlashBossEnemyHealthBar();
     }
     #endregion
 

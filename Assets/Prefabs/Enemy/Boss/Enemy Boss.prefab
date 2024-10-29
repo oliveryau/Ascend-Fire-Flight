@@ -267,13 +267,14 @@ GameObject:
   - component: {fileID: 415217397841646670}
   - component: {fileID: 9220806548227230894}
   - component: {fileID: 8826584232038483350}
+  - component: {fileID: 1508290393408770165}
   m_Layer: 0
   m_Name: pCube11
   m_TagString: Enemy Boss Weakpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1288609584809396100
 Transform:
   m_ObjectHideFlags: 0
@@ -363,6 +364,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 664456749670281567, guid: 6eaed988d85872f42a1a3488c3411aa9, type: 3}
+--- !u!114 &1508290393408770165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608021162098664400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108fda0dca9c36544bb902c737e5981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &776304482799222448
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,13 +589,14 @@ GameObject:
   - component: {fileID: 8400709927432053669}
   - component: {fileID: 7531551178196068801}
   - component: {fileID: 170421713866754188}
+  - component: {fileID: 1478603569266292660}
   m_Layer: 0
   m_Name: pCube8
   m_TagString: Enemy Boss Weakpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1562199559218691336
 Transform:
   m_ObjectHideFlags: 0
@@ -672,6 +686,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6788383922943872000, guid: 6eaed988d85872f42a1a3488c3411aa9, type: 3}
+--- !u!114 &1478603569266292660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2220620282760591219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108fda0dca9c36544bb902c737e5981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2350824646796136229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,13 +1558,14 @@ GameObject:
   - component: {fileID: 3274102061321186548}
   - component: {fileID: 2653384279383906981}
   - component: {fileID: 6544969360588562537}
+  - component: {fileID: 3030283888621946951}
   m_Layer: 0
   m_Name: pCube9
   m_TagString: Enemy Boss Weakpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7152439074930884601
 Transform:
   m_ObjectHideFlags: 0
@@ -1628,6 +1655,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7857590630482128698, guid: 6eaed988d85872f42a1a3488c3411aa9, type: 3}
+--- !u!114 &3030283888621946951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6219240059645447877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108fda0dca9c36544bb902c737e5981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6670763673062027039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2009,7 +2048,7 @@ Transform:
   m_GameObject: {fileID: 8216227405996964007}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2165,13 +2204,14 @@ GameObject:
   - component: {fileID: 6255616123449834491}
   - component: {fileID: 4974865808841252784}
   - component: {fileID: 156448304834832070}
+  - component: {fileID: 85449685719696335}
   m_Layer: 0
   m_Name: pCube10
   m_TagString: Enemy Boss Weakpoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8217321253622639474
 Transform:
   m_ObjectHideFlags: 0
@@ -2261,6 +2301,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -1364087873485794358, guid: 6eaed988d85872f42a1a3488c3411aa9, type: 3}
+--- !u!114 &85449685719696335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8351451433754528144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108fda0dca9c36544bb902c737e5981c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8380356944473916009
 GameObject:
   m_ObjectHideFlags: 0

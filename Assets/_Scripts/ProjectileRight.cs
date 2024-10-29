@@ -22,7 +22,7 @@ public class ProjectileRight : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss")) //Zero damage melee and boss
+        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss") || target.gameObject.CompareTag("Healing")) //Zero damage melee and boss
         {
             UiManager.UpdateRightCrosshair("Hit");
 

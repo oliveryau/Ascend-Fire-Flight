@@ -8,6 +8,7 @@ public class EnemyBossProjectile : MonoBehaviour
 
     private void Start()
     {
+        Physics.IgnoreLayerCollision(6, 8); 
         damage = FindFirstObjectByType<EnemyBoss>().attackDamage;
         Destroy(gameObject, lifeTime);
     }

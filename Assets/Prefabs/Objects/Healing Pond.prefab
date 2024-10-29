@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 8600717616803393491}
   m_Layer: 2
   m_Name: Healing Pond
-  m_TagString: Untagged
+  m_TagString: Healing
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

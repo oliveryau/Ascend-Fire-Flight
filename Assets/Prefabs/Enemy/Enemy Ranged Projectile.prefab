@@ -4847,7 +4847,7 @@ GameObject:
   - component: {fileID: 8511618643828575533}
   - component: {fileID: 8485382349395904176}
   m_Layer: 8
-  m_Name: Enemy Ranged Bullet
+  m_Name: Enemy Ranged Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

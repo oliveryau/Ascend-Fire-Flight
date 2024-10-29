@@ -14,6 +14,7 @@ TagManager:
   - Main Ground
   - Enemy Boss Weakpoint
   - Lava
+  - Left Bullet
   layers:
   - Default
   - TransparentFX

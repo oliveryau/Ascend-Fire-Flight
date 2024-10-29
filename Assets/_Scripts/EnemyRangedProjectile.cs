@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyRangedBullet : MonoBehaviour
+public class EnemyRangedProjectile : MonoBehaviour
 {
     public float lifeTime;
     public GameObject hitVfx;
