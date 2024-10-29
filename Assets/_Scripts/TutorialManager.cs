@@ -82,7 +82,10 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.SHOOT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Left Mouse Button - Fire Plasma Missiles\nRight Mouse Button - Fire Grenades";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = 
+                    "Left Mouse Button - <color=#00FFFF>Ice Bolts</color>" +
+                    "\n" +
+                    "Right Mouse Button - <color=#FF4500>Fire Grenades</color>";
                 tutorialCue.SetActive(true);
                 UiManager.rightWeaponUi.SetActive(true);
                 UiManager.leftWeaponUi.SetActive(true);
@@ -94,7 +97,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.RELOAD:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload Plasma Missiles";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload <color=#00FFFF>Ice Bolts</color>";
                 tutorialCue.SetActive(true);
                 UiManager.reloadUi.SetActive(true);
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.R));
