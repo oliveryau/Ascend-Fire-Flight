@@ -22,7 +22,7 @@ public class ProjectileRight : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy")) //Zero damage melee
+        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss")) //Zero damage melee and boss
         {
             UiManager.UpdateRightCrosshair("Hit");
 
@@ -43,9 +43,9 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Boss"))  //Normal damage boss
+        else if ( target.gameObject.CompareTag("Enemy Spawner")) //Normal damage spawner
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
+            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Spawner script hp
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];
@@ -54,18 +54,7 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Spawner"))  //Normal damage spawners
-        {
-            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage);
-            UiManager.UpdateRightCrosshair("Hit");
-
-            ContactPoint contact = target.contacts[0];
-            Vector3 hitPosition = contact.point;
-            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
-
-            Destroy(gameObject);
-        }
-        else if (target.gameObject.CompareTag("Main Ground") || target.gameObject.CompareTag("Ground"))
+        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;

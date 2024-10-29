@@ -620,7 +620,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Iframe()
     {
         hasTakenDamaged = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         hasTakenDamaged = false;
     }
 

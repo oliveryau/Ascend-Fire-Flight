@@ -13,6 +13,7 @@ TagManager:
   - Boss Music
   - Main Ground
   - Enemy Boss Weakpoint
+  - Lava
   layers:
   - Default
   - TransparentFX

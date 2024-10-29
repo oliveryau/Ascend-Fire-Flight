@@ -23,33 +23,29 @@ public class ProjectileLeftExplosion : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, explosionRadius);
         bool hitOnce = false;
 
-        EnemyController bossController = null; //Track if boss is hit
-        float highestDamage = 0f;
-
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Enemy Boss") || hitCollider.CompareTag("Enemy Boss Weakpoint"))
+            if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Enemy Boss")) //Normal damage melee, boss
             {
-                EnemyController controller = hitCollider.GetComponent<EnemyController>(); //Store the boss controller reference
-                bossController = controller;
-
-                float currentDamage = hitCollider.CompareTag("Enemy Boss Weakpoint") ? damage * 2f : damage; //Check if weak point is hit and calculate damage
-
-                highestDamage = Mathf.Max(highestDamage, currentDamage); //Track highest damage to apply
-
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
-
-                continue; //Wait until all colliders checked
             }
-
-            //Handle other enemy types normally
-            if (hitCollider.CompareTag("Enemy")) //Normal damage melee
+            else if (hitCollider.CompareTag("Enemy Boss Weakpoint")) //Normal damage weakpoint
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
+                hitCollider.GetComponentInParent<EnemyController>().TakeDamage(damage); //Get parent component
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
+            }
+            else if (hitCollider.CompareTag("Enemy Spawner")) //Normal damage spawner
+            {
+                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Spawner script hp
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
@@ -64,20 +60,6 @@ public class ProjectileLeftExplosion : MonoBehaviour
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Spawner")) //Normal damage spawner
-            {
-                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage);
-                if (!hitOnce)
-                {
-                    UiManager.UpdateLeftCrosshair("Hit");
-                    hitOnce = true;
-                }
-            }
-        }
-
-        if (bossController != null && highestDamage > 0)
-        {
-            bossController.TakeDamage(highestDamage); //Apply the highest damage to the boss if hit
         }
     }
 

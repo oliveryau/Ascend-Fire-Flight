@@ -16,9 +16,10 @@ public class EnemyBoss : EnemyController
 
     [Header("References")]
     public GameObject[] weakPoints;
-    private EnemyBossMeleeSpawner[] meleeSpawners;
-    private EnemyBossRangedSpawner rangedSpawner;
-    private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
+    [SerializeField] private GameObject[] flamePlatforms;
+    [SerializeField] private EnemyBossMeleeSpawner[] meleeSpawners;
+    [SerializeField] private EnemyBossRangedSpawner rangedSpawner;
+    [SerializeField] private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
     private BoxCollider BoxCollider;
     private UiManager UiManager;
     #endregion
@@ -54,6 +55,7 @@ public class EnemyBoss : EnemyController
         BoxCollider = GetComponent<BoxCollider>();
 
         BoxCollider.enabled = false;
+        flamePlatforms = GameObject.FindGameObjectsWithTag("Lava");
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
         rangedSpawner = GetComponent<EnemyBossRangedSpawner>();
         bossPlatformTriggers = FindObjectsByType<EnemyBossFallingPlatformTrigger>(FindObjectsSortMode.None);
@@ -101,13 +103,27 @@ public class EnemyBoss : EnemyController
                 break;
         }
 
-        if (currentHealth > 0) ActivateBossHealth();
+        if (currentHealth > 0)
+        {
+            ActivateBossHealth();
+            ActivateFlames();
+        }
     }
 
     private void ActivateBossHealth()
     {
         UiManager.enemyBossHealthUi.SetActive(true);
         UiManager.UpdateBossEnemyHealthBar(this);
+    }
+
+    private void ActivateFlames()
+    {
+        foreach (var platform in flamePlatforms)
+        {
+            ParticleSystem fire = platform.GetComponentInChildren<ParticleSystem>();
+            if (fire.isPlaying) return;
+            if (!fire.isPlaying) fire.Play();
+        }
     }
 
     #region Phase 1

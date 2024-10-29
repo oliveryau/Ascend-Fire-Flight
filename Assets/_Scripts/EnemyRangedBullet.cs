@@ -9,6 +9,7 @@ public class EnemyRangedBullet : MonoBehaviour
 
     private void Start()
     {
+        Physics.IgnoreLayerCollision(6, 8);
         damage = FindFirstObjectByType<EnemyRanged>().attackDamage;
         Destroy(gameObject, lifeTime);
     }
@@ -24,7 +25,7 @@ public class EnemyRangedBullet : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Main Ground") || target.gameObject.CompareTag("Ground"))
+        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
