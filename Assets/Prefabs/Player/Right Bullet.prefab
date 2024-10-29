@@ -298,4 +298,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 2
   hitEnemyVfx: {fileID: 7537801120345206761, guid: e080c9e48271da94997f27613e8bc6db, type: 3}
+  hitNoDamageVfx: {fileID: 4985036466843413893, guid: 9bd751fc373855d4fae18e5c172b0a5c, type: 3}
   hitGroundVfx: {fileID: 7537801120345206761, guid: 997ba5b0b88f3004a993a6a4d6a2c087, type: 3}

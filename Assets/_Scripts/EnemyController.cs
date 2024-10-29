@@ -99,9 +99,9 @@ public class EnemyController : MonoBehaviour
     private IEnumerator Spawning()
     {
         RandomiseSpawnAudio();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         LookAtPlayer();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         ChangeEnemyState(EnemyState.ALERT);
     }
 
@@ -194,6 +194,8 @@ public class EnemyController : MonoBehaviour
     {
         NavMeshAgent.isStopped = true;
         NavMeshAgent.velocity = Vector3.zero;
+        Animator.SetBool("Walking", false);
+        Animator.SetBool("Attack", false);
         Animator.SetTrigger("Death");
         RandomiseDeathAudio();
         GetComponent<SphereCollider>().enabled = false;

@@ -4,6 +4,7 @@ public class ProjectileRight : MonoBehaviour
 {
     public float lifeTime;
     public GameObject hitEnemyVfx;
+    public GameObject hitNoDamageVfx;
     public GameObject hitGroundVfx;
 
     private PlayerController Player;
@@ -21,9 +22,19 @@ public class ProjectileRight : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy"))
+        if (target.gameObject.CompareTag("Enemy")) //Zero damage melee
         {
-            //target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Zero damage melee enemy
+            UiManager.UpdateRightCrosshair("Hit");
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitNoDamageVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Enemy Ranged")) //Normal damage ranged
+        {
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];
@@ -32,9 +43,9 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Ranged")) 
+        else if (target.gameObject.CompareTag("Enemy Boss"))  //Normal damage boss
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage * 2); //Double damage ranged enemy
+            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];
@@ -43,20 +54,9 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Boss"))
+        else if (target.gameObject.CompareTag("Enemy Spawner"))  //Normal damage spawners
         {
-            target.gameObject.GetComponent<EnemyController>().TakeDamage(damage); //Normal damage boss
-            UiManager.UpdateRightCrosshair("Hit");
-
-            ContactPoint contact = target.contacts[0];
-            Vector3 hitPosition = contact.point;
-            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
-
-            Destroy(gameObject);
-        }
-        else if (target.gameObject.CompareTag("Enemy Spawner"))
-        {
-            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage boss spawners
+            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage);
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];

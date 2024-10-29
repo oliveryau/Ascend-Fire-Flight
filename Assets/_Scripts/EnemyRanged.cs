@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyRanged : EnemyController
 {
     [Header("Ranged Enemy Variables")]
+    public GameObject mainAuraParticle;
     public GameObject bulletPrefab;
     public Transform bulletFirePoint;
     public float shootForce;
@@ -30,6 +31,7 @@ public class EnemyRanged : EnemyController
     #region Alert
     public override void Alert()
     {
+        mainAuraParticle.SetActive(true);
         base.Alert();
     }
     #endregion
@@ -48,10 +50,11 @@ public class EnemyRanged : EnemyController
 
         GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, bulletFirePoint.rotation);
         bulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        Animator.SetTrigger("Attack");
+        Animator.SetBool("Attack", true);
         AudioManager.Instance.PlayOneShot("Enemy Ranged 1", gameObject);
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         lastAttackTime = Time.time;
+        Animator.SetBool("Attack", false);
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
     }
@@ -69,6 +72,7 @@ public class EnemyRanged : EnemyController
     #region Death
     public override void Dead()
     {
+        mainAuraParticle.SetActive(false);
         base.Dead();
     }
     #endregion

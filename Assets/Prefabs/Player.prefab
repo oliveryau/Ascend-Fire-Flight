@@ -6726,7 +6726,7 @@ MonoBehaviour:
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 6329591817764152152}
   leftFlameParticle: {fileID: 2420755759294420577}
-  leftProjectileDamage: 2
+  leftProjectileDamage: 1
   leftShootForce: 12
   leftFireRate: 2
   grenadeExplosionRadius: 5

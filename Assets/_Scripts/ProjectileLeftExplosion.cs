@@ -47,27 +47,26 @@ public class ProjectileLeftExplosion : MonoBehaviour
             }
 
             //Handle other enemy types normally
-            if (hitCollider.CompareTag("Enemy"))
+            if (hitCollider.CompareTag("Enemy")) //Normal damage melee
             {
-                hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 2f); //Double damage melee
+                hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Ranged"))
+            else if (hitCollider.CompareTag("Enemy Ranged")) //Zero damage ranged
             {
-                //hitCollider.GetComponent<EnemyController>().TakeDamage(damage * 0.5f); //Zero damage ranged
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Spawner"))
+            else if (hitCollider.CompareTag("Enemy Spawner")) //Normal damage spawner
             {
-                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Normal damage spawner
+                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage);
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");
