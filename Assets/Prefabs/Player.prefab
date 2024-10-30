@@ -6721,14 +6721,14 @@ MonoBehaviour:
   rightProjectileDamage: 1
   rightShootForce: 200
   rightFireRate: 0.2
-  maxAmmo: 30
-  currentAmmo: 30
+  maxAmmo: 20
+  currentAmmo: 20
   leftProjectilePrefab: {fileID: 4493625471514249341, guid: 7b7239b5722d19d4aad58abf51ef0e01, type: 3}
   leftFirePoint: {fileID: 6329591817764152152}
   leftFlameParticle: {fileID: 2420755759294420577}
   leftProjectileDamage: 1
   leftShootForce: 12
-  leftFireRate: 2
+  leftFireRate: 1.5
   grenadeExplosionRadius: 5
   grenadeExplosionForce: 200
   aimDistance: 200

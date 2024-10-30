@@ -65,7 +65,6 @@ public class EnemyMelee : EnemyController
     #region Death
     public override void Dead()
     {
-        mainAuraParticle.SetActive(false);
         base.Dead();
     }
     #endregion

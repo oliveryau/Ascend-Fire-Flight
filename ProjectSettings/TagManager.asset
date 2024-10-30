@@ -15,6 +15,7 @@ TagManager:
   - Enemy Boss Weakpoint
   - Lava
   - Left Bullet
+  - Rubble
   layers:
   - Default
   - TransparentFX

@@ -10589,15 +10589,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 5
-  currentHealth: 5
+  maxHealth: 4
+  currentHealth: 4
   attackDamage: 1
   attackCooldown: 1
   AttackRadius: {fileID: 1011949412810812871}
   mainAuraParticle: {fileID: 5795568134190386579}
   bulletPrefab: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
   bulletFirePoint: {fileID: 2892440496606342488}
-  shootForce: 100
+  shootForce: 50
   spreadAngle: 0.5
 --- !u!1 &7864979938519633848
 GameObject:

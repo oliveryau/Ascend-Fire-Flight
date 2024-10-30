@@ -31,10 +31,9 @@ public class EnemyTriggerZone : MonoBehaviour
         if (endSegment) return;
         if (!isTriggered) return;
 
-        CloseGate();
         CheckDeadEnemies();
 
-        if (totalEnemiesDead >= totalEnemies) OpenGate();
+        if (totalEnemiesDead >= totalEnemies) OpenRubble();
     }
 
     private void SpawnEnemies()
@@ -62,18 +61,11 @@ public class EnemyTriggerZone : MonoBehaviour
         }
     }
 
-    private void CloseGate()
+    private void OpenRubble()
     {
         if (gate == null) return;
 
-        gate.GetComponent<Gate>().closedGate = true;
-    }
-
-    private void OpenGate()
-    {
-        if (gate == null) return;
-
-        gate.GetComponent<Gate>().closedGate = false;
+        gate.GetComponent<Rubble>().canBeDestroyed = true;
         endSegment = true;
     }
 
@@ -81,7 +73,6 @@ public class EnemyTriggerZone : MonoBehaviour
     {
         if (target.CompareTag("Player") && !isTriggered)
         {
-            CloseGate();
             SpawnEnemies();
         }
     }

@@ -54,7 +54,7 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava"))
+        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Rubble"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;

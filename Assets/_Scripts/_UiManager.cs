@@ -72,6 +72,7 @@ public class UiManager : MonoBehaviour
     public GameObject fadePrefab;
     public Image playerFallingOutOfBoundsOverlay;
     public Image playerDamagedOverlay;
+    public Image playerHealOverlay;
 
     [Header("Adaptive UI")]
     public GameObject sprintUi;
@@ -522,6 +523,18 @@ public class UiManager : MonoBehaviour
         playerDamagedOverlay.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
         playerDamagedOverlay.gameObject.SetActive(false);
+    }
+
+    public void DisplayHealOverlay()
+    {
+        StartCoroutine(HealOverlay());
+    }
+
+    private IEnumerator HealOverlay()
+    {
+        playerHealOverlay.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        playerHealOverlay.gameObject.SetActive(false);
     }
     #endregion
 

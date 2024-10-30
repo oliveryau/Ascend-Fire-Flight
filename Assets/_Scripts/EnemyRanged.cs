@@ -72,7 +72,6 @@ public class EnemyRanged : EnemyController
     #region Death
     public override void Dead()
     {
-        mainAuraParticle.SetActive(false);
         base.Dead();
     }
     #endregion

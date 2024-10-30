@@ -40,7 +40,8 @@ public class LeftProjectile : MonoBehaviour
         if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Ranged") ||
             target.gameObject.CompareTag("Enemy Boss") || target.gameObject.CompareTag("Enemy Boss Weakpoint") ||
             target.gameObject.CompareTag("Enemy Spawner") || target.gameObject.CompareTag("Ground") || 
-            target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Healing"))
+            target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Healing") ||
+            target.gameObject.CompareTag("Rubble"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 position = contact.point;
