@@ -14,6 +14,13 @@ public class EnemyBoss : EnemyController
     public float shootForce;
     public float spreadAngle;
 
+    [Header("Timer Variables")]
+    public float phaseOneTimerInterval;
+    public float phaseTwoTimerInterval;
+
+    private float phaseOneTimer;
+    private float phaseTwoTimer;
+
     [Header("References")]
     public GameObject[] weakPoints;
     [SerializeField] private GameObject[] flamePlatforms;
@@ -71,7 +78,7 @@ public class EnemyBoss : EnemyController
     private IEnumerator WakeUp()
     {
         //AudioManager.Instance.PlayOneShot("Boss Wake Up", gameObject);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         ChangeEnemyState(EnemyState.ALERT);
     }
     #endregion
@@ -91,15 +98,19 @@ public class EnemyBoss : EnemyController
     {
         switch (currentBossState)
         {
+            case BossState.WAIT:
+                break;
             case BossState.PHASEONE:
                 ActivateMeleeSpawners();
                 CheckMeleeSpawners();
+                UpdatePhaseOneTimer();
                 break;
             case BossState.PHASETWO:
                 SwitchToEnemyLayer();
                 ActivateRangedSpawners();
                 ActivateFallingPlatformSequence();
                 RangedAttack();
+                UpdatePhaseTwoTimer();
                 break;
         }
 
@@ -143,6 +154,23 @@ public class EnemyBoss : EnemyController
             if (spawner.gameObject.activeSelf) return;
         }
 
+        StartCoroutine(ChangeToBossPhaseTwo());
+    }
+
+    private void UpdatePhaseOneTimer()
+    {
+        phaseOneTimer += Time.deltaTime;
+        if (phaseOneTimer >= phaseOneTimerInterval)
+        {
+            Debug.Log("Phase 1 Timer: Interval passed");
+            phaseOneTimer = 0f;
+        }
+    }
+
+    private IEnumerator ChangeToBossPhaseTwo()
+    {
+        Animator.SetTrigger("Phase Two");
+        yield return new WaitForSeconds(2f);
         ChangeBossState(BossState.PHASETWO);
     }
     #endregion
@@ -152,6 +180,7 @@ public class EnemyBoss : EnemyController
     {
         if (gameObject.layer == LayerMask.NameToLayer("Enemy")) return;
 
+        mainAuraParticle.SetActive(true);
         gameObject.layer = LayerMask.NameToLayer("Enemy"); //For enemy indicator
     }
 
@@ -182,7 +211,7 @@ public class EnemyBoss : EnemyController
     {
         isAttacking = true;
         foreach (var point in weakPoints) point.SetActive(true);
-        //Animator.SetTrigger("Windup");
+        //Animator.SetTrigger("Attack");
         yield return new WaitForSeconds(2f);
 
         foreach (var point in weakPoints) point.SetActive(false);
@@ -191,13 +220,11 @@ public class EnemyBoss : EnemyController
 
         GameObject firstBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
         firstBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        //Animator.SetTrigger("Attack");
         //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
         yield return new WaitForSeconds(0.3f); //Short interval
 
         GameObject secondBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
         secondBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        //Animator.SetTrigger("Attack");
         //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
 
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
@@ -214,15 +241,26 @@ public class EnemyBoss : EnemyController
         Quaternion spreadRotation = Quaternion.Euler(randomSpreadY, randomSpreadX, 0);
         return spreadRotation * baseDirection;
     }
+
+    private void UpdatePhaseTwoTimer()
+    {
+        phaseTwoTimer += Time.deltaTime;
+        if (phaseTwoTimer >= phaseTwoTimerInterval)
+        {
+            Debug.Log("Phase 2 Timer: Interval passed");
+            phaseTwoTimer = 0f;
+        }
+    }
     #endregion
     #endregion
 
     #region Take Damage
     public override void TakeDamage(float damageTaken)
     {
+        if (currentEnemyState == EnemyState.DEAD) return;
+
         if (currentBossState == BossState.PHASEONE)
         {
-            //Animator.SetTrigger("Null Damage");
             //AudioManager.Instance.PlayOneShot("Boss Null Damage", gameObject);
             return;
         }
@@ -254,8 +292,9 @@ public class EnemyBoss : EnemyController
         Animator.SetTrigger("Death");
         //AudioManager.Instance.PlayOneShot("Enemy Boss Death", gameObject);
         BoxCollider.enabled = false;
+        mainAuraParticle.SetActive(false);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
     #endregion

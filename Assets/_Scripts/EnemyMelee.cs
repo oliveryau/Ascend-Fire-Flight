@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyMelee : EnemyController
 {
     [Header("Melee Enemy Variables")]
-    public GameObject mainAuraParticle;
     public GameObject meleeSlashParticle;
 
     private void Start()

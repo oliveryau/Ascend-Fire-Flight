@@ -599,9 +599,13 @@ public class PlayerController : MonoBehaviour
         {
             ChangePlayerState(PlayerState.DEAD);
         }
-        else if (currentHealth < maxHealth * 0.3f)
+        else if (currentHealth <= maxHealth * 0.3f)
         {
-            //Play low health warning effects
+            UiManager.DisplayLowHealthOverlay(true);
+        }
+        else if (currentHealth > maxHealth * 0.3f)
+        {
+            UiManager.DisplayLowHealthOverlay(false);
         }
     }
 
@@ -653,7 +657,7 @@ public class PlayerController : MonoBehaviour
         if (!canHeal || isHealing) return;
         if (currentHealth >= maxHealth) return;
 
-        if (Input.GetKeyDown(KeyCode.E)) StartCoroutine(HealPlayer());
+        if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(HealPlayer());
 
     }
 
@@ -665,6 +669,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
         currentHealth = maxHealth;
+        UiManager.DisplayHealOverlay();
         yield return new WaitForSeconds(1f);
         UiManager.playerHealUi.GetComponent<Animator>().SetBool("Healing", false);
         isHealing = false;
@@ -684,9 +689,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(FallingOut());
         }
 
-        if (target.CompareTag("Boss Music"))
+        if (target.CompareTag("Music 1"))
         {
-            StartCoroutine(TransitionMusic(5f));
+            StartCoroutine(TransitionMusic("Main BGM", "Boss BGM", 5f));
             Destroy(target.gameObject);
         }
     }
@@ -699,11 +704,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator TransitionMusic(float duration)
+    private IEnumerator TransitionMusic(string fadeOut, string fadeIn, float duration)
     {
-        AudioManager.Instance.FadeOut("Main BGM", duration);
-        yield return new WaitForSeconds(duration);
-        AudioManager.Instance.FadeIn("Boss BGM", duration);
+        AudioManager.Instance.FadeOut(fadeOut, duration);
+        yield return new WaitForSeconds(2f);
+        AudioManager.Instance.FadeIn(fadeIn, duration);
     }
     #endregion
 }

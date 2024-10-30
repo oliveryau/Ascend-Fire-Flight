@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
     protected float lastAttackTime;
 
     [Header("References")]
+    public GameObject mainAuraParticle;
     public SphereCollider AttackRadius;
     protected PlayerController Player;
     protected SphereCollider BodyCollider;

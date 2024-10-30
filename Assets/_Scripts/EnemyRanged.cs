@@ -4,7 +4,6 @@ using UnityEngine;
 public class EnemyRanged : EnemyController
 {
     [Header("Ranged Enemy Variables")]
-    public GameObject mainAuraParticle;
     public GameObject bulletPrefab;
     public Transform bulletFirePoint;
     public float shootForce;

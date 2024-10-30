@@ -72,8 +72,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 250, y: 30}
+  m_AnchoredPosition: {x: 0, y: -50}
+  m_SizeDelta: {x: 350, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7032302354890009180
 CanvasRenderer:
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spawner
+  m_text: Frostfire Herald
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c559f638e0d381d4aa4eb3854178b432, type: 2}
   m_sharedMaterial: {fileID: -9035150395703350760, guid: c559f638e0d381d4aa4eb3854178b432, type: 2}

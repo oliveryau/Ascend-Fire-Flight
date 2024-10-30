@@ -175,6 +175,4 @@ MonoBehaviour:
   fallDelay: 1.5
   destroyDelay: 1.5
   fallSpeed: 10
-  initialPosition: {x: 0, y: 0, z: 0}
-  Rb: {fileID: 0}
   isFalling: 0

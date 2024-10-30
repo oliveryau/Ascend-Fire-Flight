@@ -71,8 +71,11 @@ public class UiManager : MonoBehaviour
     [Header("Non-Player UI")]
     public GameObject fadePrefab;
     public Image playerFallingOutOfBoundsOverlay;
+    public Image playerLowHpOverlay;
     public Image playerDamagedOverlay;
     public Image playerHealOverlay;
+    public GameObject dialoguePanel;
+    public TextMeshProUGUI dialogueText;
 
     [Header("Adaptive UI")]
     public GameObject sprintUi;
@@ -86,6 +89,7 @@ public class UiManager : MonoBehaviour
     public GameObject enemyBossHealthUi;
     public GameObject enemyBossSpawnerHealthUi;
     public GameObject[] leftOverlayUi;
+    public GameObject dialogueUi;
 
     [Header("References")]
     private GameManager GameManager;
@@ -511,6 +515,11 @@ public class UiManager : MonoBehaviour
         playerFallingOutOfBoundsOverlay.gameObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         playerFallingOutOfBoundsOverlay.gameObject.SetActive(false);
+    }
+
+    public void DisplayLowHealthOverlay(bool active)
+    {
+        playerLowHpOverlay.gameObject.SetActive(active);
     }
 
     public void DisplayDamagedOverlay()

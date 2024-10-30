@@ -66,6 +66,7 @@ public class EnemyBossRangedSpawner : MonoBehaviour
 
     public void SpawnerStop()
     {
+        StopAllCoroutines();
         foreach (var enemy in CurrentEnemiesAlive)
         {
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;

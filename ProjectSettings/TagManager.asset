@@ -10,12 +10,12 @@ TagManager:
   - Enemy Ranged
   - Enemy Boss
   - Enemy Spawner
-  - Boss Music
   - Main Ground
   - Enemy Boss Weakpoint
   - Lava
   - Left Bullet
   - Rubble
+  - Music 1
   layers:
   - Default
   - TransparentFX
