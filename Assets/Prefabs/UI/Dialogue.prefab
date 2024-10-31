@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Helix-21 Phantom
+  m_text: Phantom
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c5eae89c51fce44b9c44c82c9955d28, type: 2}
   m_sharedMaterial: {fileID: -7933980559437167312, guid: 5c5eae89c51fce44b9c44c82c9955d28, type: 2}
@@ -525,7 +525,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Handler 13
+  m_text: Handler 1X
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c5eae89c51fce44b9c44c82c9955d28, type: 2}
   m_sharedMaterial: {fileID: -7933980559437167312, guid: 5c5eae89c51fce44b9c44c82c9955d28, type: 2}

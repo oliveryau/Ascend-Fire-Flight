@@ -104834,11 +104834,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Helix-21 "Phantom".
-  - text: You've successfully secured the arms.
-  - text: However, I'm detecting several approaching threats.
-  - text: Use the arms to defend yourself.
-  - text: Head towards the light.
+  - text: Good work on securing the arms, <b>Phantom</b>.
+  - text: However, I'm detecting unusual signals heading your way.
+  - text: Use the new weapons to defend yourself. Head to the light.
   allowRepeating: 0
 --- !u!1001 &1845039700
 PrefabInstance:
