@@ -22,13 +22,26 @@ public class ProjectileRight : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss") || target.gameObject.CompareTag("Healing")) //Zero damage melee and boss
+        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss") || 
+            target.gameObject.CompareTag("Healing") || target.gameObject.CompareTag("Enemy Spawner") || 
+            target.gameObject.CompareTag("Rubble Ice")) //Zero damage
         {
             UiManager.UpdateRightCrosshair("Hit");
 
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
             Destroy(Instantiate(hitNoDamageVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Enemy Boss Weakpoint")) //Normal damage weakpoint
+        {
+            target.gameObject.GetComponentInParent<EnemyController>().TakeDamage(damage); //Get parent component
+            UiManager.UpdateRightCrosshair("Hit");
+
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
 
             Destroy(gameObject);
         }
@@ -43,18 +56,7 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if ( target.gameObject.CompareTag("Enemy Spawner")) //Normal damage spawner
-        {
-            target.gameObject.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Spawner script hp
-            UiManager.UpdateRightCrosshair("Hit");
-
-            ContactPoint contact = target.contacts[0];
-            Vector3 hitPosition = contact.point;
-            Destroy(Instantiate(hitEnemyVfx, hitPosition, Quaternion.identity), 2f);
-
-            Destroy(gameObject);
-        }
-        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Rubble"))
+        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Rubble Fire"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;

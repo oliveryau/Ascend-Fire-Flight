@@ -11,7 +11,7 @@ public class EnemyBossWeakpoint : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Left Bullet"))
+        if (target.gameObject.CompareTag("Right Bullet"))
         {
             Boss.FlashHealthBar();
         }

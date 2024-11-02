@@ -65,7 +65,8 @@ public class EnemyTriggerZone : MonoBehaviour
     {
         if (gate == null) return;
 
-        gate.GetComponent<Rubble>().canBeDestroyed = true;
+        if (gate.GetComponent<RubbleFire>() != null) gate.GetComponent<RubbleFire>().canBeDestroyed = true;
+        if (gate.GetComponent<RubbleIce>() != null) gate.GetComponent<RubbleIce>().canBeDestroyed = true;
         endSegment = true;
     }
 

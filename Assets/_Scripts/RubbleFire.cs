@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Rubble : MonoBehaviour
+public class RubbleFire : MonoBehaviour
 {
     public bool canBeDestroyed;
 
@@ -17,7 +17,7 @@ public class Rubble : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Left Bullet") && canBeDestroyed)
+        if (target.gameObject.CompareTag("Right Bullet") && canBeDestroyed)
         {
             StartCoroutine(DestroySequence());
         }

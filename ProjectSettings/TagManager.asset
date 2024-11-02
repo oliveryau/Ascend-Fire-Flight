@@ -13,8 +13,10 @@ TagManager:
   - Main Ground
   - Enemy Boss Weakpoint
   - Lava
+  - Rubble Fire
+  - Rubble Ice
+  - Right Bullet
   - Left Bullet
-  - Rubble
   - Music 1
   layers:
   - Default

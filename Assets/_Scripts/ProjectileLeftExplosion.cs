@@ -34,15 +34,6 @@ public class ProjectileLeftExplosion : MonoBehaviour
                     hitOnce = true;
                 }
             }
-            else if (hitCollider.CompareTag("Enemy Boss Weakpoint")) //Normal damage weakpoint
-            {
-                hitCollider.GetComponentInParent<EnemyController>().TakeDamage(damage); //Get parent component
-                if (!hitOnce)
-                {
-                    UiManager.UpdateLeftCrosshair("Hit");
-                    hitOnce = true;
-                }
-            }
             else if (hitCollider.CompareTag("Enemy Spawner")) //Normal damage spawner
             {
                 hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Spawner script hp
