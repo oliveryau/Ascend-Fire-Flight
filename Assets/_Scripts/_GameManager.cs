@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameState { WAIT, PLAY, PAUSE }
+    public enum GameState { WAIT, STOP, PLAY, PAUSE }
     public GameState currentGameState;
 
     public string currentScene;
@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour
         {
             case GameState.WAIT:
                 Time.timeScale = 1f;
+                break;
+            case GameState.STOP:
+                Time.timeScale = 0f;
                 break;
             case GameState.PLAY:
                 Time.timeScale = 1f;

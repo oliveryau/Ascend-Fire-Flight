@@ -635,14 +635,20 @@ public class PlayerController : MonoBehaviour
     #region Death
     private void Dead()
     {
-        //Death animation
-        //Wait 1/2 sec
-        //Game over screen
         if (!isDead)
         {
-            isDead = true;
-            AudioManager.Instance.PlayOneShot("Death", gameObject);
+            StartCoroutine(DeathSequence());
         }
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        isDead = true;
+        AudioManager.Instance.PlayOneShot("Death", gameObject);
+        UiManager.DisplayDeathOverlay();
+        yield return new WaitForSeconds(2f);
+        UiManager.DisplayLoseScreen();
+        GameManager.ChangeGameState(GameManager.GameState.WAIT);
     }
     #endregion
 

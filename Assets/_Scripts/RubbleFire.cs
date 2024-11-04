@@ -10,7 +10,7 @@ public class RubbleFire : MonoBehaviour
         canBeDestroyed = false;
         GetComponent<BoxCollider>().enabled = false;
         GetComponent<Animator>().SetTrigger("Destroy");
-        //Play sound
+        AudioManager.Instance.PlayOneShot("Rubble Break", gameObject);
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }

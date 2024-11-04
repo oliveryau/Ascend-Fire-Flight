@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 608021162098664400}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6614024, y: -1.5899999, z: 0.71433675}
+  m_LocalPosition: {x: 0.6614024, y: 0.20000005, z: 0.71433675}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -606,7 +606,7 @@ Transform:
   m_GameObject: {fileID: 2220620282760591219}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.79479474, y: -1.59, z: 0.80623186}
+  m_LocalPosition: {x: -0.79479474, y: 0.2, z: 0.80623186}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -966,8 +966,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 50
-  currentHealth: 50
+  maxHealth: 20
+  currentHealth: 20
   attackDamage: 1
   attackCooldown: 2
   mainAuraParticle: {fileID: 7589291557667140473}
@@ -975,7 +975,7 @@ MonoBehaviour:
   currentBossState: 0
   projectile: {fileID: 4493625471514249341, guid: 652e3178dd249f44e965692c2379c52e, type: 3}
   projectileFirepoint: {fileID: 6694772649882046263}
-  shootForce: 80
+  shootForce: 60
   spreadAngle: 0.5
   phaseOneTimerInterval: 30
   phaseTwoTimerInterval: 60
@@ -1580,7 +1580,7 @@ Transform:
   m_GameObject: {fileID: 6219240059645447877}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.79479474, y: -1.5899999, z: -0.6744188}
+  m_LocalPosition: {x: -0.79479474, y: 0.20000005, z: -0.6744188}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11890,7 +11890,7 @@ Transform:
   m_GameObject: {fileID: 8351451433754528144}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6614024, y: -1.5899999, z: -0.6744188}
+  m_LocalPosition: {x: 0.6614024, y: 0.20000005, z: -0.6744188}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -9,6 +9,7 @@ public class UiManager : MonoBehaviour
     #region Variables
     [Header("Main UI")]
     public GameObject pauseMenu;
+    public GameObject loseScreen;
     public GameObject mainGameUi;
     [HideInInspector] public float updateSpeed = 5f;
 
@@ -74,6 +75,7 @@ public class UiManager : MonoBehaviour
     public Image playerLowHpOverlay;
     public Image playerDamagedOverlay;
     public Image playerHealOverlay;
+    public Image playerDeathOverlay;
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
 
@@ -530,7 +532,7 @@ public class UiManager : MonoBehaviour
     private IEnumerator DamagedOverlay()
     {
         playerDamagedOverlay.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         playerDamagedOverlay.gameObject.SetActive(false);
     }
 
@@ -542,12 +544,17 @@ public class UiManager : MonoBehaviour
     private IEnumerator HealOverlay()
     {
         playerHealOverlay.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         playerHealOverlay.gameObject.SetActive(false);
+    }
+
+    public void DisplayDeathOverlay()
+    {
+        playerDeathOverlay.gameObject.SetActive(true);
     }
     #endregion
 
-    #region Pause UI
+    #region Main UI
     public void ShowPauseMenu(bool activeMode)
     {
         if (activeMode)
@@ -581,6 +588,13 @@ public class UiManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         StartCoroutine(GameManager.FadeToggle(false, "Main Menu")); //Fade out, main menu
+    }
+
+    public void DisplayLoseScreen()
+    {
+        Cursor.lockState = CursorLockMode.None;
+
+        loseScreen.SetActive(true);
     }
     #endregion
 }

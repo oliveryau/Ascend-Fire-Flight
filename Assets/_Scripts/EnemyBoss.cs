@@ -20,6 +20,7 @@ public class EnemyBoss : EnemyController
 
     private float phaseOneTimer;
     private float phaseTwoTimer;
+    private bool flameSoundPlaying;
 
     [Header("References")]
     public GameObject[] weakPoints;
@@ -135,6 +136,13 @@ public class EnemyBoss : EnemyController
             ParticleSystem fire = platform.GetComponentInChildren<ParticleSystem>();
             if (fire.isPlaying) return;
             if (!fire.isPlaying) fire.Play();
+
+            if (!flameSoundPlaying)
+            {
+                AudioManager.Instance.PlayOneShot("Fire Start", platform.gameObject);
+                AudioManager.Instance.Play("Fire Burning", platform.gameObject);
+                flameSoundPlaying = true;
+            }
         }
     }
 

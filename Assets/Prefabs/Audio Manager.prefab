@@ -214,7 +214,7 @@ MonoBehaviour:
     loop: 1
     AudioSource: {fileID: 0}
   - name: Right Hit Enemy 1
-    clip: {fileID: 8300000, guid: 5c2fff2d594aee1459801a0dcee785e5, type: 3}
+    clip: {fileID: 8300000, guid: 3dad8b25085aa87478447bc45488d99f, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Enemy 2
-    clip: {fileID: 8300000, guid: 6b5e0a6cf544de041b799f4c6d1a1ac2, type: 3}
+    clip: {fileID: 8300000, guid: 39e6764bb21b226479b063dcf17ee60d, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -230,7 +230,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 1
-    clip: {fileID: 8300000, guid: f965651b25772e140a05b27069172e31, type: 3}
+    clip: {fileID: 8300000, guid: f537ffe8f8b07fc4aa88f1bcc5108dc9, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -238,7 +238,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 2
-    clip: {fileID: 8300000, guid: 31da7cfb88f317c47b6aaecacdad69fd, type: 3}
+    clip: {fileID: 8300000, guid: 0af5da6aece34fc4388f9c504e6355f5, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -261,13 +261,13 @@ MonoBehaviour:
     maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
-  - name: Gate Move
-    clip: {fileID: 8300000, guid: 57e8b0208c94af549ad9ccb6033eb3de, type: 3}
+  - name: Rubble Break
+    clip: {fileID: 8300000, guid: e39e966a990065146b11fc808c48918f, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
     maxDistance: 50
-    loop: 1
+    loop: 0
     AudioSource: {fileID: 0}
   - name: Falling Platform Shake
     clip: {fileID: 8300000, guid: b19e63ded09b50c4b9965f1066390483, type: 3}
@@ -340,4 +340,20 @@ MonoBehaviour:
     spatialBlend: 1
     maxDistance: 20
     loop: 0
+    AudioSource: {fileID: 0}
+  - name: Fire Start
+    clip: {fileID: 8300000, guid: 3b289b2eb8a6cc04585ac3f7fa0512f2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 40
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Fire Burning
+    clip: {fileID: 8300000, guid: 7edd418abe2a67b488f36eca87080a52, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 30
+    loop: 1
     AudioSource: {fileID: 0}
