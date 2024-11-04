@@ -603,10 +603,6 @@ public class PlayerController : MonoBehaviour
         {
             UiManager.DisplayLowHealthOverlay(true);
         }
-        else if (currentHealth > maxHealth * 0.3f)
-        {
-            UiManager.DisplayLowHealthOverlay(false);
-        }
     }
 
     private IEnumerator FallingOut()
@@ -658,7 +654,6 @@ public class PlayerController : MonoBehaviour
         if (currentHealth >= maxHealth) return;
 
         if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(HealPlayer());
-
     }
 
     public IEnumerator HealPlayer()
@@ -666,6 +661,7 @@ public class PlayerController : MonoBehaviour
         isHealing = true;
         RightWeaponAnimator.SetTrigger("Healing");
         UiManager.playerHealUi.GetComponent<Animator>().SetBool("Healing", true);
+        UiManager.DisplayLowHealthOverlay(false);
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.PlayOneShot("Healing", RightWeaponAnimator.gameObject);
         currentHealth = maxHealth;
