@@ -5,6 +5,7 @@ public class DialogueLine
 {
     [TextArea(3, 10)]
     public string text;
+    public string soundClipName;
 }
 
 public class DialogueManager : MonoBehaviour
@@ -25,13 +26,10 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (isDialogueActive)
-        {
-            if (Time.time - lineStartTime >= autoAdvanceDelay)
-            {
-                DisplayNextLine();
-            }
-        }
+        if (!isDialogueActive) return;
+
+        bool shouldAdvance = Time.time - lineStartTime >= autoAdvanceDelay;
+        if (shouldAdvance) DisplayNextLine();
     }
 
     public void StartDialogue(DialogueLine[] lines)
@@ -49,8 +47,10 @@ public class DialogueManager : MonoBehaviour
 
         if (currentLineIndex < currentLines.Length)
         {
+            DialogueLine currentLine = currentLines[currentLineIndex];
             UiManager.dialogueUi.GetComponent<Animator>().SetTrigger("Nextline");
-            UiManager.dialogueText.text = currentLines[currentLineIndex].text;
+            UiManager.dialogueText.text = currentLine.text;
+            if (!string.IsNullOrEmpty(currentLine.soundClipName)) AudioManager.Instance.PlayOneShot(currentLine.soundClipName, gameObject);
             lineStartTime = Time.time;
         }
         else

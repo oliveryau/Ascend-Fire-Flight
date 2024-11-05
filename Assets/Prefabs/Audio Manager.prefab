@@ -405,3 +405,19 @@ MonoBehaviour:
     maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
+  - name: VO_P1
+    clip: {fileID: 8300000, guid: a5d252aa5ff1f314d9eb7536a3429ef4, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_P2
+    clip: {fileID: 8300000, guid: 99bfeb63cb860d34484b2bbe9c52365f, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
