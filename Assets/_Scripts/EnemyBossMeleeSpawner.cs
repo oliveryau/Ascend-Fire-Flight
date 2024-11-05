@@ -73,6 +73,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
 
     private void SpawnSingleEnemy()
     {
+        Animator.SetTrigger("Spawning");
         currentSpawnPoint = (currentSpawnPoint + 1) % EnemySpawnPoints.Length;
         EnemyController newEnemy = Instantiate(EnemyToSpawn, EnemySpawnPoints[currentSpawnPoint].position, EnemySpawnPoints[currentSpawnPoint].rotation);
         CurrentEnemiesAlive.Add(newEnemy.gameObject);
@@ -83,7 +84,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         if (currentHealth <= 0 || !isActivated) return;
 
         currentHealth -= damageTaken;
-        //Animator.SetTrigger("Damaged");
+        Animator.SetTrigger("Damaged");
 
         if (currentHealth <= 0)
         {
@@ -104,7 +105,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         {
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;
         }
-        //Animator.SetTrigger("Dead");
+        Animator.SetTrigger("Dead");
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
     }
