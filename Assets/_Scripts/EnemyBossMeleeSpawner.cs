@@ -86,6 +86,11 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         {
             StopAllCoroutines();
             StartCoroutine(SpawnerDestroy());
+
+            if (gameObject.layer != LayerMask.NameToLayer("Default"))
+            {
+                gameObject.layer = LayerMask.NameToLayer("Default"); //For indicators
+            }
         }
     }
 

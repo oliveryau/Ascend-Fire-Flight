@@ -50,12 +50,19 @@ public class EnemyRanged : EnemyController
         GameObject bulletProjectile = Instantiate(bulletPrefab, bulletFirePoint.position, bulletFirePoint.rotation);
         bulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
         Animator.SetBool("Attack", true);
-        AudioManager.Instance.PlayOneShot("Enemy Ranged 1", gameObject);
+        RandomiseAttackAudio();
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         lastAttackTime = Time.time;
         Animator.SetBool("Attack", false);
         yield return new WaitForSeconds(attackCooldown);
         isAttacking = false;
+    }
+
+    private void RandomiseAttackAudio()
+    {
+        int soundIndex = Random.Range(1, 3);
+        string soundName = $"Enemy Ranged {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
 
     private Vector3 ApplySpread(Vector3 baseDirection)

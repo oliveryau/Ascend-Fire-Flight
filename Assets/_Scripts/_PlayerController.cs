@@ -693,7 +693,7 @@ public class PlayerController : MonoBehaviour
 
         if (target.CompareTag("Music 1"))
         {
-            StartCoroutine(TransitionMusic("Main BGM", "Boss BGM", 5f));
+            StartCoroutine(TransitionMusic("Main BGM", "Boss BGM", 10f));
             Destroy(target.gameObject);
         }
     }

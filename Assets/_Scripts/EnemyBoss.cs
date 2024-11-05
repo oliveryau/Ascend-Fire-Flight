@@ -20,7 +20,6 @@ public class EnemyBoss : EnemyController
 
     private float phaseOneTimer;
     private float phaseTwoTimer;
-    private bool flameSoundPlaying;
 
     [Header("References")]
     public GameObject[] weakPoints;
@@ -28,8 +27,13 @@ public class EnemyBoss : EnemyController
     [SerializeField] private EnemyBossMeleeSpawner[] meleeSpawners;
     [SerializeField] private EnemyBossRangedSpawner rangedSpawner;
     [SerializeField] private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
-    private BoxCollider BoxCollider;
     private UiManager UiManager;
+    private BoxCollider BoxCollider;
+    private DialogueTriggerEvent DialogueTriggerEvent;
+
+    private bool spawnSoundPlaying;
+    private bool flameSoundPlaying;
+    private bool deathPlaying;
     #endregion
 
     #region Initialization
@@ -61,6 +65,7 @@ public class EnemyBoss : EnemyController
         lastAttackTime = -attackCooldown;
         UiManager = FindFirstObjectByType<UiManager>();
         BoxCollider = GetComponent<BoxCollider>();
+        DialogueTriggerEvent = GetComponent<DialogueTriggerEvent>();
 
         BoxCollider.enabled = false;
         flamePlatforms = GameObject.FindGameObjectsWithTag("Lava");
@@ -78,7 +83,12 @@ public class EnemyBoss : EnemyController
 
     private IEnumerator WakeUp()
     {
-        //AudioManager.Instance.PlayOneShot("Boss Wake Up", gameObject);
+        if (!spawnSoundPlaying)
+        {
+            AudioManager.Instance.PlayOneShot("Enemy Boss Spawn", gameObject);
+            spawnSoundPlaying = true;
+        }
+
         yield return new WaitForSeconds(3f);
         ChangeEnemyState(EnemyState.ALERT);
     }
@@ -170,7 +180,7 @@ public class EnemyBoss : EnemyController
         phaseOneTimer += Time.deltaTime;
         if (phaseOneTimer >= phaseOneTimerInterval)
         {
-            Debug.Log("Phase 1 Timer: Interval passed");
+            DialogueTriggerEvent.TriggerDialogue();
             phaseOneTimer = 0f;
         }
     }
@@ -220,6 +230,7 @@ public class EnemyBoss : EnemyController
         isAttacking = true;
         foreach (var point in weakPoints) point.SetActive(true);
         //Animator.SetTrigger("Attack");
+        AudioManager.Instance.PlayOneShot("Enemy Boss Windup", gameObject);
         yield return new WaitForSeconds(2f);
 
         foreach (var point in weakPoints) point.SetActive(false);
@@ -228,12 +239,12 @@ public class EnemyBoss : EnemyController
 
         GameObject firstBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
         firstBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
+        AudioManager.Instance.PlayOneShot("Enemy Boss Attack", gameObject);
         yield return new WaitForSeconds(0.3f); //Short interval
 
         GameObject secondBulletProjectile = Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
         secondBulletProjectile.GetComponent<Rigidbody>().AddForce(spreadDirection * shootForce, ForceMode.Impulse);
-        //AudioManager.Instance.PlayOneShot("Enemy Boss Ranged", gameObject);
+        AudioManager.Instance.PlayOneShot("Enemy Boss Attack", gameObject);
 
         yield return new WaitForSeconds(0.5f); //Delay before hitting player
         lastAttackTime = Time.time;
@@ -291,18 +302,23 @@ public class EnemyBoss : EnemyController
     public override IEnumerator DeathAnimation()
     {
         if (rangedSpawner.isActivated) rangedSpawner.SpawnerStop();
-        foreach (var platformTrigger in bossPlatformTriggers)
-        {
-            platformTrigger.GetComponent<BoxCollider>().enabled = false;
-        }
+        foreach (var platformTrigger in bossPlatformTriggers) platformTrigger.GetComponent<BoxCollider>().enabled = false;
 
         UiManager.enemyBossHealthUi.SetActive(false); 
         Animator.SetTrigger("Death");
-        //AudioManager.Instance.PlayOneShot("Enemy Boss Death", gameObject);
         BoxCollider.enabled = false;
         mainAuraParticle.SetActive(false);
 
+        if (!deathPlaying)
+        {
+            AudioManager.Instance.PlayOneShot("Enemy Boss Death", gameObject);
+            AudioManager.Instance.Play("Boss End BGM");
+            AudioManager.Instance.FadeOut("Boss BGM", 10f);
+            deathPlaying = true;
+        }
+
         yield return new WaitForSeconds(3f);
+        AudioManager.Instance.FadeIn("Main BGM", 10f);
         Destroy(gameObject);
     }
     #endregion

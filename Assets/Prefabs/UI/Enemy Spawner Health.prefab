@@ -103,7 +103,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Frostfire Herald
+  m_text: Frost Herald
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c559f638e0d381d4aa4eb3854178b432, type: 2}
   m_sharedMaterial: {fileID: -9035150395703350760, guid: c559f638e0d381d4aa4eb3854178b432, type: 2}

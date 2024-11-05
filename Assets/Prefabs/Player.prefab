@@ -6692,8 +6692,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerState: 0
-  maxHealth: 50
-  currentHealth: 50
+  maxHealth: 35
+  currentHealth: 35
   canHeal: 0
   isHealing: 0
   mouseSensitivity: 2
