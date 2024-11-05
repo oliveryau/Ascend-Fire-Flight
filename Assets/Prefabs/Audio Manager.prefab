@@ -69,6 +69,14 @@ MonoBehaviour:
     maxDistance: 20
     loop: 1
     AudioSource: {fileID: 0}
+  - name: Boss End BGM
+    clip: {fileID: 8300000, guid: 52e51db9fa896dc4c86582e644beec5b, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
   - name: Footstep 1
     clip: {fileID: 8300000, guid: 48b8219fe86112b409b769176293eb69, type: 3}
     volume: 1
@@ -302,27 +310,35 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Melee 1
-    clip: {fileID: 8300000, guid: fd3faf79050c8044dae1e79f96311042, type: 3}
+    clip: {fileID: 8300000, guid: 624394b44b2a37641bbfe42a26bb1159, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Melee 2
-    clip: {fileID: 8300000, guid: 92d323f863f546845b79ad6d05c56715, type: 3}
+    clip: {fileID: 8300000, guid: 3914c8cdb0bf189418f38f4130ca2dfe, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Ranged 1
-    clip: {fileID: 8300000, guid: 4f7c7ea41ce1808429c4db2362cca2ac, type: 3}
+    clip: {fileID: 8300000, guid: 7c8a855cd85245c46806ce93f7d4064d, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Ranged 2
+    clip: {fileID: 8300000, guid: 89c9bc9cabb6f8d4d86799608f6593ac, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Death 1
@@ -356,4 +372,36 @@ MonoBehaviour:
     spatialBlend: 1
     maxDistance: 30
     loop: 1
+    AudioSource: {fileID: 0}
+  - name: Enemy Boss Spawn
+    clip: {fileID: 8300000, guid: 486498f8e51bd974a936e55f01bff831, type: 3}
+    volume: 1
+    pitch: 1.5
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Boss Windup
+    clip: {fileID: 8300000, guid: 7c84459bb465f5c4f815b0e9b9dc5ec2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Boss Attack
+    clip: {fileID: 8300000, guid: 3b9af49a99551164dbcdde048b5fef3f, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Boss Death
+    clip: {fileID: 8300000, guid: c3dcffd5eced9a043add58d80124ff5f, type: 3}
+    volume: 1
+    pitch: 2
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
     AudioSource: {fileID: 0}

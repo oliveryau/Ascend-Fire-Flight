@@ -7890,7 +7890,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150387147}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cfb151c537711346bd0a64a827c7fa3, type: 3}
   m_Name: 
@@ -33675,7 +33675,7 @@ GameObject:
   - component: {fileID: 469185699}
   - component: {fileID: 469185700}
   m_Layer: 2
-  m_Name: Fade Main BGM
+  m_Name: Fade Main BGM to Boss BGM
   m_TagString: Music 1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33690,7 +33690,7 @@ Transform:
   m_GameObject: {fileID: 469185698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 299.06793, y: 87.5, z: -106.40576}
+  m_LocalPosition: {x: 320, y: 58, z: -220}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33715,7 +33715,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 70, y: 25, z: 1}
+  m_Size: {x: 100, y: 30, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &482118765 stripped
 GameObject:
@@ -130718,15 +130718,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 50
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35
+      value: -200
       objectReference: {fileID: 0}
     - target: {fileID: 1645668218923527320, guid: 30ae29c43d038884eb7d65e88eaf5560, type: 3}
       propertyPath: m_LocalRotation.w
