@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
     public int fallDamage;
     public Vector3 initialPosition;
 
+    private bool musicChanging;
+
     [Header("References")]
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
@@ -693,7 +695,13 @@ public class PlayerController : MonoBehaviour
 
         if (target.CompareTag("Music 1"))
         {
-            StartCoroutine(TransitionMusic("Main BGM", "Boss BGM", 10f));
+            AudioManager.Instance.FadeOut("Main BGM", 5f);
+            Destroy(target.gameObject);
+        }
+
+        if (target.CompareTag("Music 2"))
+        {
+            AudioManager.Instance.FadeIn("Boss BGM", 2f);
             Destroy(target.gameObject);
         }
     }
@@ -704,13 +712,6 @@ public class PlayerController : MonoBehaviour
         {
             canHeal = false;
         }
-    }
-
-    private IEnumerator TransitionMusic(string fadeOut, string fadeIn, float duration)
-    {
-        AudioManager.Instance.FadeOut(fadeOut, duration);
-        yield return new WaitForSeconds(2f);
-        AudioManager.Instance.FadeIn(fadeIn, duration);
     }
     #endregion
 }
