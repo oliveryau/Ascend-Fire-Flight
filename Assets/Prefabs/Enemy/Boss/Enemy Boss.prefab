@@ -1180,7 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: The guardian isn't taking any damage. Eliminate the spawners by its side!
+  - text: This thing isn't getting hurt. Try destroying the spawners by its side!
 --- !u!1 &3291299532797529557
 GameObject:
   m_ObjectHideFlags: 0
@@ -6701,7 +6701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Aim for the weakpoints on its body when it's about to attack!
+  - text: Try aiming for the weakpoints on its body to wear it down faster!
 --- !u!1 &7325915353469605788
 GameObject:
   m_ObjectHideFlags: 0
