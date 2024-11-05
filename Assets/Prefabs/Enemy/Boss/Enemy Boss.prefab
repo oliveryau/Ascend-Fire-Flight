@@ -6701,7 +6701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Try aiming for the weakpoints on its body to wear it down faster!
+  - text: Try aiming for the weakpoints around it to wear it down!
 --- !u!1 &7325915353469605788
 GameObject:
   m_ObjectHideFlags: 0
