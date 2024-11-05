@@ -14,9 +14,13 @@ public class EnemyBoss : EnemyController
     public float shootForce;
     public float spreadAngle;
 
-    [Header("Timer Variables")]
+    [Header("Phase Variables")]
+    public DialogueTriggerEvent dialogueTriggerEventPhaseOne;
+    public DialogueTriggerEvent dialogueTriggerEventPhaseTwo;
     public float phaseOneTimerInterval;
     public float phaseTwoTimerInterval;
+    public GameObject phaseTwoParticle;
+    public GameObject deathParticle;
 
     private float phaseOneTimer;
     private float phaseTwoTimer;
@@ -29,7 +33,6 @@ public class EnemyBoss : EnemyController
     [SerializeField] private EnemyBossFallingPlatformTrigger[] bossPlatformTriggers;
     private UiManager UiManager;
     private BoxCollider BoxCollider;
-    private DialogueTriggerEvent DialogueTriggerEvent;
 
     private bool spawnSoundPlaying;
     private bool flameSoundPlaying;
@@ -65,13 +68,15 @@ public class EnemyBoss : EnemyController
         lastAttackTime = -attackCooldown;
         UiManager = FindFirstObjectByType<UiManager>();
         BoxCollider = GetComponent<BoxCollider>();
-        DialogueTriggerEvent = GetComponent<DialogueTriggerEvent>();
 
         BoxCollider.enabled = false;
         flamePlatforms = GameObject.FindGameObjectsWithTag("Lava");
         meleeSpawners = FindObjectsByType<EnemyBossMeleeSpawner>(FindObjectsSortMode.None);
         rangedSpawner = GetComponent<EnemyBossRangedSpawner>();
         bossPlatformTriggers = FindObjectsByType<EnemyBossFallingPlatformTrigger>(FindObjectsSortMode.None);
+
+        phaseOneTimer = phaseOneTimerInterval;
+        phaseTwoTimer = phaseTwoTimerInterval;
     }
     #endregion
 
@@ -180,7 +185,7 @@ public class EnemyBoss : EnemyController
         phaseOneTimer += Time.deltaTime;
         if (phaseOneTimer >= phaseOneTimerInterval)
         {
-            DialogueTriggerEvent.TriggerDialogue();
+            dialogueTriggerEventPhaseOne.TriggerDialogue();
             phaseOneTimer = 0f;
         }
     }
@@ -188,6 +193,8 @@ public class EnemyBoss : EnemyController
     private IEnumerator ChangeToBossPhaseTwo()
     {
         Animator.SetTrigger("Phase Two");
+        phaseTwoParticle.SetActive(true);
+        AudioManager.Instance.PlayOneShot("Enemy Change Phase", gameObject);
         yield return new WaitForSeconds(2f);
         ChangeBossState(BossState.PHASETWO);
     }
@@ -229,7 +236,7 @@ public class EnemyBoss : EnemyController
     {
         isAttacking = true;
         foreach (var point in weakPoints) point.SetActive(true);
-        //Animator.SetTrigger("Attack");
+        Animator.SetTrigger("Attack");
         AudioManager.Instance.PlayOneShot("Enemy Boss Windup", gameObject);
         yield return new WaitForSeconds(2f);
 
@@ -266,7 +273,7 @@ public class EnemyBoss : EnemyController
         phaseTwoTimer += Time.deltaTime;
         if (phaseTwoTimer >= phaseTwoTimerInterval)
         {
-            Debug.Log("Phase 2 Timer: Interval passed");
+            dialogueTriggerEventPhaseTwo.TriggerDialogue();
             phaseTwoTimer = 0f;
         }
     }
@@ -307,6 +314,7 @@ public class EnemyBoss : EnemyController
         UiManager.enemyBossHealthUi.SetActive(false); 
         Animator.SetTrigger("Death");
         BoxCollider.enabled = false;
+        deathParticle.SetActive(true);
         mainAuraParticle.SetActive(false);
 
         if (!deathPlaying)

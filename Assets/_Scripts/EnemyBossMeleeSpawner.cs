@@ -8,6 +8,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
     public float maxHealth;
     public float currentHealth;
     public float spawnInterval;
+    public GameObject mainParticle;
 
     private Animator Animator;
     private bool isActivated;
@@ -36,6 +37,8 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
     private void Update()
     {
         if (currentHealth <= 0 || !isActivated) return;
+
+        if (!mainParticle.activeSelf) mainParticle.SetActive(true);
 
         CurrentEnemiesAlive.RemoveAll(enemy => enemy == null);
         if (!isSpawning && CurrentEnemiesAlive.Count < maxEnemies)

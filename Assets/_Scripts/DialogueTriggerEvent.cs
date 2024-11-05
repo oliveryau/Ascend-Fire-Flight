@@ -3,7 +3,6 @@ using UnityEngine;
 public class DialogueTriggerEvent : MonoBehaviour
 {
     [SerializeField] private DialogueLine[] lines;
-    [SerializeField] private bool allowRepeating;
 
     private bool hasTriggered = false;
     private DialogueManager DialogueManager;
@@ -15,7 +14,7 @@ public class DialogueTriggerEvent : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        if (!allowRepeating && hasTriggered) return;
+        if (hasTriggered) return;
 
         DialogueManager.StartDialogue(lines);
         hasTriggered = true;

@@ -27,11 +27,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (isDialogueActive)
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                DisplayNextLine();
-            }
-            else if (Time.time - lineStartTime >= autoAdvanceDelay)
+            if (Time.time - lineStartTime >= autoAdvanceDelay)
             {
                 DisplayNextLine();
             }
