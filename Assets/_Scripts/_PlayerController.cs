@@ -659,7 +659,7 @@ public class PlayerController : MonoBehaviour
         if (!canHeal || isHealing) return;
         if (currentHealth >= maxHealth) return;
 
-        if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(HealPlayer());
+        if (Input.GetKeyDown(KeyCode.E)) StartCoroutine(HealPlayer());
     }
 
     public IEnumerator HealPlayer()

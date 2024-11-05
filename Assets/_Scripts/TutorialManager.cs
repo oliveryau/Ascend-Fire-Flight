@@ -105,9 +105,9 @@ public class TutorialManager : MonoBehaviour
                 tutorialActive = false;
                 break;
             case TutorialState.HEAL:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "F - Restore Health Near Healing Crystal";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "E - Restore Health Near Healing Crystal";
                 tutorialCue.SetActive(true);
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
+                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.E));
                 tutorialCue.SetActive(false);
                 currentTutorialState = TutorialState.END;
                 break;

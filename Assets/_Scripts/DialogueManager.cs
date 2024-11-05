@@ -49,6 +49,7 @@ public class DialogueManager : MonoBehaviour
 
         if (currentLineIndex < currentLines.Length)
         {
+            UiManager.dialogueUi.GetComponent<Animator>().SetTrigger("Nextline");
             UiManager.dialogueText.text = currentLines[currentLineIndex].text;
             lineStartTime = Time.time;
         }
