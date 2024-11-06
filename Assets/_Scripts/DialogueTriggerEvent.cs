@@ -4,7 +4,7 @@ public class DialogueTriggerEvent : MonoBehaviour
 {
     [SerializeField] private DialogueLine[] lines;
 
-    private bool hasTriggered = false;
+    public bool hasTriggered = false;
     private DialogueManager DialogueManager;
 
     private void Start()

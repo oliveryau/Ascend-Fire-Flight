@@ -1180,9 +1180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: This thing isn't getting hurt. Try destroying the spawners by its side!
+  - text: This thing isn't getting hurt. Try destroying the <color=#00ffff>spawners</color>
+      by its side!
     soundClipName: VO_P1
-  soundClips: []
 --- !u!1 &3291299532797529557
 GameObject:
   m_ObjectHideFlags: 0
@@ -6703,9 +6703,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Try aiming for the weakpoints around it to wear it down!
+  - text: Try aiming for the <color=#ffa500>weakpoints</color> around it to wear
+      it down!
     soundClipName: VO_P2
-  soundClips: []
 --- !u!1 &7325915353469605788
 GameObject:
   m_ObjectHideFlags: 0

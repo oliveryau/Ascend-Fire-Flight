@@ -701,7 +701,7 @@ public class PlayerController : MonoBehaviour
 
         if (target.CompareTag("Music 2"))
         {
-            AudioManager.Instance.FadeIn("Boss BGM", 2f);
+            AudioManager.Instance.FadeIn("Boss BGM", 5f);
             Destroy(target.gameObject);
         }
     }

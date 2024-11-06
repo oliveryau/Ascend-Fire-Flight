@@ -22,8 +22,8 @@ public class EnemyBoss : EnemyController
     public GameObject phaseTwoParticle;
     public GameObject deathParticle;
 
-    private float phaseOneTimer;
-    private float phaseTwoTimer;
+    [SerializeField] private float phaseOneTimer;
+    [SerializeField] private float phaseTwoTimer;
 
     [Header("References")]
     public GameObject[] weakPoints;
@@ -183,6 +183,12 @@ public class EnemyBoss : EnemyController
     private void UpdatePhaseOneTimer()
     {
         phaseOneTimer += Time.deltaTime;
+
+        if (phaseOneTimer >= 10f)
+        {
+            dialogueTriggerEventPhaseOne.hasTriggered = false;
+        }
+
         if (phaseOneTimer >= phaseOneTimerInterval)
         {
             dialogueTriggerEventPhaseOne.TriggerDialogue();
