@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3944120928731640559}
   - component: {fileID: 1736840486529877452}
   m_Layer: 5
-  m_Name: Launch Back
+  m_Name: Launch Meter Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,7 +177,7 @@ RectTransform:
   m_GameObject: {fileID: 7476261950951745524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.2765, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4448219250651835786}
@@ -208,7 +208,7 @@ Animator:
   m_GameObject: {fileID: 7476261950951745524}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c99b28b5d15083a40a02ec1a2eef5878, type: 2}
+  m_Controller: {fileID: 9100000, guid: db5068208e3294247afe5b0dc4160a51, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -298,7 +298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4123697592346362124, guid: c37a6e3a9dad1d0439bba297211b5c1e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 111.17314
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4123697592346362124, guid: c37a6e3a9dad1d0439bba297211b5c1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -313,12 +313,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4958574528106832754, guid: c37a6e3a9dad1d0439bba297211b5c1e, type: 3}
-      propertyPath: m_fontSize
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 4958574528106832754, guid: c37a6e3a9dad1d0439bba297211b5c1e, type: 3}
       propertyPath: m_fontSizeBase
-      value: 18
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5519539467155554989, guid: c37a6e3a9dad1d0439bba297211b5c1e, type: 3}
       propertyPath: m_Name

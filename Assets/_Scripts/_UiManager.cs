@@ -20,6 +20,7 @@ public class UiManager : MonoBehaviour
     private float targetHealthFill;
 
     [Header("Player Launch UI")]
+    public GameObject playerLaunchCue;
     public Image playerLaunchFill;
 
     private float targetLaunchFill;

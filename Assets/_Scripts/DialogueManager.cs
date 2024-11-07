@@ -15,7 +15,7 @@ public class DialogueManager : MonoBehaviour
     private bool isDialogueActive = false;
 
     private float lineStartTime;
-    private float autoAdvanceDelay = 4f;
+    private float autoAdvanceDelay = 5f;
 
     private UiManager UiManager;
 

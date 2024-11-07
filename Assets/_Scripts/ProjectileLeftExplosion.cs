@@ -36,7 +36,8 @@ public class ProjectileLeftExplosion : MonoBehaviour
             }
             else if (hitCollider.CompareTag("Enemy Spawner")) //Normal damage spawner
             {
-                hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Spawner script hp
+                if (hitCollider.GetComponent<EnemyBossMeleeSpawner>() != null) hitCollider.GetComponent<EnemyBossMeleeSpawner>().TakeDamage(damage); //Boss spawner script hp
+                else if (hitCollider.GetComponent<EnemySpawner>() != null) hitCollider.GetComponent<EnemySpawner>().TakeDamage(damage); //Spawner script hp
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");

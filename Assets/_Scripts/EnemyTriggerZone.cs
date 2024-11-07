@@ -6,12 +6,13 @@ public class EnemyTriggerZone : MonoBehaviour
     [Header("Enemy Variables")]
     public EnemyController[] EnemyToSpawn;
     public Transform[] EnemySpawnPoints;
+    public EnemySpawner[] EnemySpawners;
     public List<GameObject> CurrentEnemiesAlive;
 
-    private int totalEnemies;
-    private int totalEnemiesDead;
+    [SerializeField] private int totalEnemies;
+    [SerializeField] private int totalEnemiesDead;
 
-    [Header("Gate Variables")]
+    [Header("Gate/Rubble Variables")]
     public GameObject gate;
     public DialogueTriggerEvent endingDialogue;
 
@@ -25,7 +26,7 @@ public class EnemyTriggerZone : MonoBehaviour
         CurrentEnemiesAlive = new List<GameObject>();
         CurrentEnemiesAlive.Clear();
 
-        totalEnemies = EnemyToSpawn.Length;
+        totalEnemies = EnemyToSpawn.Length + EnemySpawners.Length;
         totalEnemiesDead = 0;
     }
 
@@ -49,6 +50,15 @@ public class EnemyTriggerZone : MonoBehaviour
             CurrentEnemiesAlive.Add(newEnemy.gameObject);
         }
 
+        if (EnemySpawners.Length > 0)
+        {
+            foreach (var spawner in EnemySpawners)
+            {
+                spawner.SpawnEnemies();
+                CurrentEnemiesAlive.Add(spawner.gameObject);
+            }
+        }
+
         isTriggered = true;
     }
 
@@ -66,11 +76,14 @@ public class EnemyTriggerZone : MonoBehaviour
 
     private void OpenRubble()
     {
-        if (gate == null) return;
-
-        if (gate.GetComponent<RubbleFire>() != null) gate.GetComponent<RubbleFire>().canBeDestroyed = true;
-        if (gate.GetComponent<RubbleIce>() != null) gate.GetComponent<RubbleIce>().canBeDestroyed = true;
         if (endingDialogue != null) endingDialogue.TriggerDialogue();
+
+        if (gate != null)
+        {
+            if (gate.GetComponent<RubbleFire>() != null) gate.GetComponent<RubbleFire>().canBeDestroyed = true;
+            if (gate.GetComponent<RubbleIce>() != null) gate.GetComponent<RubbleIce>().canBeDestroyed = true;
+        }
+
         endSegment = true;
     }
 

@@ -85,7 +85,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = 
                     "Left Mouse Button - <color=#00FFFF>Ice Bolts</color>" +
                     "\n" +
-                    "Right Mouse Button - <color=#FF4500>Fire Grenades</color>";
+                    "Right Mouse Button - <color=#FFA500>Fire Grenades</color>";
                 tutorialCue.SetActive(true);
                 UiManager.rightWeaponUi.SetActive(true);
                 UiManager.leftWeaponUi.SetActive(true);

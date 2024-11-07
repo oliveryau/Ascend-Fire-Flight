@@ -6698,7 +6698,7 @@ MonoBehaviour:
   mouseSensitivity: 2
   currentMoveSpeed: 5
   walkSpeed: 5
-  sprintSpeed: 8
+  sprintSpeed: 9
   floatSpeed: 7
   jumpForce: 2
   fallMultiplier: 2.5
@@ -6726,10 +6726,10 @@ MonoBehaviour:
   leftFirePoint: {fileID: 6329591817764152152}
   leftFlameParticle: {fileID: 2420755759294420577}
   leftProjectileDamage: 1
-  leftShootForce: 15
+  leftShootForce: 13
+  leftLobForce: 5
   leftFireRate: 1.5
   grenadeExplosionRadius: 5
-  grenadeExplosionForce: 0
   aimDistance: 200
   fallDamage: 1
   initialPosition: {x: 0, y: 0, z: 0}
@@ -7730,8 +7730,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899cba3eeabee364197d37f0df00a8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swayTransform: {fileID: 0}
-  swayAmount: 0.02
+  swayTransform: {fileID: 3525703167812015269}
+  swayAmount: 0.01
   maxSwayAmount: 0.2
   swaySmooth: 30
   swayCurve:

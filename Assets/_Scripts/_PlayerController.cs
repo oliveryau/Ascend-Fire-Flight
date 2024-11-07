@@ -72,10 +72,11 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem leftFlameParticle;
     public float leftProjectileDamage;
     public float leftShootForce;
+    public float leftLobForce;
     public float leftFireRate;
 
     public float grenadeExplosionRadius;
-    public float grenadeExplosionForce;
+    //public float grenadeExplosionForce;
 
     private float leftNextFireTime = 0f;
 
@@ -350,7 +351,7 @@ public class PlayerController : MonoBehaviour
         ChangePlayerState(PlayerState.IRONMAN);
 
         LeftWeaponAnimator.SetTrigger("Flying");
-        UiManager.launchUi.GetComponent<Animator>().SetTrigger("Flying");
+        UiManager.playerLaunchCue.GetComponent<Animator>().SetBool("Floating", true);
         AudioManager.Instance.PlayOneShot("Launch", LeftWeaponAnimator.gameObject);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
@@ -372,7 +373,7 @@ public class PlayerController : MonoBehaviour
     private void Levitating()
     {
         LeftWeaponAnimator.SetBool("Floating", true);
-        UiManager.launchUi.GetComponent<Animator>().SetBool("Floating", true);
+        UiManager.playerLaunchCue.GetComponent<Animator>().SetBool("Floating", true);
         if (!floatSoundPlaying)
         {
             floatSoundPlaying = true;
@@ -405,7 +406,7 @@ public class PlayerController : MonoBehaviour
         isFloating = false;
         floatSoundPlaying = false;
         LeftWeaponAnimator.SetBool("Floating", false);
-        UiManager.launchUi.GetComponent<Animator>().SetBool("Floating", false);
+        UiManager.playerLaunchCue.GetComponent<Animator>().SetBool("Floating", false);
         AudioManager.Instance.Stop("Float", LeftWeaponAnimator.gameObject);
 
         foreach (var launchParticle in launchParticles)
@@ -451,6 +452,8 @@ public class PlayerController : MonoBehaviour
 
     private void CheckLaunchMeter()
     {
+        if (!UiManager.launchUi.activeSelf) return;
+
         if (currentLaunchMeter <= 0.4f * maxLaunchMeter) UiManager.FlashLaunchMeter(true);
         else UiManager.FlashLaunchMeter(false);
     }
@@ -553,11 +556,11 @@ public class PlayerController : MonoBehaviour
             GameObject leftProjectile = Instantiate(leftProjectilePrefab, leftFirePoint.position, Quaternion.LookRotation(leftShotDirection));
             Rigidbody projectileRb = leftProjectile.GetComponent<Rigidbody>();
             projectileRb.velocity = Vector3.zero;
-            projectileRb.AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
+            projectileRb.AddForce(leftShotDirection * leftShootForce + Vector3.up * leftLobForce, ForceMode.Impulse);
+
             LeftWeaponAnimator.SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
             leftNextFireTime = Time.time + leftFireRate;
-
             LeftWeaponExplosion(leftProjectile);
         }
     }
@@ -567,11 +570,11 @@ public class PlayerController : MonoBehaviour
         Vector3 explosionPos = leftProjectile.transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, grenadeExplosionRadius);
 
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null) rb.AddExplosionForce(grenadeExplosionForce, explosionPos, grenadeExplosionRadius, 1f);
-        }
+        //foreach (Collider hit in colliders)
+        //{
+        //    Rigidbody rb = hit.GetComponent<Rigidbody>();
+        //    if (rb != null) rb.AddExplosionForce(grenadeExplosionForce, explosionPos, grenadeExplosionRadius, 1f);
+        //}
     }
 
     private Vector3 GetAimPoint()
