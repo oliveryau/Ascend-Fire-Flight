@@ -10563,7 +10563,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 1
-  m_Speed: 0
+  m_Speed: 8
   m_Acceleration: 5
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10589,15 +10589,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 3
-  currentHealth: 3
+  maxHealth: 4
+  currentHealth: 4
   attackDamage: 1
   attackCooldown: 1
   mainAuraParticle: {fileID: 5795568134190386579}
   AttackRadius: {fileID: 1011949412810812871}
   bulletPrefab: {fileID: 4493625471514249341, guid: d3ae1a6b5ca772c44b7dc982dd648872, type: 3}
   bulletFirePoint: {fileID: 2892440496606342488}
-  shootForce: 50
+  shootForce: 40
   spreadAngle: 0.5
 --- !u!1 &7864979938519633848
 GameObject:
@@ -10766,5 +10766,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 50
+  m_Radius: 15
   m_Center: {x: 0, y: 0, z: 0}

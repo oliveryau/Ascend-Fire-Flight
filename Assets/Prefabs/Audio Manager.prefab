@@ -226,7 +226,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 10
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Enemy 2
@@ -234,7 +234,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 10
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 1
@@ -242,7 +242,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Hit Ground 2
@@ -250,7 +250,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 1
@@ -298,7 +298,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Spawn 2
@@ -306,7 +306,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Melee 1

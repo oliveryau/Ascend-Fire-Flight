@@ -14,6 +14,7 @@ public class UiManager : MonoBehaviour
     [HideInInspector] public float updateSpeed = 5f;
 
     [Header("Player HP UI")]
+    public GameObject playerHealthUi;
     public Image playerHealthFill;
 
     private float targetHealthFill;
@@ -161,6 +162,11 @@ public class UiManager : MonoBehaviour
         playerHealthFill.color = lerpedColor;
     }
 
+    public void FlashHealth(bool flash)
+    {
+        playerHealthUi.GetComponent<Animator>().SetBool("Low", flash);
+    }
+
     public void UpdatePlayerLaunchMeter()
     {
         targetLaunchFill = Player.currentLaunchMeter / Player.maxLaunchMeter;
@@ -168,6 +174,11 @@ public class UiManager : MonoBehaviour
 
         Color lerpedColor = Color.Lerp(Color.black, Color.white, playerLaunchFill.fillAmount);
         playerLaunchFill.color = lerpedColor;
+    }
+
+    public void FlashLaunchMeter(bool flash)
+    {
+        launchUi.GetComponent<Animator>().SetBool("Low", flash);
     }
 
     public void UpdatePlayerAmmoCount()

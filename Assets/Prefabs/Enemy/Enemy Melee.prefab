@@ -10770,7 +10770,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 1479372276
   m_Radius: 1
-  m_Speed: 7
+  m_Speed: 10
   m_Acceleration: 5
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -10800,8 +10800,8 @@ MonoBehaviour:
   currentHealth: 2
   attackDamage: 1
   attackCooldown: 1
-  AttackRadius: {fileID: 5514623314271992928}
   mainAuraParticle: {fileID: 4013048929644519297}
+  AttackRadius: {fileID: 5514623314271992928}
   meleeSlashParticle: {fileID: 1925547380343297807}
 --- !u!1 &5761065993247644145
 GameObject:

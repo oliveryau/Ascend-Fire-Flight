@@ -23,8 +23,7 @@ public class ProjectileRight : MonoBehaviour
     private void OnCollisionEnter(Collision target)
     {
         if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss") || 
-            target.gameObject.CompareTag("Healing") || target.gameObject.CompareTag("Enemy Spawner") || 
-            target.gameObject.CompareTag("Rubble Ice")) //Zero damage
+            target.gameObject.CompareTag("Enemy Spawner")) //Zero damage, update crosshair
         {
             UiManager.UpdateRightCrosshair("Hit");
 
@@ -34,7 +33,7 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Boss Weakpoint")) //Normal damage weakpoint
+        else if (target.gameObject.CompareTag("Enemy Boss Weakpoint")) //Normal damage weakpoint, update crosshair
         {
             target.gameObject.GetComponentInParent<EnemyController>().TakeDamage(damage); //Get parent component
             UiManager.UpdateRightCrosshair("Hit");
@@ -45,7 +44,7 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Enemy Ranged")) //Normal damage ranged
+        else if (target.gameObject.CompareTag("Enemy Ranged")) //Normal damage ranged, update crosshair
         {
             target.gameObject.GetComponent<EnemyController>().TakeDamage(damage);
             UiManager.UpdateRightCrosshair("Hit");
@@ -56,7 +55,23 @@ public class ProjectileRight : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava") || target.gameObject.CompareTag("Rubble Fire"))
+        else if (target.gameObject.CompareTag("Healing") || target.gameObject.CompareTag("Rubble Ice")) //Zero damage, no dmg vfx
+        {
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitNoDamageVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Rubble Fire")) //Zero damage, hitground vfx
+        {
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitGroundVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Ground") || target.gameObject.CompareTag("Lava"))
         {
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;

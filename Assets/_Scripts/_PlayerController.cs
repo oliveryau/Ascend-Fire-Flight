@@ -86,8 +86,6 @@ public class PlayerController : MonoBehaviour
     public int fallDamage;
     public Vector3 initialPosition;
 
-    private bool musicChanging;
-
     [Header("References")]
     public Animator RightWeaponAnimator;
     public Animator LeftWeaponAnimator;
@@ -137,20 +135,24 @@ public class PlayerController : MonoBehaviour
             case PlayerState.WAIT:
                 break;
             case PlayerState.NORMAL:
+                CheckHealthBar();
                 Movement();
                 LaunchEnabled();
                 LaunchingCooldown();
                 UpdateLaunchMeter();
+                CheckLaunchMeter();
                 NormalShooting();
                 RightWeaponReload();
                 HealingEnabled();
                 ToggleLeftKeys(false);
                 break;
             case PlayerState.IRONMAN:
+                CheckHealthBar();
                 Movement();
                 LevitateEnabled();
                 LaunchingCooldown();
                 UpdateLaunchMeter();
+                CheckLaunchMeter();
                 IronmanShooting();
                 RightWeaponReload();
                 HealingEnabled();
@@ -447,6 +449,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void CheckLaunchMeter()
+    {
+        if (currentLaunchMeter <= 0.4f * maxLaunchMeter) UiManager.FlashLaunchMeter(true);
+        else UiManager.FlashLaunchMeter(false);
+    }
+
     private void UpdateLaunchParticle(bool isDecreasing)
     {
         foreach (var launchParticle in launchParticles)
@@ -547,9 +555,7 @@ public class PlayerController : MonoBehaviour
             projectileRb.velocity = Vector3.zero;
             projectileRb.AddForce(leftShotDirection * leftShootForce, ForceMode.Impulse);
             LeftWeaponAnimator.SetTrigger("Shoot");
-            UiManager.leftWeaponUi.GetComponent<Animator>().SetTrigger("Shoot");
             AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
-            UiManager.UpdateLeftCrosshair("Shoot");
             leftNextFireTime = Time.time + leftFireRate;
 
             LeftWeaponExplosion(leftProjectile);
@@ -605,6 +611,12 @@ public class PlayerController : MonoBehaviour
         {
             UiManager.DisplayLowHealthOverlay(true);
         }
+    }
+
+    private void CheckHealthBar()
+    {
+        if (currentHealth <= 0.4f * maxHealth) UiManager.FlashHealth(true);
+        else UiManager.FlashHealth(false);
     }
 
     private IEnumerator FallingOut()

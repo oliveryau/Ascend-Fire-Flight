@@ -1002,8 +1002,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentEnemyState: 0
   enemyId: 0
-  maxHealth: 15
-  currentHealth: 15
+  maxHealth: 40
+  currentHealth: 40
   attackDamage: 1
   attackCooldown: 2
   mainAuraParticle: {fileID: 7589291557667140473}
@@ -1019,6 +1019,8 @@ MonoBehaviour:
   phaseTwoTimerInterval: 60
   phaseTwoParticle: {fileID: 6837275714955242785}
   deathParticle: {fileID: 8243100211694625212}
+  phaseOneTimer: 0
+  phaseTwoTimer: 0
   weakPoints:
   - {fileID: 2220620282760591219}
   - {fileID: 6219240059645447877}
@@ -1183,6 +1185,7 @@ MonoBehaviour:
   - text: This thing isn't getting hurt. Try destroying the <color=#00ffff>spawners</color>
       by its side!
     soundClipName: VO_P1
+  hasTriggered: 0
 --- !u!1 &3291299532797529557
 GameObject:
   m_ObjectHideFlags: 0
@@ -6706,6 +6709,7 @@ MonoBehaviour:
   - text: Try aiming for the <color=#ffa500>weakpoints</color> around it to wear
       it down!
     soundClipName: VO_P2
+  hasTriggered: 0
 --- !u!1 &7325915353469605788
 GameObject:
   m_ObjectHideFlags: 0

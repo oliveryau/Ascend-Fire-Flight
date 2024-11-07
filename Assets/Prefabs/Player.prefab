@@ -372,8 +372,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4988338766781559054}
-  - {fileID: 932483054583638042}
+  - {fileID: 3525703167812015269}
   - {fileID: 1224445164455868724}
   m_Father: {fileID: 1645668218923527320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -505,8 +504,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557048639654408864}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.043619405, z: 0, w: 0.9990483}
-  m_LocalPosition: {x: -0.5, y: -0.35, z: 0.45}
+  m_LocalRotation: {x: -0, y: 0.043619405, z: -0, w: 0.9990483}
+  m_LocalPosition: {x: -0.5, y: -0.35, z: 0.45000076}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -514,7 +513,7 @@ Transform:
   - {fileID: 6329591817764152152}
   - {fileID: 8911608690611425069}
   - {fileID: 7906285951951396831}
-  m_Father: {fileID: 4172060801436938059}
+  m_Father: {fileID: 3525703167812015269}
   m_LocalEulerAnglesHint: {x: 0, y: 5, z: 0}
 --- !u!95 &3632040269539170261
 Animator:
@@ -6692,8 +6691,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayerState: 0
-  maxHealth: 35
-  currentHealth: 35
+  maxHealth: 15
+  currentHealth: 15
   canHeal: 0
   isHealing: 0
   mouseSensitivity: 2
@@ -6719,7 +6718,7 @@ MonoBehaviour:
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
-  rightShootForce: 200
+  rightShootForce: 150
   rightFireRate: 0.2
   maxAmmo: 20
   currentAmmo: 20
@@ -6727,10 +6726,10 @@ MonoBehaviour:
   leftFirePoint: {fileID: 6329591817764152152}
   leftFlameParticle: {fileID: 2420755759294420577}
   leftProjectileDamage: 1
-  leftShootForce: 12
+  leftShootForce: 15
   leftFireRate: 1.5
   grenadeExplosionRadius: 5
-  grenadeExplosionForce: 200
+  grenadeExplosionForce: 0
   aimDistance: 200
   fallDamage: 1
   initialPosition: {x: 0, y: 0, z: 0}
@@ -7685,6 +7684,83 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5188547750675923803
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3525703167812015269}
+  - component: {fileID: 2433490990207417055}
+  m_Layer: 0
+  m_Name: Sway
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3525703167812015269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188547750675923803}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4988338766781559054}
+  - {fileID: 932483054583638042}
+  m_Father: {fileID: 4172060801436938059}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2433490990207417055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5188547750675923803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899cba3eeabee364197d37f0df00a8d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  swayTransform: {fileID: 0}
+  swayAmount: 0.02
+  maxSwayAmount: 0.2
+  swaySmooth: 30
+  swayCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  swaySmoothCounteraction: 1
+  rotationSwayMultiplier: -1
+  positionSwayMultiplier: 9
 --- !u!1 &5449614185971616409
 GameObject:
   m_ObjectHideFlags: 0
@@ -28158,13 +28234,13 @@ Transform:
   m_GameObject: {fileID: 8252848607224865214}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: -0.255, z: 0.74}
+  m_LocalPosition: {x: 0.5, y: -0.255, z: 0.7400017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2013932514843948464}
   - {fileID: 6818920325943989102}
-  m_Father: {fileID: 4172060801436938059}
+  m_Father: {fileID: 3525703167812015269}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7456018265807552155
 Animator:

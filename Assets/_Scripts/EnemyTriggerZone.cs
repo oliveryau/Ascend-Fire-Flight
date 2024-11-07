@@ -13,12 +13,15 @@ public class EnemyTriggerZone : MonoBehaviour
 
     [Header("Gate Variables")]
     public GameObject gate;
+    public DialogueTriggerEvent endingDialogue;
 
     private bool isTriggered;
     private bool endSegment;
 
     private void Start()
     {
+        endingDialogue = GetComponent<DialogueTriggerEvent>();
+
         CurrentEnemiesAlive = new List<GameObject>();
         CurrentEnemiesAlive.Clear();
 
@@ -67,6 +70,7 @@ public class EnemyTriggerZone : MonoBehaviour
 
         if (gate.GetComponent<RubbleFire>() != null) gate.GetComponent<RubbleFire>().canBeDestroyed = true;
         if (gate.GetComponent<RubbleIce>() != null) gate.GetComponent<RubbleIce>().canBeDestroyed = true;
+        if (endingDialogue != null) endingDialogue.TriggerDialogue();
         endSegment = true;
     }
 
