@@ -20,6 +20,7 @@ public class TutorialTrigger : MonoBehaviour
             hasTriggered = true;
             TutorialManager.tutorialActive = true;
             TutorialManager.currentTutorialState++;
+            TutorialManager.needReset = true;
         }
     }
 }
