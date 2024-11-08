@@ -22,6 +22,7 @@ public class UiManager : MonoBehaviour
     [Header("Player Launch UI")]
     public GameObject playerLaunchCue;
     public Image playerLaunchFill;
+    public GameObject playerLaunchOverlay;
 
     private float targetLaunchFill;
 
@@ -179,6 +180,13 @@ public class UiManager : MonoBehaviour
     public void FlashLaunchMeter(bool flash)
     {
         launchUi.GetComponent<Animator>().SetBool("Low", flash);
+    }
+
+    public IEnumerator FlashLaunchOverlay()
+    {
+        playerLaunchOverlay.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        playerLaunchOverlay.SetActive(false);
     }
 
     public void UpdatePlayerAmmoCount()
@@ -595,12 +603,14 @@ public class UiManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        AudioManager.Instance.PlayOneShot("UI Click", gameObject);
         GameManager.ChangeGameState(GameManager.GameState.PLAY);
         ShowPauseMenu(false); 
     }
 
     public void RestartGame()
     {
+        AudioManager.Instance.PlayOneShot("UI Click", gameObject);
         GameManager.ChangeGameState(GameManager.GameState.PLAY);
         ShowPauseMenu(false);
         StartCoroutine(GameManager.FadeToggle(false, "Main Scene")); //Fade out, same scene
@@ -613,6 +623,7 @@ public class UiManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
+        AudioManager.Instance.PlayOneShot("UI Click", gameObject);
         StartCoroutine(GameManager.FadeToggle(false, "Main Menu")); //Fade out, main menu
     }
 
@@ -621,6 +632,11 @@ public class UiManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
 
         loseScreen.SetActive(true);
+    }
+
+    public void ButtonHoverSound()
+    {
+        AudioManager.Instance.PlayOneShot("UI Hover", gameObject);
     }
     #endregion
 }

@@ -24,18 +24,18 @@ public class PlayerController : MonoBehaviour
     public float floatSpeed;
     public float jumpForce;
     public float fallMultiplier;
-    public float footstepWalkInterval;
-    public float footstepSprintInterval;
     public GameObject sprintLines;
 
     private float verticalRotation = 0f;
     private bool isGrounded;
     private Vector3 velocity;
-    private Coroutine footstepCoroutine;
+    private Vector3 currentVelocity;
     private bool isMoving;
     private bool isWalking;
     private bool isSprinting;
     private bool isInAir;
+    private bool walkSoundPlaying;
+    private bool sprintSoundPlaying;
 
     [Header("Launching Variables")]
     public ParticleSystem[] launchParticles;
@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     public float floatStrength;
     public float maxLaunchMeter;
     public float currentLaunchMeter;
+    public GameObject launchFloorParticle;
 
     private bool canLaunch;
     private bool isFloating;
@@ -119,6 +120,7 @@ public class PlayerController : MonoBehaviour
         initialPosition = transform.position;
 
         currentHealth = maxHealth;
+        currentVelocity = Vector3.zero;
         currentLaunchMeter = maxLaunchMeter;
         initialLaunchMeter = currentLaunchMeter;
         targetLaunchMeter = currentLaunchMeter;
@@ -200,13 +202,45 @@ public class PlayerController : MonoBehaviour
             currentMoveSpeed = isSprinting ? sprintSpeed : walkSpeed;
             sprintLines.SetActive(isSprinting && isMoving && isGrounded);
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (isSprinting && isMoving && isGrounded)
             {
                 UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", true);
+                if (!sprintSoundPlaying)
+                {
+                    sprintSoundPlaying = true;
+                    AudioManager.Instance.Play("Sprinting", gameObject);
+                }
             }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            else
             {
                 UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", false);
+
+                sprintSoundPlaying = false;
+                AudioManager.Instance.Stop("Sprinting", gameObject);
+            }
+
+            if (isGrounded && isMoving)
+            {
+                if (!isWalking)
+                {
+                    isWalking = true;
+
+                    if (!walkSoundPlaying)
+                    {
+                        walkSoundPlaying = true;
+                        AudioManager.Instance.Play("Walking", gameObject);
+                    }
+                }
+            }
+            else
+            {
+                if (isWalking)
+                {
+                    isWalking = false;
+                    isSprinting = false;
+                    walkSoundPlaying = false;
+                    AudioManager.Instance.Stop("Walking", gameObject);
+                }
             }
         }
         else
@@ -215,31 +249,24 @@ public class PlayerController : MonoBehaviour
             isSprinting = false;
             sprintLines.SetActive(false);
             UiManager.sprintUi.GetComponent<Animator>().SetBool("Sprinting", false);
+
+            walkSoundPlaying = false;
+            AudioManager.Instance.Stop("Walking", gameObject);
+            sprintSoundPlaying = false;
+            AudioManager.Instance.Stop("Sprinting", gameObject);
         }
 
-        if (isGrounded && isMoving)
+        if (!isMoving)
         {
-            if (!isWalking)
-            {
-                isWalking = true;
-                footstepCoroutine = StartCoroutine(PlayFootstepSounds());
-            }
+            currentVelocity = Vector3.Lerp(currentVelocity, Vector3.zero, 0.05f);
+            Controller.Move(currentVelocity * Time.deltaTime);
         }
         else
         {
-            if (isWalking)
-            {
-                isWalking = false;
-                isSprinting = false;
-                if (footstepCoroutine != null)
-                {
-                    StopCoroutine(footstepCoroutine);
-                }
-            }
+            Vector3 move = transform.right * moveX + transform.forward * moveZ;
+            Controller.Move(move * currentMoveSpeed * Time.deltaTime);
+            currentVelocity = move * currentMoveSpeed;
         }
-
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        Controller.Move(move * currentMoveSpeed * Time.deltaTime);
 
         //Jumping and Falling
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -281,27 +308,6 @@ public class PlayerController : MonoBehaviour
             if (!leftFlameParticle.isPlaying) leftFlameParticle.Play();
             ChangePlayerState(PlayerState.NORMAL);
         }
-    }
-
-    private IEnumerator PlayFootstepSounds()
-    {
-        while (isWalking)
-        {
-            float interval = isSprinting ? footstepSprintInterval : footstepWalkInterval;
-            float adjustedInterval = interval / (currentMoveSpeed / walkSpeed);
-
-            RandomiseFootstepAudio();
-            yield return new WaitForSeconds(adjustedInterval);
-
-            isSprinting = Input.GetKey(KeyCode.LeftShift);
-        }
-    }
-
-    private void RandomiseFootstepAudio()
-    {
-        int soundIndex = Random.Range(1, 5);
-        string soundName = $"Footstep {soundIndex}";
-        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
 
     private void RandomiseLandingAudio()
@@ -350,8 +356,14 @@ public class PlayerController : MonoBehaviour
     {
         ChangePlayerState(PlayerState.IRONMAN);
 
+        Vector3 launchFloorParticlePosition = transform.position;
+        launchFloorParticlePosition.y = transform.position.y;
+        launchFloorParticlePosition += transform.forward * 3f;
+        Instantiate(launchFloorParticle, launchFloorParticlePosition, Quaternion.identity);
+
         LeftWeaponAnimator.SetTrigger("Flying");
         UiManager.playerLaunchCue.GetComponent<Animator>().SetBool("Floating", true);
+        StartCoroutine(UiManager.FlashLaunchOverlay());
         AudioManager.Instance.PlayOneShot("Launch", LeftWeaponAnimator.gameObject);
 
         velocity.y = Mathf.Sqrt(launchForce * -2f * Physics.gravity.y);
@@ -610,7 +622,7 @@ public class PlayerController : MonoBehaviour
         {
             ChangePlayerState(PlayerState.DEAD);
         }
-        else if (currentHealth <= maxHealth * 0.3f)
+        else if (currentHealth <= maxHealth * 0.4f)
         {
             UiManager.DisplayLowHealthOverlay(true);
         }
@@ -637,7 +649,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Iframe()
     {
         hasTakenDamaged = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         hasTakenDamaged = false;
     }
 
@@ -722,8 +734,7 @@ public class PlayerController : MonoBehaviour
 
         if (target.CompareTag("Ending"))
         {
-            GameManager.ChangeGameState(GameManager.GameState.WAIT);
-            //UiManager.ShowEndingSequence();
+            StartCoroutine(GameManager.FadeToggle(false, "Ending"));
         }
     }
 

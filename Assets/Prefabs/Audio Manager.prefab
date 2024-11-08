@@ -77,42 +77,26 @@ MonoBehaviour:
     maxDistance: 0
     loop: 0
     AudioSource: {fileID: 0}
-  - name: Footstep 1
-    clip: {fileID: 8300000, guid: 48b8219fe86112b409b769176293eb69, type: 3}
+  - name: Walking
+    clip: {fileID: 8300000, guid: eb8db2e01dffb374faa0e92c48c788c6, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
     maxDistance: 10
-    loop: 0
+    loop: 1
     AudioSource: {fileID: 0}
-  - name: Footstep 2
-    clip: {fileID: 8300000, guid: bb8646034ab2e234db8f08b375330d17, type: 3}
+  - name: Sprinting
+    clip: {fileID: 8300000, guid: 507cc118ec1ad42429497d44cc33a762, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
     maxDistance: 10
-    loop: 0
-    AudioSource: {fileID: 0}
-  - name: Footstep 3
-    clip: {fileID: 8300000, guid: 3dbb89cf13036b742b2e39e69a1c6c75, type: 3}
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    maxDistance: 10
-    loop: 0
-    AudioSource: {fileID: 0}
-  - name: Footstep 4
-    clip: {fileID: 8300000, guid: e1e1c21e8cbdd024f904d307373acddd, type: 3}
-    volume: 1
-    pitch: 1
-    spatialBlend: 1
-    maxDistance: 10
-    loop: 0
+    loop: 1
     AudioSource: {fileID: 0}
   - name: Jump
-    clip: {fileID: 8300000, guid: 1751440ff79a91444acf79905769da88, type: 3}
+    clip: {fileID: 8300000, guid: 524bb8a242767d34582b371d3c4b5087, type: 3}
     volume: 1
-    pitch: 2
+    pitch: 1
     spatialBlend: 1
     maxDistance: 10
     loop: 0
@@ -166,7 +150,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Right Gunshot
-    clip: {fileID: 8300000, guid: c5239d707e1644f498077b7afd10ef3f, type: 3}
+    clip: {fileID: 8300000, guid: f15361723b17b9549887c714d4369f92, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -206,7 +190,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Launch
-    clip: {fileID: 8300000, guid: 34ed4bb51c6e2c54da2e63d365f5596d, type: 3}
+    clip: {fileID: 8300000, guid: 514c5dc5f30e214469bce18d12aad042, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -254,7 +238,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 1
-    clip: {fileID: 8300000, guid: 6ca2ccc1697874c4391056d7966811d5, type: 3}
+    clip: {fileID: 8300000, guid: 11c96041f43e648469dda653d9f7a65e, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -262,7 +246,7 @@ MonoBehaviour:
     loop: 0
     AudioSource: {fileID: 0}
   - name: Left Explosion 2
-    clip: {fileID: 8300000, guid: 11c96041f43e648469dda653d9f7a65e, type: 3}
+    clip: {fileID: 8300000, guid: 990009498359bd24b82326a9ce515157, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 1
@@ -346,7 +330,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Death 2
@@ -354,7 +338,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     spatialBlend: 1
-    maxDistance: 20
+    maxDistance: 30
     loop: 0
     AudioSource: {fileID: 0}
   - name: Fire Start
@@ -372,6 +356,14 @@ MonoBehaviour:
     spatialBlend: 1
     maxDistance: 30
     loop: 1
+    AudioSource: {fileID: 0}
+  - name: Enemy Spawner Death
+    clip: {fileID: 8300000, guid: 785b2398353a45f4581c3cd421ed1e34, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 30
+    loop: 0
     AudioSource: {fileID: 0}
   - name: Enemy Boss Spawn
     clip: {fileID: 8300000, guid: 486498f8e51bd974a936e55f01bff831, type: 3}
@@ -415,6 +407,22 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: VO_P2
     clip: {fileID: 8300000, guid: 99bfeb63cb860d34484b2bbe9c52365f, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: UI Hover
+    clip: {fileID: 8300000, guid: 85d40addda77b3d4b95903074fb1d292, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: UI Click
+    clip: {fileID: 8300000, guid: 034be1a4f3b21d34997059b616f1ce63, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 0

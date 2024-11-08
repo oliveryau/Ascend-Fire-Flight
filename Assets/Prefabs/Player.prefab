@@ -6702,8 +6702,6 @@ MonoBehaviour:
   floatSpeed: 7
   jumpForce: 2
   fallMultiplier: 2.5
-  footstepWalkInterval: 0.4
-  footstepSprintInterval: 0.25
   sprintLines: {fileID: 7095290215365105603}
   launchParticles:
   - {fileID: 5776915395923596548}
@@ -6715,6 +6713,7 @@ MonoBehaviour:
   floatStrength: 0.7
   maxLaunchMeter: 5
   currentLaunchMeter: 5
+  launchFloorParticle: {fileID: 1296449615110591356, guid: 197c6da60f415b14a9a6e0516f180da4, type: 3}
   rightProjectilePrefab: {fileID: 4493625471514249341, guid: d197f3dd0cb547a4f83662701b18ab18, type: 3}
   rightFirePoint: {fileID: 6818920325943989102}
   rightProjectileDamage: 1
@@ -6726,7 +6725,7 @@ MonoBehaviour:
   leftFirePoint: {fileID: 6329591817764152152}
   leftFlameParticle: {fileID: 2420755759294420577}
   leftProjectileDamage: 1
-  leftShootForce: 13
+  leftShootForce: 12
   leftLobForce: 5
   leftFireRate: 1.5
   grenadeExplosionRadius: 5
@@ -18890,7 +18889,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 75
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2

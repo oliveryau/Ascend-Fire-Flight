@@ -55,6 +55,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
         if (isSpawning) return;
 
         isActivated = true;
+        //AudioManager.Instance.PlayOneShot("Enemy Boss Spawn", gameObject);
         if (gameObject.layer != LayerMask.NameToLayer("Spawner"))
         {
             gameObject.layer = LayerMask.NameToLayer("Spawner"); //For indicators
@@ -110,6 +111,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;
         }
         Animator.SetTrigger("Dead");
+        AudioManager.Instance.PlayOneShot("Enemy Spawner Death", gameObject);
         yield return new WaitForSeconds(3f);
         gameObject.SetActive(false);
     }

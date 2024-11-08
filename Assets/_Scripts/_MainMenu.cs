@@ -25,4 +25,9 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void ButtonHoverSound()
+    {
+        AudioManager.Instance.PlayOneShot("UI Hover", gameObject);
+    }
 }

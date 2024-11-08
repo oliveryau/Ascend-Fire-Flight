@@ -5683,7 +5683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   currentHealth: 3
-  spawnInterval: 2
+  spawnInterval: 3
   mainParticle: {fileID: 2539959465883784753}
   EnemyToSpawn: {fileID: 1860153801429856350, guid: e5de3820a9fa5d240b4f12296bd91d9f, type: 3}
   EnemySpawnPoint: {fileID: 7023637925476101176}

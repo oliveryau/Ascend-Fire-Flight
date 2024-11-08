@@ -107,6 +107,7 @@ public class EnemySpawner : MonoBehaviour
             enemy.GetComponent<EnemyController>().currentEnemyState = EnemyController.EnemyState.DEAD;
         }
         Animator.SetTrigger("Dead");
+        AudioManager.Instance.PlayOneShot("Enemy Spawner Death", gameObject);
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
