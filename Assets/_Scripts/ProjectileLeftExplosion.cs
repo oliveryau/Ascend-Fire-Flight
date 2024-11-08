@@ -25,9 +25,19 @@ public class ProjectileLeftExplosion : MonoBehaviour
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("Enemy") || hitCollider.CompareTag("Enemy Boss")) //Normal damage melee, boss
+            if (hitCollider.CompareTag("Enemy")) //Normal damage melee
             {
                 hitCollider.GetComponent<EnemyController>().TakeDamage(damage);
+                if (!hitOnce)
+                {
+                    UiManager.UpdateLeftCrosshair("Hit");
+                    hitOnce = true;
+                }
+            }
+            else if (hitCollider.CompareTag("Enemy Boss"))
+            {
+                hitCollider.GetComponent<EnemyBoss>().TakeDamage(damage); 
+                hitCollider.GetComponent<EnemyBoss>().FlashHealthBar("Fire"); //Ui animate fire
                 if (!hitOnce)
                 {
                     UiManager.UpdateLeftCrosshair("Hit");

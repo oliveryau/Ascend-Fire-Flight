@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
     #region State Control
     private void CheckPlayerState()
     {
-        if (GameManager.currentGameState == GameManager.GameState.PAUSE) return;
+        if (GameManager.currentGameState != GameManager.GameState.PLAY) return;
 
         switch (currentPlayerState)
         {
@@ -718,6 +718,12 @@ public class PlayerController : MonoBehaviour
         {
             AudioManager.Instance.FadeIn("Boss BGM", 5f);
             Destroy(target.gameObject);
+        }
+
+        if (target.CompareTag("Ending"))
+        {
+            GameManager.ChangeGameState(GameManager.GameState.WAIT);
+            //UiManager.ShowEndingSequence();
         }
     }
 

@@ -21,9 +21,12 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
     public int maxEnemies;
 
     private int currentSpawnPoint;
+    private UiManager UiManager;
 
     private void Start()
     {
+        UiManager = FindFirstObjectByType<UiManager>();
+
         currentHealth = maxHealth;
 
         Animator = GetComponent<Animator>();
@@ -85,6 +88,7 @@ public class EnemyBossMeleeSpawner : MonoBehaviour
 
         currentHealth -= damageTaken;
         Animator.SetTrigger("Damaged");
+        UiManager.enemyBossSpawnerHealthUi.GetComponent<Animator>().SetTrigger("Fire");
 
         if (currentHealth <= 0)
         {

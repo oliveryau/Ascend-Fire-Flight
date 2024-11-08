@@ -21,9 +21,12 @@ public class EnemySpawner : MonoBehaviour
     public int maxEnemies;
 
     private int EnemyIndex;
+    private UiManager UiManager;
 
     private void Start()
     {
+        UiManager = FindFirstObjectByType<UiManager>();
+
         currentHealth = maxHealth;
 
         Animator = GetComponent<Animator>();
@@ -82,6 +85,7 @@ public class EnemySpawner : MonoBehaviour
 
         currentHealth -= damageTaken;
         Animator.SetTrigger("Damaged");
+        UiManager.enemySpawnerHealthUi.GetComponent<Animator>().SetTrigger("Fire");
 
         if (currentHealth <= 0)
         {

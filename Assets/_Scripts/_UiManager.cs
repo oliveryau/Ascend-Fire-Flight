@@ -60,16 +60,14 @@ public class UiManager : MonoBehaviour
 
     [Header("Enemy HP UI")]
     public Image enemyBossHealthFill;
+    public Image enemyBossSpawnerHealthFill;
     public Image enemySpawnerHealthFill;
 
-    [SerializeField] private Color originalColor;
-    [SerializeField] private Color flashColor;
-    private float flashDuration = 0.1f;
-    private bool isFlashing = false;
-    private float flashTimer = 0f;
     private float targetEnemyBossHealthFill;
+    private float targetEnemyBossSpawnerHealthFill;
     private float targetEnemySpawnerHealthFill;
-    private EnemyBossMeleeSpawner currentTargetedSpawner;
+    private EnemyBossMeleeSpawner currentTargetedBossSpawner;
+    private EnemySpawner currentTargetedSpawner;
 
     [Header("Non-Player UI")]
     public GameObject fadePrefab;
@@ -92,6 +90,7 @@ public class UiManager : MonoBehaviour
     public GameObject reloadUi;
     public GameObject enemyBossHealthUi;
     public GameObject enemyBossSpawnerHealthUi;
+    public GameObject enemySpawnerHealthUi;
     public GameObject[] leftOverlayUi;
     public GameObject dialogueUi;
 
@@ -455,24 +454,9 @@ public class UiManager : MonoBehaviour
         enemyBossHealthFill.fillAmount = Mathf.Lerp(enemyBossHealthFill.fillAmount, targetEnemyBossHealthFill, Time.deltaTime * updateSpeed);
     }
 
-    public void UpdateBossEnemyHealthFlash(EnemyBoss boss)
+    public void FlashBossEnemyHealthBar(string animName)
     {
-        if (!isFlashing) return;
-
-        flashTimer += Time.deltaTime;
-        if (flashTimer >= flashDuration)
-        {
-            enemyBossHealthFill.color = originalColor;
-            isFlashing = false;
-            flashTimer = 0f;
-        }
-    }
-
-    public void FlashBossEnemyHealthBar()
-    {
-        enemyBossHealthFill.color = flashColor;
-        isFlashing = true;
-        flashTimer = 0f;
+        enemyBossHealthUi.GetComponent<Animator>().SetTrigger(animName);
     }
 
     private void UpdateSpawnerHealthDetection()
@@ -482,9 +466,24 @@ public class UiManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, crosshairDetectionRange, spawnerLayer))
         {
-            var spawner = hit.collider.GetComponent<EnemyBossMeleeSpawner>();
-            if (spawner != null)
+            if (hit.collider.GetComponent<EnemyBossMeleeSpawner>() != null)
             {
+                var bossSpawner = hit.collider.GetComponent<EnemyBossMeleeSpawner>();
+                if (!crosshairOnSpawner || currentTargetedBossSpawner != bossSpawner) //Only update if looking at different spawner or none previously
+                {
+                    crosshairOnSpawner = true;
+                    currentTargetedBossSpawner = bossSpawner;
+                    DisplayBossSpawnerHealth(true);
+                    UpdateEnemyBossSpawnerHealthBar(bossSpawner);
+                }
+                else if (currentTargetedBossSpawner == bossSpawner) //Continue updating while looking at the same spawner
+                {
+                    UpdateEnemyBossSpawnerHealthBar(bossSpawner);
+                }
+            }
+            else if (hit.collider.GetComponent<EnemySpawner>() != null)
+            {
+                var spawner = hit.collider.GetComponent<EnemySpawner>();
                 if (!crosshairOnSpawner || currentTargetedSpawner != spawner) //Only update if looking at different spawner or none previously
                 {
                     crosshairOnSpawner = true;
@@ -503,18 +502,33 @@ public class UiManager : MonoBehaviour
             if (crosshairOnSpawner)
             {
                 crosshairOnSpawner = false;
+                currentTargetedBossSpawner = null;
                 currentTargetedSpawner = null;
+                DisplayBossSpawnerHealth(false);
                 DisplaySpawnerHealth(false);
             }
         }
     }
 
-    private void DisplaySpawnerHealth(bool onSpawner)
+    private void DisplayBossSpawnerHealth(bool onSpawner)
     {
         enemyBossSpawnerHealthUi.SetActive(onSpawner);
     }
 
-    public void UpdateEnemySpawnerHealthBar(EnemyBossMeleeSpawner spawner)
+    private void DisplaySpawnerHealth(bool onSpawner)
+    {
+        enemySpawnerHealthUi.SetActive(onSpawner);
+    }
+
+    public void UpdateEnemyBossSpawnerHealthBar(EnemyBossMeleeSpawner spawner)
+    {
+        if (spawner == null) return;
+
+        targetEnemyBossSpawnerHealthFill = spawner.currentHealth / spawner.maxHealth;
+        enemyBossSpawnerHealthFill.fillAmount = Mathf.Lerp(enemyBossSpawnerHealthFill.fillAmount, targetEnemyBossSpawnerHealthFill, Time.deltaTime * updateSpeed);
+    }
+
+    public void UpdateEnemySpawnerHealthBar(EnemySpawner spawner)
     {
         if (spawner == null) return;
 

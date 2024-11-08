@@ -89,16 +89,16 @@ public class TutorialManager : MonoBehaviour
                 UiManager.sprintUi.SetActive(true);
                 break;
             case TutorialState.LAUNCH:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "V - Fly And Glide";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "V - Fly and Glide";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.launchUi.SetActive(true);
                 break;
             case TutorialState.SHOOT:
                 tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text =
-                    "Left Mouse Button - <color=#00FFFF>Ice Bolts</color>" +
+                    "Left Mouse Button - <color=#00FFFF>Blast Palm</color>" +
                     "\n" +
-                    "Right Mouse Button - <color=#FFA500>Fire Grenades</color>";
+                    "Right Mouse Button - <color=#FFA500>Grenade Launcher</color>";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.rightWeaponUi.SetActive(true);
@@ -108,13 +108,13 @@ public class TutorialManager : MonoBehaviour
                 UiManager.rightDecorativeUi.SetActive(true);
                 break;
             case TutorialState.RELOAD:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload <color=#00FFFF>Ice Bolts</color>";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload <color=#00FFFF>Blast Palm</color>";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.reloadUi.SetActive(true);
                 break;
             case TutorialState.HEAL:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "E - Restore Health Near Healing Crystal";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "E - Restore Health at Healing Crystal";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 break;

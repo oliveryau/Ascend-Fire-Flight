@@ -13,7 +13,7 @@ public class EnemyBossWeakpoint : MonoBehaviour
     {
         if (target.gameObject.CompareTag("Right Bullet"))
         {
-            Boss.FlashHealthBar();
+            Boss.FlashHealthBar("Ice");
         }
     }
 }

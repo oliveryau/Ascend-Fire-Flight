@@ -75,8 +75,8 @@ public class EnemyBoss : EnemyController
         rangedSpawner = GetComponent<EnemyBossRangedSpawner>();
         bossPlatformTriggers = FindObjectsByType<EnemyBossFallingPlatformTrigger>(FindObjectsSortMode.None);
 
-        phaseOneTimer = phaseOneTimerInterval;
-        phaseTwoTimer = phaseTwoTimerInterval;
+        phaseOneTimer = phaseOneTimerInterval - 1f;
+        phaseTwoTimer = phaseTwoTimerInterval - 1f;
     }
     #endregion
 
@@ -141,7 +141,6 @@ public class EnemyBoss : EnemyController
     {
         UiManager.enemyBossHealthUi.SetActive(true);
         UiManager.UpdateBossEnemyHealthBar(this);
-        UiManager.UpdateBossEnemyHealthFlash(this);
     }
 
     private void ActivateFlames()
@@ -293,16 +292,20 @@ public class EnemyBoss : EnemyController
 
         if (currentBossState == BossState.PHASEONE)
         {
+            FlashHealthBar("Null");
             //AudioManager.Instance.PlayOneShot("Boss Null Damage", gameObject);
             return;
         }
+        else
+        {
+            base.TakeDamage(damageTaken);
+        }
 
-        base.TakeDamage(damageTaken);
     }
 
-    public void FlashHealthBar()
+    public void FlashHealthBar(string animName)
     {
-        UiManager.FlashBossEnemyHealthBar();
+        UiManager.FlashBossEnemyHealthBar(animName);
     }
     #endregion
 

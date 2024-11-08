@@ -22,10 +22,17 @@ public class ProjectileRight : MonoBehaviour
 
     private void OnCollisionEnter(Collision target)
     {
-        if (target.gameObject.CompareTag("Enemy") || target.gameObject.CompareTag("Enemy Boss") || 
-            target.gameObject.CompareTag("Enemy Spawner")) //Zero damage, update crosshair
+        if (target.gameObject.CompareTag("Enemy") | target.gameObject.CompareTag("Enemy Spawner")) //Zero damage
         {
-            UiManager.UpdateRightCrosshair("Hit");
+            ContactPoint contact = target.contacts[0];
+            Vector3 hitPosition = contact.point;
+            Destroy(Instantiate(hitNoDamageVfx, hitPosition, Quaternion.identity), 2f);
+
+            Destroy(gameObject);
+        }
+        else if (target.gameObject.CompareTag("Enemy Boss")) //Zero damage
+        {
+            target.gameObject.GetComponent<EnemyBoss>().FlashHealthBar("Null"); //Boss null ui animate
 
             ContactPoint contact = target.contacts[0];
             Vector3 hitPosition = contact.point;
