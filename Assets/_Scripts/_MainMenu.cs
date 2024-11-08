@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
+        AudioManager.Instance.PlayOneShot("UI Click", gameObject);
         StartCoroutine(GameManager.FadeToggle(false, "Main Scene")); //Fade out, main menu
     }
 
@@ -23,6 +24,7 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        AudioManager.Instance.PlayOneShot("UI Click", gameObject);
         Application.Quit();
     }
 
