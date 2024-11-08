@@ -73,32 +73,32 @@ public class TutorialManager : MonoBehaviour
         switch (currentState)
         {
             case TutorialState.MOVEMENT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "WASD - Move";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>WASD</b> - Move";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 break;
             case TutorialState.JUMP:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "Spacebar - Jump";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>Spacebar</b> - Jump";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 break;
             case TutorialState.SPRINT:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "LeftShift - Sprint";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>LeftShift</b> - Sprint";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.sprintUi.SetActive(true);
                 break;
             case TutorialState.LAUNCH:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "V - Fly and Glide";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>V</b> - <color=#FFA500>Fly and Glide</color>";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.launchUi.SetActive(true);
                 break;
             case TutorialState.SHOOT:
                 tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text =
-                    "Left Mouse Button - <color=#00FFFF>Blast Palm</color>" +
+                    "<b>LMB</b> - <color=#00FFFF>Blast Palm</color>" +
                     "\n" +
-                    "Right Mouse Button - <color=#FFA500>Grenade Launcher</color>";
+                    "<b>RMB</b> - <color=#FFA500>Grenade Launcher</color>";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.rightWeaponUi.SetActive(true);
@@ -108,13 +108,13 @@ public class TutorialManager : MonoBehaviour
                 UiManager.rightDecorativeUi.SetActive(true);
                 break;
             case TutorialState.RELOAD:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "R - Reload <color=#00FFFF>Blast Palm</color>";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>R</b> - Reload <color=#00FFFF>Blast Palm</color>";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 UiManager.reloadUi.SetActive(true);
                 break;
             case TutorialState.HEAL:
-                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "E - Restore Health at Healing Crystal";
+                tutorialCue.GetComponentInChildren<TextMeshProUGUI>().text = "<b>E</b> - <color=#00FF00>Heal</color> at Rejuvenating Crystal";
                 tutorialCue.SetActive(true);
                 AutoAdvanceTutorial();
                 break;

@@ -1182,10 +1182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Stay sharp, <b>Phantom</b>! This thing isn't getting hurt!
+  - text: Stay sharp, <b>Phantom</b>! This thing isn't budging!
     soundClipName: VO_P1
-  - text: Try destroying the <color=#00ffff>golem spawners</color> around it first
-      with your mobility.
+  - text: Try destroying the <color=#00ffff>golem spawners</color> around it first.
     soundClipName: VO_P1
   hasTriggered: 0
 --- !u!1 &3291299532797529557
@@ -6708,9 +6707,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lines:
-  - text: Seems like this thing is angry now, keep your head in the game.
+  - text: Seems like this thing is angry now. But, do you see those <color=#ffa500>weakpoints</color>
+      that appear?
     soundClipName: VO_P1
-  - text: Try focusing on the <color=#ffa500>weakpoints</color> to take it down faster!
+  - text: Try focusing on those <color=#ffa500>weakpoints</color>, might be easier
+      to wear it down!
     soundClipName: VO_P1
   hasTriggered: 0
 --- !u!1 &7325915353469605788
