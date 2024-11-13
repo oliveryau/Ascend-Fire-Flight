@@ -24,6 +24,13 @@ public class EnemyMelee : EnemyController
     }
     #endregion
 
+    #region Patrol
+    public override void Patrol()
+    {
+        base.Patrol();
+    }
+    #endregion
+
     #region Alert
     public override void Alert()
     {

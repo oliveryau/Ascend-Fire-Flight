@@ -10798,9 +10798,11 @@ MonoBehaviour:
   enemyId: 0
   maxHealth: 2
   currentHealth: 2
+  patrolPoints: []
   attackDamage: 1
   attackCooldown: 1
   mainAuraParticle: {fileID: 4013048929644519297}
+  DetectionRadius: {fileID: 0}
   AttackRadius: {fileID: 5514623314271992928}
   meleeSlashParticle: {fileID: 1925547380343297807}
 --- !u!1 &5761065993247644145

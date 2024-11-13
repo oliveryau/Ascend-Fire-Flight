@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     #region Variables
-    public enum EnemyState { WAIT, ALERT, ATTACK, DEAD }
+    public enum EnemyState { WAIT, PATROL, ALERT, ATTACK, DEAD }
     public EnemyState currentEnemyState;
 
     [Header("Enemy Base Variables")]
@@ -16,6 +16,11 @@ public class EnemyController : MonoBehaviour
     private bool playedSpawnSound;
     private bool playedDeathSound;
 
+    [Header("Enemy Patrol Points")]
+    public Transform[] patrolPoints;
+
+    [SerializeField]protected int currentPatrolPointIndex;
+
     [Header("Enemy Attack Variables")]
     public float attackDamage;
     public float attackCooldown;
@@ -25,6 +30,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("References")]
     public GameObject mainAuraParticle;
+    public SphereCollider DetectionRadius;
     public SphereCollider AttackRadius;
     protected PlayerController Player;
     protected SphereCollider BodyCollider;
@@ -42,6 +48,8 @@ public class EnemyController : MonoBehaviour
         NavMeshAgent = GetComponent<NavMeshAgent>();
         Animator = GetComponent<Animator>();
 
+        if (patrolPoints.Length > 0) NavMeshAgent.SetDestination(patrolPoints[0].position);
+
         BodyCollider.enabled = false;
         currentHealth = maxHealth;
         lastAttackTime = -attackCooldown;
@@ -53,6 +61,9 @@ public class EnemyController : MonoBehaviour
         {
             case EnemyState.WAIT:
                 Wait();
+                break;
+            case EnemyState.PATROL:
+                Patrol();
                 break;
             case EnemyState.ALERT:
                 Alert(); //Move towards player
@@ -99,11 +110,12 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Spawning()
     {
+        NavMeshAgent.isStopped = true;
         RandomiseSpawnAudio();
         yield return new WaitForSeconds(1f);
         LookAtPlayer();
         yield return new WaitForSeconds(1f);
-        ChangeEnemyState(EnemyState.ALERT);
+        ChangeEnemyState(EnemyState.PATROL);
     }
 
     private void RandomiseSpawnAudio()
@@ -114,6 +126,37 @@ public class EnemyController : MonoBehaviour
             int soundIndex = Random.Range(1, 3);
             string soundName = $"Enemy Spawn {soundIndex}";
             AudioManager.Instance.PlayOneShot(soundName, gameObject);
+        }
+    }
+    #endregion
+
+    #region Patrol
+    public virtual void Patrol()
+    {
+        if (DetectionRadius == null)
+        {
+            ChangeEnemyState(EnemyState.ALERT);
+            return;
+        }
+
+        if (patrolPoints.Length > 1) //Patrol if more than 2 points
+        {
+            NavMeshAgent.isStopped = false;
+            Animator.SetBool("Walking", true);
+
+            if (NavMeshAgent.remainingDistance <= 0.1f)
+            {
+                Animator.SetBool("Walking", false);
+                currentPatrolPointIndex = (currentPatrolPointIndex + 1) % patrolPoints.Length;
+                NavMeshAgent.SetDestination(patrolPoints[currentPatrolPointIndex].position);
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, patrolPoints[currentPatrolPointIndex].rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+        if (distanceToPlayer <= DetectionRadius.radius)
+        {
+            ChangeEnemyState(EnemyState.ALERT);
         }
     }
     #endregion
@@ -132,11 +175,18 @@ public class EnemyController : MonoBehaviour
             Animator.SetBool("Walking", false);
             ChangeEnemyState(EnemyState.ATTACK); //Attack if within attacking radius
         }
-        else
+        else if (distanceToPlayer > AttackRadius.radius && distanceToPlayer <= DetectionRadius.radius)
         {
             NavMeshAgent.SetDestination(Player.transform.position); //Chase
             LookAtPlayer();
             Animator.SetBool("Walking", true);
+        }
+        else if (distanceToPlayer > DetectionRadius.radius)
+        {
+            ChangeEnemyState(EnemyState.PATROL); //Go back to patrolling if player goes out of sight
+            NavMeshAgent.SetDestination(patrolPoints[0].position);
+            currentPatrolPointIndex = 0;
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, patrolPoints[currentPatrolPointIndex].rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
         }
     }
     #endregion

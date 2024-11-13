@@ -99,6 +99,13 @@ public class EnemyBoss : EnemyController
     }
     #endregion
 
+    #region Patrol
+    public override void Patrol()
+    {
+        ChangeEnemyState(EnemyState.ALERT);
+    }
+    #endregion
+
     #region Alert
     public override void Alert()
     {

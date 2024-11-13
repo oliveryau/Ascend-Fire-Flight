@@ -519,7 +519,7 @@ public class PlayerController : MonoBehaviour
             currentAmmo--;
             RightWeaponAnimator.SetTrigger("Shoot");
             UiManager.rightWeaponUi.GetComponent<Animator>().SetTrigger("Shoot");
-            AudioManager.Instance.PlayOneShot("Right Gunshot", RightWeaponAnimator.gameObject);
+            AudioManager.Instance.PlayOneShot("Right Gunshot", rightFirePoint.gameObject);
             UiManager.UpdateRightCrosshair("Shoot");
             UiManager.playerAmmoText.GetComponent<Animator>().SetTrigger("Trigger");
             UiManager.UpdatePlayerAmmoCount();
@@ -571,7 +571,7 @@ public class PlayerController : MonoBehaviour
             projectileRb.AddForce(leftShotDirection * leftShootForce + Vector3.up * leftLobForce, ForceMode.Impulse);
 
             LeftWeaponAnimator.SetTrigger("Shoot");
-            AudioManager.Instance.PlayOneShot("Left Gunshot", LeftWeaponAnimator.gameObject);
+            AudioManager.Instance.PlayOneShot("Left Gunshot", leftFirePoint.gameObject);
             leftNextFireTime = Time.time + leftFireRate;
             LeftWeaponExplosion(leftProjectile);
         }

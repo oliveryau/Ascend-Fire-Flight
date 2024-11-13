@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
                 break;
             case "Main Scene":
                 AudioManager.Instance.FadeIn("Main BGM", 2f);
+                AudioManager.Instance.FadeIn("Main Ambience", 2f); //Menu bgm
 
                 Player = FindFirstObjectByType<PlayerController>();
                 UiManager = FindFirstObjectByType<UiManager>();
