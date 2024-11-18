@@ -1004,9 +1004,13 @@ MonoBehaviour:
   enemyId: 0
   maxHealth: 40
   currentHealth: 40
+  patrolPoints: []
+  currentPatrolPointIndex: 0
   attackDamage: 1
   attackCooldown: 2
   mainAuraParticle: {fileID: 7589291557667140473}
+  damagedParticle: {fileID: 0}
+  DetectionRadius: {fileID: 0}
   AttackRadius: {fileID: 4794315355274873887}
   currentBossState: 0
   projectile: {fileID: 4493625471514249341, guid: 652e3178dd249f44e965692c2379c52e, type: 3}
@@ -1183,7 +1187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - text: "This thing isn\u2019t getting hurt, find another way to overcome it!\r"
-    soundClipName: VO_P1
+    soundClipName: VO_25
   hasTriggered: 0
 --- !u!1 &3291299532797529557
 GameObject:
@@ -6706,9 +6710,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - text: The real fight begins now, <b>Phantom</b>.
-    soundClipName: VO_P1
-  - text: Try focusing on the <color=#ffa500>glowing spots</color>!
-    soundClipName: VO_P1
+    soundClipName: VO_26
+  - text: Try aiming at the <color=#ffa500>glowing spots</color>!
+    soundClipName: VO_27
   hasTriggered: 0
 --- !u!1 &7325915353469605788
 GameObject:

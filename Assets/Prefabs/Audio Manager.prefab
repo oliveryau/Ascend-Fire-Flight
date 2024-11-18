@@ -397,22 +397,6 @@ MonoBehaviour:
     maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
-  - name: VO_P1
-    clip: {fileID: 8300000, guid: a5d252aa5ff1f314d9eb7536a3429ef4, type: 3}
-    volume: 1
-    pitch: 1
-    spatialBlend: 0
-    maxDistance: 0
-    loop: 0
-    AudioSource: {fileID: 0}
-  - name: VO_P2
-    clip: {fileID: 8300000, guid: 99bfeb63cb860d34484b2bbe9c52365f, type: 3}
-    volume: 1
-    pitch: 1
-    spatialBlend: 0
-    maxDistance: 0
-    loop: 0
-    AudioSource: {fileID: 0}
   - name: UI Hover
     clip: {fileID: 8300000, guid: 85d40addda77b3d4b95903074fb1d292, type: 3}
     volume: 1
@@ -423,6 +407,238 @@ MonoBehaviour:
     AudioSource: {fileID: 0}
   - name: UI Click
     clip: {fileID: 8300000, guid: 034be1a4f3b21d34997059b616f1ce63, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_1
+    clip: {fileID: 8300000, guid: 4dea2f965871d5a48b8ef87a36e647a5, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_2
+    clip: {fileID: 8300000, guid: f5a2815de16f50043b41f7a7845337d3, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_3
+    clip: {fileID: 8300000, guid: deaed23543d6474459d47f0fb319a5a3, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_4
+    clip: {fileID: 8300000, guid: 381ba12a05db7e641ba3cbde15e8fee8, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_5
+    clip: {fileID: 8300000, guid: 6c885753da30d1845b2902bb82174605, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_6
+    clip: {fileID: 8300000, guid: 64ec157cf4f3f7c4fbea94f49969b440, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_7
+    clip: {fileID: 8300000, guid: 27e138d1ca4a67d469597581d07f2923, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_8
+    clip: {fileID: 8300000, guid: 4e24bb230551b1c48a88241f4e16d659, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_9
+    clip: {fileID: 8300000, guid: db9594716a43bd44bb23095197bbbc3e, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_10
+    clip: {fileID: 8300000, guid: 71ce9c784c503784da13514c3a57f26f, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_11
+    clip: {fileID: 8300000, guid: bae07f416236fd04993e8cc2d35680a2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_12
+    clip: {fileID: 8300000, guid: 11d2a4187eb06dd488cbb859b954f1af, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_13
+    clip: {fileID: 8300000, guid: 71d896337a6b20b47adb58d79ce59e72, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_14
+    clip: {fileID: 8300000, guid: 6bbd21673319fc545885c2889604a02e, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_15
+    clip: {fileID: 8300000, guid: d3305e2489e155a4aa0104251301ad6c, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_16
+    clip: {fileID: 8300000, guid: bd9f03c8db542b34daf0afcdefe085b0, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_17
+    clip: {fileID: 8300000, guid: 93e2d0d4ba042914da2387b970394261, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_18
+    clip: {fileID: 8300000, guid: 21d5bd46e156c0f43a65aa53409560cc, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_19
+    clip: {fileID: 8300000, guid: 386f1f5066a1f3a45a273f6ab875c52c, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_20
+    clip: {fileID: 8300000, guid: 1bcadf783c5975b42ae2070859bd01eb, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_21
+    clip: {fileID: 8300000, guid: 997e3767f1065fb46a6724ab6b8f30be, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_22
+    clip: {fileID: 8300000, guid: f7849dfd9d6fb0542b1056c58ede9bb7, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_23
+    clip: {fileID: 8300000, guid: 208cf693d6d65994a9d3185d396934d2, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_24
+    clip: {fileID: 8300000, guid: 5dfc037be0333d249acbd82b34fbab6b, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_25
+    clip: {fileID: 8300000, guid: e1e48729adbeebc43a7e4fc6d8888ca4, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_26
+    clip: {fileID: 8300000, guid: 9daee75b9bac5eb40846b21744d13e60, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_27
+    clip: {fileID: 8300000, guid: 52c30aa80a6918a4ca39f4f28e0551a9, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_28
+    clip: {fileID: 8300000, guid: 010b897396d912e4e9eaddbc13ceaa5e, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 0
+    maxDistance: 0
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: VO_29
+    clip: {fileID: 8300000, guid: 12c3677f57caab047918886334a7e9e4, type: 3}
     volume: 1
     pitch: 1
     spatialBlend: 0
