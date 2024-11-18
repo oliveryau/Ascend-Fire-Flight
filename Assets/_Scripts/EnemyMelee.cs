@@ -68,6 +68,21 @@ public class EnemyMelee : EnemyController
     }
     #endregion
 
+    #region Taking Damage
+    public override void TakeDamage(float damageTaken)
+    {
+        StartCoroutine(DamageAura());
+        base.TakeDamage(damageTaken);
+    }
+
+    private IEnumerator DamageAura()
+    {
+        damagedParticle.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        damagedParticle.SetActive(false);
+    }
+    #endregion
+
     #region Death
     public override void Dead()
     {

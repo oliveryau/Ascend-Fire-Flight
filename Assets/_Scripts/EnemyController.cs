@@ -30,6 +30,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("References")]
     public GameObject mainAuraParticle;
+    public GameObject damagedParticle;
     public SphereCollider DetectionRadius;
     public SphereCollider AttackRadius;
     protected PlayerController Player;
@@ -135,7 +136,8 @@ public class EnemyController : MonoBehaviour
     {
         if (DetectionRadius == null)
         {
-            ChangeEnemyState(EnemyState.ALERT);
+            NavMeshAgent.isStopped = false;
+            Animator.SetBool("Walking", false);
             return;
         }
 
