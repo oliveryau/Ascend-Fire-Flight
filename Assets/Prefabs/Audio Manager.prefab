@@ -325,6 +325,30 @@ MonoBehaviour:
     maxDistance: 50
     loop: 0
     AudioSource: {fileID: 0}
+  - name: Enemy Damaged 1
+    clip: {fileID: 8300000, guid: 414b030852a8d1949bb7526cfbf6aa02, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Damaged 2
+    clip: {fileID: 8300000, guid: f71f43746b554094980c11142c2ee3c5, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
+  - name: Enemy Damaged 3
+    clip: {fileID: 8300000, guid: 3556a7180dd8cf342bbbdf3bf1b40c08, type: 3}
+    volume: 1
+    pitch: 1
+    spatialBlend: 1
+    maxDistance: 50
+    loop: 0
+    AudioSource: {fileID: 0}
   - name: Enemy Death 1
     clip: {fileID: 8300000, guid: 2b2e2baa04edbdf44b4471f82d2a3ca3, type: 3}
     volume: 1

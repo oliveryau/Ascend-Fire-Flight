@@ -234,6 +234,17 @@ public class EnemyController : MonoBehaviour
         {
             ChangeEnemyState(EnemyState.DEAD);
         }
+        else
+        {
+            RandomiseDamagedAudio();
+        }
+    }
+
+    private void RandomiseDamagedAudio()
+    {
+        int soundIndex = Random.Range(1, 4);
+        string soundName = $"Enemy Damaged {soundIndex}";
+        AudioManager.Instance.PlayOneShot(soundName, gameObject);
     }
     #endregion
 
