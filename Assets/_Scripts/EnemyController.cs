@@ -186,9 +186,12 @@ public class EnemyController : MonoBehaviour
         else if (distanceToPlayer > DetectionRadius.radius)
         {
             ChangeEnemyState(EnemyState.PATROL); //Go back to patrolling if player goes out of sight
-            NavMeshAgent.SetDestination(patrolPoints[0].position);
-            currentPatrolPointIndex = 0;
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, patrolPoints[currentPatrolPointIndex].rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            if (patrolPoints.Length > 0)
+            {
+                NavMeshAgent.SetDestination(patrolPoints[0].position);
+                currentPatrolPointIndex = 0;
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, patrolPoints[currentPatrolPointIndex].rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
         }
     }
     #endregion
